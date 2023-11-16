@@ -283,7 +283,7 @@ if (strlen($_SESSION['id'] == 0)) {
         height: 50%;
         overflow: hidden;
         background: #6495ED;
-        opacity: 0.5;
+        opacity: 0.75;
         left: 0;
         right: 0;
         top: -100px;
@@ -295,12 +295,81 @@ if (strlen($_SESSION['id'] == 0)) {
 
     }
 
+    .info1{
+        position: absolute;
+        width: 90%;
+        height: 50%;
+        overflow: hidden;
+        background: #6495ED;
+        opacity: 0.75;
+        left: 0;
+        right: 0;
+        top: -100px;
+        bottom: 0;
+        margin: auto;
+       
+    }
+    .info2{
+        position: absolute;
+        width: 90%;
+        height: 50%;
+        overflow: hidden;
+        background: #6495ED;
+        opacity: 0.75;
+        left: 0;
+        right: 0;
+        top: -100px;
+        bottom: 0;
+        margin: auto;
+       
+    }
+
+    .info1-content {
+        position: absolute;
+        top: 80%;
+        left: 10%;
+        color: blue;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2.5vw;
+
+    }
+    .info2-content {
+        position: absolute;
+        top: 85%;
+        left: 10%;
+        color: green;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2.5vw;
+
+    }
+    .info3-content {
+        position: absolute;
+        top: 90%;
+        left: 10%;
+        color: black;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2.5vw;
+
+    }
+    .info4-content {
+        position: absolute;
+        top: 95%;
+        left: 10%;
+        color: red;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2.5vw;
+
+    }
     .square-box2 {
         position: absolute;
         width: 50%;
         height: 20%;
         overflow: hidden;
-        background: black;
+        background: grey;
         opacity: 0.25;
         left: 0;
         right: 0;
@@ -323,11 +392,11 @@ if (strlen($_SESSION['id'] == 0)) {
     .square-content {
         position: absolute;
         top: 38%;
-        left: 35%;
+        left: 33%;
         color: white;
         width: 100%%;
         height: 100%%;
-        font-size: 4vw;
+        font-size: 3vw;
 
     }
 
@@ -463,7 +532,7 @@ if (strlen($_SESSION['id'] == 0)) {
   align-items: center; 
   justify-content: center;
   text-align: center; 
-  color: #FFF;
+  color: #666;
   font-weight: bold;
   font-size: 17px;
  
@@ -928,9 +997,9 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                         ?>
                                                                        
                                                                        
-                                                                       <?php include('cpt1.php'); ?>
+                                                                       
 
-<!-- <div id="main"> -->
+<div id="main">
     <div class="players">
         <div class="player player-1 playing" id="player1" >
             <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
@@ -1090,18 +1159,28 @@ if (strlen($_SESSION['id'] == 0)) {
         </div>
     </div> 
     
-    <div class='square-box' opacity:0.5>
-    <div class='square-content'><span> <div id="response"></div></span></div>
-        <!-- <div class='square-content'> <span></span></div> -->
+    <!-- <div class='square-box' opacity:0.5> -->
+    <div class='square-box' opacity:1>
+        <div class='square-content'> <div id="response"></div></div>
     </div>
-    <div class='square-box2' opacity:0.5>
+    <div class='square-box2' opacity:1>
         <div class='square-content'> <span></span></div>
     </div>
 </div>
-                                                                                        
+
+
+                                                                                           
 
                                                                                     </div>
-                                                                                    </div>
+                                                                                    
+                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé :" ?></div>
+                                                                                    <div class='info2-content '> <?php echo "Pause dans :" ?></div>
+                                                                                    <div class='info3-content '> <?php echo "Premier payé dans .. Joueurs :" ?></div>
+                                                                                    <div class='info4-content '> <?php echo "Pot total :" ?></div>
+                                                                                    
+                                                                                </div>
+                                                                                    
+                                                                                </div>
                                                                                 <div id="t2E">
                                                                                     <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
                                                                                         <?php
@@ -1279,7 +1358,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                        
 
 
-                                                                       <div id="main">
+<div id="main">
     <div class="players">
         <div class="player player-1 playing" id="player1" >
             <div class="avatar p1" style="background: blue ;font-size: 1.7vw">

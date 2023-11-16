@@ -26,8 +26,8 @@ $_SESSION["fin3"]=$fin3; $_SESSION["nom3"]=$nom3; $_SESSION["stop3"]='0';
 </form>
 
 <div id="main">
-    <div class='square-box' opacity:0.99>
-        <div class='square-content' id="response" style='font-size:30px ; color:white'></div>
+    <div class='square-box' >
+        <div class='square-content' id="response" style='opacity:1 ; font-size:30px ; color:white'></div>
     </div>
 
 <?php
