@@ -1,5 +1,4 @@
-
-        <?php
+<?php
             include_once('include/config.php');
             $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE 1 ");
             while ($row = mysqli_fetch_array($ret)) 
