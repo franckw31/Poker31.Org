@@ -1208,7 +1208,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                        
 
 
-<!-- <div id="main"> -->
+<div id="main">
     <div class="players">
         <div class="player player-1 playing" id="player1" >
             <div class="avatar p1" style="background: blue ;font-size: 1.7vw">

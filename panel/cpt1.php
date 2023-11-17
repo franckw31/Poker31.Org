@@ -25,10 +25,10 @@ $_SESSION["fin3"]=$fin3; $_SESSION["nom3"]=$nom3; $_SESSION["stop3"]='0';
   <input type="hidden" id="nom3" value="<?php echo $nom3; ?>">
 </form>
 
-<div id="main">
-    <div class='square-box' >
+<!-- <div id="main"> -->
+    <!-- <div class='square-box' >
         <div class='square-content' id="response" style='opacity:1 ; font-size:30px ; color:white'></div>
-    </div>
+    </div> -->
 
 <?php
 
