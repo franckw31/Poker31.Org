@@ -19,6 +19,8 @@ if (strlen($_SESSION['id'] == 0)) {
         $commentaire = $_POST['commentaire'];
         $classement = $_POST['classement'];
         $points = $_POST['points'];
+        $recave = $_POST['recave'];
+        $addon = $_POST['addon'];
         $gain = $_POST['gain'];
         $ip_ins = $_POST['ip-ins'];
         // $sql = mysqli_query($con, "UPDATE `participation` SET 'id-challenge' = NULL, 'ip-mod' = NULL, 'ip-sup' = NULL ,ds = NULL, 'id-membre' = '$id_membre' , 'id-membre-vainqueur' = '$id_membre_vainqueur' , 'id-activite' = '$id_activite' , 'id-siege' = '$id_siege' , 'id-table' = '$id_table' , 'option' = '$option' , ordre = '$ordre' , valide = '$valide' , commentaire = '$commentaire' , classement = '$classement' , points = '$points' , gain = '$gain' , 'ip-ins' = '$ip_ins' WHERE `id-participation` = '$id'");
@@ -26,7 +28,7 @@ if (strlen($_SESSION['id'] == 0)) {
             // $id_table='';$id_siege=''; };
             // $id_membre = 999;
         };
-        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
+        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`recave`='$recave',`addon`='$addon',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
         $_SESSION['msg'] = "MAJ Ok !!";
     }
     if (isset($_POST['submit2'])) {
@@ -240,6 +242,24 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         name="id-siege"
                                                                                                                                                         type="text"
                                                                                                                                                         value="<?php echo $row['id-siege']; ?>">
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                            <tr>
+                                                                                                                                                <th>Recave</th>
+                                                                                                                                                <td><input
+                                                                                                                                                        class="form-control"
+                                                                                                                                                        id="recave"
+                                                                                                                                                        name="recave"
+                                                                                                                                                        type="text"
+                                                                                                                                                        value="<?php echo $row['recave']; ?>">
+                                                                                                                                                </td>
+                                                                                                                                                <th>Addon</th>
+                                                                                                                                                <td><input
+                                                                                                                                                        class="form-control"
+                                                                                                                                                        id="addon"
+                                                                                                                                                        name="addon"
+                                                                                                                                                        type="text"
+                                                                                                                                                        value="<?php echo $row['addon']; ?>">
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                             <tr>
