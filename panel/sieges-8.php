@@ -18,7 +18,7 @@
                 } ;
             };
             
-            // libere les sieges";
+            // echo "Ok-";
             $sql2 = mysqli_query($con, "SELECT * FROM `activite` ");
             while ($res2 = mysqli_fetch_array($sql2)) 
                 { 

@@ -1179,34 +1179,6 @@ if (strlen($_SESSION['id'] == 0)) {
                     </button>
             </div>
         </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
         <div class="player player-8 playing"  id="player8">
             <div class="avatar p8" style="background: purple; font-size:18px">
              
@@ -1221,6 +1193,36 @@ if (strlen($_SESSION['id'] == 0)) {
                     </button>
             </div>
         </div>
+        <div class="player player-9 playing"  id="player9">
+            <div class="avatar p9" style="background: grey; font-size:18px">
+            
+            <form method="post">
+            <?php if ($tableau5[8] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[8]-1] ; ?>
+                    <button 
+                        type="submit"
+                        id='submitpl'
+                        value=<?php echo $tableau1[$tableau4[8]-1] ?>
+                        class="btnn btn-primary-orange2 btn-block"
+                        name="submitpl"><?php echo $nom ?>
+                    </button>
+            </div>
+        </div>
+        
+        <div class="player player-10 playing"  id="player10">
+            <div class="avatar p10" style="background: green; font-size:18px">
+            
+            <form method="post">
+            <?php if ($tableau5[9] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[9]-1] ; ?>
+                    <button 
+                        type="submit"
+                        id='submitpl'
+                        value=<?php echo $tableau1[$tableau4[9]-1] ?>
+                        class="btnn btn-primary-noir btn-block"
+                        name="submitpl"><?php echo $nom ?>
+                    </button>
+            </div>
+        </div>
+        
     </div> 
     
     <!-- <div class='square-box' opacity:0.5> -->
@@ -1407,12 +1409,42 @@ if (strlen($_SESSION['id'] == 0)) {
             <div class="avatar p8" style="background: purple; font-size:18px">
              
             <form method="post">
+            <?php if ($tableau5[7] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[7]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $tableau1[7] ?>
+                        value=<?php echo $tableau1[$tableau4[7]-1] ?>
                         class="btnn btn-primary-purple btn-block"
-                        name="submitpl"><?php echo $tableau3[7] ?>
+                        name="submitpl"><?php echo $nom ?>
+                    </button>
+            </div>
+        </div>
+        <div class="player player-9 playing"  id="player9">
+            <div class="avatar p9" style="background: grey; font-size:18px">
+            
+            <form method="post">
+            <?php if ($tableau5[8] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[8]-1] ; ?>
+                    <button 
+                        type="submit"
+                        id='submitpl'
+                        value=<?php echo $tableau1[$tableau4[8]-1] ?>
+                        class="btnn btn-primary-orange2 btn-block"
+                        name="submitpl"><?php echo $nom ?>
+                    </button>
+            </div>
+        </div>
+        
+        <div class="player player-10 playing"  id="player10">
+            <div class="avatar p10" style="background: green; font-size:18px">
+            
+            <form method="post">
+            <?php if ($tableau5[9] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[9]-1] ; ?>
+                    <button 
+                        type="submit"
+                        id='submitpl'
+                        value=<?php echo $tableau1[$tableau4[9]-1] ?>
+                        class="btnn btn-primary-noir btn-block"
+                        name="submitpl"><?php echo $nom ?>
                     </button>
             </div>
         </div>
