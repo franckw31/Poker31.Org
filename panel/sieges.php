@@ -39,7 +39,7 @@
                 $lesiegetable1="";
                 $t2max=$t1max;$lesiegetable2="";
                 $t3max=$t1max;$lesiegetable3="";
-                echo "----------------".$t1max.'+'.$nb_tables."-------------------------";
+                // echo "----------------".$t1max.'+'.$nb_tables."-------------------------";
                 while ($res3 = mysqli_fetch_array($sql3)) 
                     { 
                         $id = $res3["id-participation"];
@@ -66,11 +66,11 @@
                             {
                             };
                           };
-                        echo $res3["id-activite"]."-".$res3["id-membre"]."-".$res3["position"]."/"."{table=".$latable."-siege=".$lesiegetable1.$lesiegetable2."}";
+                        // echo $res3["id-activite"]."-".$res3["id-membre"]."-".$res3["position"]."/"."{table=".$latable."-siege=".$lesiegetable1.$lesiegetable2."}";
                     };
                     
                     
-                    echo ":..................:";
+                    // echo ":..................:";
                 };
         ?>
         <!-- INSERT INTO `activite` (SELECT NULL, `id-structure-buyin`, `id-membre`, `titre-activite`, `date_depart`, `heure_depart`, `ville`, `rue`, `lng`, `lat`, `icon`, `ico-siz`, `photo`, `lien`, `lien-id`, `lien-texte`, `lien-texte-fin`, `places`, `reserves`, `options`, `libre`, `commentaire`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`, `nb-tables`, `taille-table1`, `id-table1`, `taille-table2`, `id-table2`, `taille-table3`, `id-table3`, `taille-table4`, `id-table4`, `taille-table5`, `id-table5`, `taille-table6`, `id-table6` FROM `activite` WHERE `id-activite` = 30) -->

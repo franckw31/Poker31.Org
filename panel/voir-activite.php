@@ -444,13 +444,13 @@ if (strlen($_SESSION['id'] == 0)) {
     transform: translatex(-50%) translatey(-50%);
 }
 
-/* .players .player.player-1p {
+.players .player.player-1p {
     top: 20%;
   
     left:49%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
-} */
+} 
 
 .players .player.player-2 {
     top: 17%;
