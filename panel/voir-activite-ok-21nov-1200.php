@@ -1014,7 +1014,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                             $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$row[0]'");
                                                                                             while ($row2 = mysqli_fetch_array($sql2)) 
                                                                                                 {
-                                                                                                $tableau3[$cnt] = $row2['pseudo'];
+                                                                                                $tableau3[] = $row2['pseudo'];
                                                                                                 } 
                                                                                             };
                                                                                         // idmembre ->
@@ -1269,12 +1269,12 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
                                                                                     $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
+                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
                                                                                     }; 
-                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
+                                                                                    $tot=$pot+$rowcount;$final=$tot*$buyin;
                                                                                     ?>
                                                                                     <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
                                                                                 </div>
@@ -1284,7 +1284,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
                                                                                         <?php
                                                                                         $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '2')  ORDER BY `id-siege` ");
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '2')  ORDER BY `position` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
                                                                                         
@@ -1538,7 +1538,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
                                                                                         <?php
                                                                                         $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '3')  ORDER BY `id-siege` ");
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '3')  ORDER BY `position` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
                                                                                         
@@ -1753,7 +1753,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
                                                                                         <?php
                                                                                         $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '4')  ORDER BY `id-siege` ");
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '4')  ORDER BY `position` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
                                                                                         

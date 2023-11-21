@@ -1,5 +1,5 @@
 
-        <?php
+<?php
             include_once('include/config.php');
             $id_activite = intval($_GET['ac']);
             $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-activite` = $id_activite ");
