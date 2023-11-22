@@ -1018,17 +1018,17 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                 } 
                                                                                             };
                                                                                         // idmembre ->
-                                                                                            echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
-                                                                                        // pseudo ->
-                                                                                        echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
-                                                                                        // positions ->
-                                                                                        echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
-                                                                                        // idparticip ->
-                                                                                        echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
-                                                                                        // idsiege ->
-                                                                                        echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
-                                                                                        // option ->
-                                                                                        echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
+                                                                                        //     echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
+                                                                                        // // pseudo ->
+                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
+                                                                                        // // positions ->
+                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
+                                                                                        // // idparticip ->
+                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
+                                                                                        // // idsiege ->
+                                                                                        // echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
+                                                                                        // // option ->
+                                                                                        // echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
                                                                                         
                                                                                         ?>
                                                                                         
@@ -1247,7 +1247,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $rowcount2 = mysqli_num_rows($sql);
                                                                                     $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
                                                                                     $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` DESC");                
+                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                    $rowcounteli = mysqli_num_rows($req);               
                                                                                     while ($res = mysqli_fetch_array($req)) 
                                                                                     { 
                                                                                         $eli1=$res["id-membre"];
@@ -1260,11 +1261,15 @@ if (strlen($_SESSION['id'] == 0)) {
 
                                                                                     <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
                                                                                     <?php
-                                                                                    if ($rowcount2>8) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
+                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
                                                                                     ?>
-                                                                                    <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                    { ?>
+                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                    <?php } else { ?>
+                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                    <?php };
                                                                                     
-                                                                                    <?php
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
@@ -1296,17 +1301,17 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                             while ($row2 = mysqli_fetch_array($sql2)) { $tableau3[] = $row2['pseudo']; } 
                                                                                             };
                                                                                             // idmembre ->
-                                                                                            echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
-                                                                                        // pseudo ->
-                                                                                        echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
-                                                                                        // positions ->
-                                                                                        echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
-                                                                                        // idparticip ->
-                                                                                        echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
-                                                                                        // idsiege ->
-                                                                                        echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
-                                                                                        // option ->
-                                                                                        echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
+                                                                                        //     echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
+                                                                                        // // pseudo ->
+                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
+                                                                                        // // positions ->
+                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
+                                                                                        // // idparticip ->
+                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
+                                                                                        // // idsiege ->
+                                                                                        // echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
+                                                                                        // // option ->
+                                                                                        // echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
                                                                                         
                                                                                         ?>
                                                                                     
@@ -1502,7 +1507,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $rowcount2 = mysqli_num_rows($sql);
                                                                                     $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
                                                                                     $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` DESC");                
+                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                    $rowcounteli = mysqli_num_rows($req);               
                                                                                     while ($res = mysqli_fetch_array($req)) 
                                                                                     { 
                                                                                         $eli1=$res["id-membre"];
@@ -1515,24 +1521,28 @@ if (strlen($_SESSION['id'] == 0)) {
 
                                                                                     <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
                                                                                     <?php
-                                                                                    if ($rowcount2>8) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
+                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
                                                                                     ?>
-                                                                                    <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$payes." Joueurs sur ".$rowcount2 ?></div>
-                                                                                    
-                                                                                    <?php
+                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                    { ?>
+                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                    <?php } else { ?>
+                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                    <?php };
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
                                                                                     $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine') ");                
+                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
                                                                                     }; 
-                                                                                    $tot=$pot+$rowcount;$final=$tot*$buyin;
+                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
                                                                                     ?>
                                                                                     <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
-                                                                                </div>                                                                                  
+                                                                                </div>
+                                                                                                                                                                  
                                                                                     </div> 
                                                                                 <div id="t3E">
                                                                                     <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
@@ -1717,7 +1727,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $rowcount2 = mysqli_num_rows($sql);
                                                                                     $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
                                                                                     $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` DESC");                
+                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                    $rowcounteli = mysqli_num_rows($req);               
                                                                                     while ($res = mysqli_fetch_array($req)) 
                                                                                     { 
                                                                                         $eli1=$res["id-membre"];
@@ -1730,21 +1741,24 @@ if (strlen($_SESSION['id'] == 0)) {
 
                                                                                     <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
                                                                                     <?php
-                                                                                    if ($rowcount2>8) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
+                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
                                                                                     ?>
-                                                                                    <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$payes." Joueurs sur ".$rowcount2 ?></div>
-                                                                                    
-                                                                                    <?php
+                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                    { ?>
+                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                    <?php } else { ?>
+                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                    <?php };
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
                                                                                     $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine') ");                
+                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
                                                                                     }; 
-                                                                                    $tot=$pot+$rowcount;$final=$tot*$buyin;
+                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
                                                                                     ?>
                                                                                     <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
                                                                                 </div>
@@ -1934,7 +1948,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $rowcount2 = mysqli_num_rows($sql);
                                                                                     $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
                                                                                     $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` DESC");                
+                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                    $rowcounteli = mysqli_num_rows($req);               
                                                                                     while ($res = mysqli_fetch_array($req)) 
                                                                                     { 
                                                                                         $eli1=$res["id-membre"];
@@ -1947,21 +1962,24 @@ if (strlen($_SESSION['id'] == 0)) {
 
                                                                                     <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
                                                                                     <?php
-                                                                                    if ($rowcount2>8) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
+                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
                                                                                     ?>
-                                                                                    <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$payes." Joueurs sur ".$rowcount2 ?></div>
-                                                                                    
-                                                                                    <?php
+                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                    { ?>
+                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                    <?php } else { ?>
+                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                    <?php };
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
                                                                                     $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine') ");                
+                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
                                                                                     }; 
-                                                                                    $tot=$pot+$rowcount;$final=$tot*$buyin;
+                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
                                                                                     ?>
                                                                                     <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
                                                                                 </div>  
@@ -2000,18 +2018,24 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         </th>
                                                                                                                                                         <th>Statut
                                                                                                                                                         </th>
+                                                                                                                                                        <th>Table
+                                                                                                                                                        </th>
                                                                                                                                                         <th>Siege
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Bounty
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Classement
                                                                                                                                                         </th>
                                                                                                                                                         <!-- <th>Modifier
                                                                                                                                                         </th> -->
                                                                                                                                                         <th>Infos
                                                                                                                                                         </th>
-                                                                                                                                                        <th>Recaves
+                                                                                                                                                        <!-- <th>Recaves
                                                                                                                                                         </th>
                                                                                                                                                         <th>Addon
                                                                                                                                                         </th>
                                                                                                                                                         <th>OUT
-                                                                                                                                                        </th>
+                                                                                                                                                        </th> -->
                                                                                                                                                         
                                                                                                                                                     </tr>
                                                                                                                                                 </thead>
@@ -2034,8 +2058,17 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                                     <?php echo $row['option']; ?>
                                                                                                                                                                 </td> 
                                                                                                                                                                 <td>
+                                                                                                                                                                    <?php echo $row['id-table']; ?>
+                                                                                                                                                                </td>
+                                                                                                                                                                <td>
                                                                                                                                                                     <?php echo $row['id-siege']; ?>
+                                                                                                                                                                </td>
+                                                                                                                                                                <td>
+                                                                                                                                                                    <?php echo $row['bounty']; ?>
                                                                                                                                                                 </td> 
+                                                                                                                                                                <td>
+                                                                                                                                                                    <?php echo $row['classement']; ?>
+                                                                                                                                                                </td>
                                                                                                                                                             <?php } ?>
                                                                                                                                                             <!-- <td>
                                                                                                                                                                 <a href="voir-membre.php?id=<?php echo $row['id-membre']; ?>"  ><i class="fa fa-pencil"></i></a>
@@ -2045,7 +2078,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                                 <a href="voir-participation.php?id=<?php echo $row['id-participation']; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
                                                                                                                                                                 <i class="fas fa-edit"></i></a>
                                                                                                                                                             </td>
-                                                                                                                                                            <td>
+                                                                                                                                                            <!-- <td>
                                                                                                                                                                 <a href="recaves.php?id=<?php echo $row['id-participation']; ?>&ac=<?php echo $row['id-activite']; ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
                                                                                                                                                                 <i class="fas fa-edit"></i></a>
                                                                                                                                                             </td> 
@@ -2056,9 +2089,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                             <td>
                                                                                                                                                             <a href="elimination.php?id=<?php echo $row['id-participation']; ?>&ac=<?php echo $row['id-activite']; ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
                                                                                                                                                                 <i class="fas fa-edit"></i></a>
-                                                                                                                                                                <!-- <a href="voir-participation.php?id=<?php echo $row['id-participation']; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
-                                                                                                                                                                <i class="fas fa-edit"></i></a> -->
-                                                                                                                                                            </td>                   
+                                                                                                                                                                
+                                                                                                                                                            </td>                    -->
                                                                                                                                                         </tr>
                                                                                                                                                         <?php $cnt = $cnt + 1;
                                                                                                                                                     } ?>

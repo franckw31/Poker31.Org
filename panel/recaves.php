@@ -20,7 +20,7 @@
                         $modif = mysqli_query($con, "UPDATE `participation` SET `recave` = $recave WHERE `id-participation` = '$id_participation'");
                     };
                 };
-                // echo ".".$source."Ok"; 
+                 echo ".".$source."Ok".$id_activite; 
         ?>
         <script type="text/javascript">window.location.replace("<?php echo $source.$id_activite; ?>");</script> ; 
         

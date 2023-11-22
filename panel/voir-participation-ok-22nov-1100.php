@@ -7,8 +7,7 @@ if (strlen($_SESSION['id'] == 0)) {
     exit;
 } else {
     $id = intval($_GET['id']); // get valuabout:blank#blockede
-    if ((isset($_POST['submit'])) OR (isset($_POST['btnelim']))) 
-        {
+    if (isset($_POST['submit'])) {
         $id_membre = $_POST['id-membre'];
         $id_membre_vainqueur = $_POST['id-membre-vainqueur'];
         $id_activite = $_POST['id-activite'];
@@ -20,21 +19,18 @@ if (strlen($_SESSION['id'] == 0)) {
         $commentaire = $_POST['commentaire'];
         $classement = $_POST['classement'];
         $points = $_POST['points'];
-        $bounty = $_POST['bounty'];
         $recave = $_POST['recave'];
         $addon = $_POST['addon'];
         $gain = $_POST['gain'];
         $ip_ins = $_POST['ip-ins'];
-        $id_membre_vainqueur = $_POST['vainqueur'];
         // $sql = mysqli_query($con, "UPDATE `participation` SET 'id-challenge' = NULL, 'ip-mod' = NULL, 'ip-sup' = NULL ,ds = NULL, 'id-membre' = '$id_membre' , 'id-membre-vainqueur' = '$id_membre_vainqueur' , 'id-activite' = '$id_activite' , 'id-siege' = '$id_siege' , 'id-table' = '$id_table' , 'option' = '$option' , ordre = '$ordre' , valide = '$valide' , commentaire = '$commentaire' , classement = '$classement' , points = '$points' , gain = '$gain' , 'ip-ins' = '$ip_ins' WHERE `id-participation` = '$id'");
-        if ($option == 'Annule') 
-        { 
+        if ($option == 'Annule') { 
             // $id_table='';$id_siege=''; };
             // $id_membre = 999;
         };
-        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`bounty`='$bounty',`gain`='$gain',`recave`='$recave',`addon`='$addon',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
+        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`recave`='$recave',`addon`='$addon',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
         $_SESSION['msg'] = "MAJ Ok !!";
-        }
+    }
     if (isset($_POST['submit2'])) {
         $compet = $_POST['compet'];
         echo $compet;
@@ -46,30 +42,6 @@ if (strlen($_SESSION['id'] == 0)) {
         echo $lois;
         $sql2 = mysqli_query($con, "INSERT INTO `loisirs-individu` (`id-indiv`, `id-lois`) VALUES ('$id', '$lois')");
         $_SESSION['msg'] = "Loisir added successfully !!";
-    }
-
-    if (isset($_POST['btnaddon'])) {
-        $id_activite = $_POST['id-activite'];
-        ?><script language="JavaScript" type="text/javascript"> 
-            window.location.replace("addon.php?id=<?php echo $id ?>&ac=<?php echo $id_activite ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
-        </script><?php
-        $_SESSION['msg'] = "addon added successfully !!";
-    }
-    if (isset($_POST['btnrecave'])) {
-        $id_activite = $_POST['id-activite'];
-        ?><script language="JavaScript" type="text/javascript"> 
-            window.location.replace("recaves.php?id=<?php echo $id ?>&ac=<?php echo $id_activite ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
-        </script><?php
-        $_SESSION['msg'] = "recave added successfully !!";
-    }
-    if (isset($_POST['btnelim'])) {
-        $id_activite = $_POST['id-activite'];
-        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`bounty`='$bounty'+1,`gain`='$gain',`recave`='$recave',`addon`='$addon',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
-       
-        ?><script language="JavaScript" type="text/javascript"> 
-            window.location.replace("eliminiation.php?id=<?php echo $id ?>&ac=<?php echo $id_activite ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
-        </script><?php
-        $_SESSION['msg'] = "elim added successfully !!";
     }
     ?>
         <!DOCTYPE html>
@@ -191,7 +163,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                 <div class="wrap-content container" id="container">
                                     <div class="container-fluid container-fullw bg-white">
                                         <div class="col-md-12">
-                                            <div class="row mmargin-top-30">
+                                            <div class="row margin-top-30">
                                                 <div class="panel-white">
                                                     <div class="panel-body">
                                                         <?php echo htmlentities($_SESSION['msg'] = ""); ?>
@@ -250,6 +222,10 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         value="<?php echo $row['id-activite']; ?>">
                                                                                                                                                 </td>
                                                                                                                                             </tr>
+                                                                                                                                            <tr>
+                                                                                                                                                <td colspan="4"></td>
+                                                                                                                                            </tr>
+                                                                                                                                            
                                                                                                                                             <tr>
                                                                                                                                                 <th>Table</th>
                                                                                                                                                 <td><input
@@ -325,13 +301,14 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         type="text"
                                                                                                                                                         value="<?php echo $row['classement']; ?>">
                                                                                                                                                 </td>
-                                                                                                                                                <th>Bounty</th>
+                                                                                                                                                <th>Points</th>
+
                                                                                                                                                 <td><input
                                                                                                                                                         class="form-control"
-                                                                                                                                                        id="bounty"
-                                                                                                                                                        name="bounty"
+                                                                                                                                                        id="points"
+                                                                                                                                                        name="points"
                                                                                                                                                         type="text"
-                                                                                                                                                        value="<?php echo $row['bounty']; ?>">
+                                                                                                                                                        value="<?php echo $row['points']; ?>">
                                                                                                                                                 </td>
 
                                                                                                                                             </tr>
@@ -363,29 +340,13 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         value="<?php echo $row['ds']; ?>">
                                                                                                                                                 </td>
                                                                                                                                                 <th>Sorti par</th>
-                                                                                                                                                <!-- <td><input
+                                                                                                                                                <td><input
                                                                                                                                                         class="form-control"
                                                                                                                                                         id="id-membre-vainqueur"
                                                                                                                                                         name="id-membre-vainqueur"
                                                                                                                                                         type="text"
                                                                                                                                                         value="<?php echo $row['id-membre-vainqueur']; ?>">
-                                                                                                                                                </td> -->
-                                                                                                                                                <td>
-                                                                                                                                                        <?php
-  	                                                                                                                                                    $membres = mysqli_query($con, "SELECT `id-membre`,`pseudo` FROM `membres` ORDER BY `pseudo` ASC");
-                                                                                                                                                        //    echo "<h align='center' class='jaune'>Pseudo : <select name=id-membre-vainqueur><option value='-Anonyme-'>Choisir ICI --></h>"; 
-                                                                                                                                                        echo "<align='center' class='rougesurblanc'><select name=vainqueur><option value='-Anonyme-'>--> Choix du Pseudo IcI <--";
-                                                                                                                                                        while ($choix = mysqli_fetch_assoc($membres))
-                                                                                                                                                        {		  
-	                                                                                                                                                        $listepseudo = $choix['pseudo'] ; 
-                                                                                                                                                        // if ($listepseudo == $_SESSION['login'])
-	                                                                                                                                                    //     { echo '<option value="'.$choix['pseudo'].'" selected="selected">'.$_SESSION['login'].'</option>  ';}
-                                                                                                                                                        // else
-                                                                                                                                                            { echo "<option value={$choix["id-membre"]}>{$choix["pseudo"]}\n";}   
-                                                                                                                                                        }
-	                                                                                                                                                    echo "</select>";
-	                                                                                                                                                    ?>
-                                                                                                                                                        
+                                                                                                                                                </td>
                                                                                                                                             </tr>
                                                                                                                                             <tr>
                                                                                                                                                 <td colspan="4"></td>
@@ -394,33 +355,13 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                 <td colspan="2"
                                                                                                                                                     style="text-align:center ;">
                                                                                                                                                     <button type="submit"
-                                                                                                                                                        class="btn btn-primary-orange2 btn-block"
+                                                                                                                                                        class="btn btn-primary btn-block"
                                                                                                                                                         name="submit">Mise à
                                                                                                                                                         jour participation</button>
                                                                                                                                                 </td>
-                                                                                                                                                <td colspan="2"
-                                                                                                                                                    style="text-align:center ;">
-                                                                                                                                                    <button type="submit"
-                                                                                                                                                        class="btn btn-primary-rouge btn-block"
-                                                                                                                                                        name="btnelim">Valider Elimination</button>
-                                                                                                                                                </td>
-                                                                                                                                                <!-- <td colspan="2">
+                                                                                                                                                <td colspan="2">
                                                                                                                                                     <a href="/reg/activite-validee.php?email=<?php echo $monemail; ?>&membre=<?php echo $monmembre; ?>&activite=<?php echo $monactivite; ?>&reset=<?php echo $monCodeV; ?>&date=<?php echo $madateactivite; ?>&ville=<?php echo $mavilleactivite; ?>&titre=<?php echo $montitreactivite; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i> - Envoyer Email de Validation -</a>
                                                                                                                                                     <i class="ffas faa-edit"></i></a>
-                                                                                                                                                </td> -->
-                                                                                                                                            </tr>
-                                                                                                                                            <tr>
-                                                                                                                                                <td colspan="2"
-                                                                                                                                                    style="text-align:center ;">
-                                                                                                                                                    <button type="submit"
-                                                                                                                                                        class="btn btn-primary btn-block"
-                                                                                                                                                        name="btnrecave">Recave</button>
-                                                                                                                                                </td>
-                                                                                                                                                <td colspan="2"
-                                                                                                                                                    style="text-align:center ;">
-                                                                                                                                                    <button type="submit"
-                                                                                                                                                        class="btn btn-primary btn-block"
-                                                                                                                                                        name="btnaddon">Addon</button>
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                             </table>
