@@ -276,24 +276,21 @@ if (strlen($_SESSION['id'] == 0)) {
 
 
                                                 <style>
-  body{
-        /* background-image: url('/assets/images/table.jpg') !important;
-    } */
+  
   .square-box {
         position: absolute;
-        width: 87%;
-        height: 58%;
+        width: 90%;
+        height: 50%;
         overflow: hidden;
-        /* background: #6495ED; */
-        background-size: cover;
-        background-image: url('/panel/images/table-empire-10j.jpg');
-        opacity: 1;
+        background: #6495ED;
+        opacity: 0.75;
         left: 0;
         right: 0;
         top: -100px;
         bottom: 0;
+        margin: auto;
         border-radius: 200px;
-        border: 1px solid white;
+        border: 15px solid black;
 
 
     }
@@ -329,7 +326,7 @@ if (strlen($_SESSION['id'] == 0)) {
 
     .info1-content {
         position: absolute;
-        top: 77%;
+        top: 82%;
         left: 10%;
         color: blue;
         width: 100%%;
@@ -339,7 +336,7 @@ if (strlen($_SESSION['id'] == 0)) {
     }
     .info2-content {
         position: absolute;
-        top: 82%;
+        top: 87%;
         left: 10%;
         color: green;
         width: 100%%;
@@ -349,7 +346,7 @@ if (strlen($_SESSION['id'] == 0)) {
     }
     .info3-content {
         position: absolute;
-        top: 87%;
+        top: 92%;
         left: 10%;
         color: black;
         width: 100%%;
@@ -359,19 +356,9 @@ if (strlen($_SESSION['id'] == 0)) {
     }
     .info4-content {
         position: absolute;
-        top: 92%;
-        left: 10%;
-        color: red;
-        width: 100%%;
-        height: 100%%;
-        font-size: 2vw;
-
-    }
-    .info5-content {
-        position: absolute;
         top: 97%;
         left: 10%;
-        color: grey;
+        color: red;
         width: 100%%;
         height: 100%%;
         font-size: 2vw;
@@ -389,17 +376,12 @@ if (strlen($_SESSION['id'] == 0)) {
         top: -110px;
         bottom: 0;
         margin: auto;
-        /* border-radius: 200px;
-        border: 2px solid white; */
+        border-radius: 200px;
+        border: 2px solid black;
 
 
     }
-    .titi {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-        text-align: center; 
-    }
+
 
     .square-box:before {
         content: "";
@@ -409,29 +391,19 @@ if (strlen($_SESSION['id'] == 0)) {
 
     .square-content {
         position: absolute;
-        top: 43%;
-        left: 28%;
+        top: 38%;
+        left: 33%;
         color: white;
         width: 100%%;
         height: 100%%;
-        font-size: 2.25vw;
+        font-size: 3vw;
 
     }
 
     .place-content {
         position: absolute;
         top: 45%;
-        left: 20%;
-        color: white;
-        width: 100%%;
-        height: 100%%;
-        font-size: 2.5vw;
-
-    }
-    .place2-content {
-        position: relative;
-        top: 40px;
-        left: 20px;
+        left: 30%;
         color: white;
         width: 100%%;
         height: 100%%;
@@ -474,14 +446,14 @@ if (strlen($_SESSION['id'] == 0)) {
 
 .players .player.player-1p {
     top: 20%;
+  
     left:49%;
-    color: white;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
 } 
 
 .players .player.player-2 {
-    top: 14%;
+    top: 17%;
     
     left:73%;
     -webkit-transform: translatex(-50%) translatey(-50%);
@@ -496,14 +468,14 @@ if (strlen($_SESSION['id'] == 0)) {
 }
 
 .players .player.player-4 {
-    top: 55%;
+    top: 52%;
     left: 94%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
 }
 
 .players .player.player-5 {
-    top: 71%;
+    top: 67%;
     left: 73%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
@@ -516,14 +488,14 @@ if (strlen($_SESSION['id'] == 0)) {
 }
 
 .players .player.player-7 {
-    top: 71%;
+    top: 67%;
     left: 26%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
 }
 
 .players .player.player-8 {
-    top: 55%;
+    top: 52%;
     left: 6%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
@@ -535,7 +507,7 @@ if (strlen($_SESSION['id'] == 0)) {
     transform: translatex(-50%) translatey(-50%);
 }
 .players .player.player-10 {
-    top: 14%;
+    top: 17%;
     left: 26%;
     -webkit-transform: translatex(-50%) translatey(-50%);
     transform: translatex(-50%) translatey(-50%);
@@ -563,20 +535,7 @@ if (strlen($_SESSION['id'] == 0)) {
       
 
 }
-.p1p{
-  
-  
-  
-  display: flex;
-  align-items: center; 
-  justify-content: center;
-  text-align: center; 
-  color: #666;
-  font-weight: bold;
-  font-size: 17px;
- 
 
-}
 .p1{
   
   
@@ -771,7 +730,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                             <div id="bSection">
                                                                                 <div id="infosE">
                                                                                     <div class="wrap-content container" id="container">
-                                                                                        <div class="container-fluid bbg-pink">
+                                                                                        <div class="container-fluid bbg-white">
                                                                                             <div class="col-md-12">
                                                                                                 <div class="row margin-top-30">
                                                                                                     <div class="panel-wwhite">
@@ -796,9 +755,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                         <script type="text/javascript">
                                                                                                                                             document.getElementById("file").onchange = function() {
                                                                                                                                                 document.getElementById("image_upload_form").submit(); };
-                                                                                                                                        </script>;
-                                                                                                                                        <script src="https://webtinq.nl/ap/script.js"</script>
-                                                                                                                                        <script type="text/javascript">>play('example');</script>
+                                                                                                                                        </script>
                                                                                                                                     </form>
                                                                                                                                 </td> 
                                                                                                                                 <form method="post">                                   
@@ -1038,10 +995,10 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div id="t1E">
-                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">                                                                                                                                                                        
+                                                                                    <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
                                                                                         <?php
                                                                                         // $tableau=array();
-                                                                                        $cnt=0;
+                                                                                        $cnt=-1;
                                                                                         $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '1' )  ORDER BY `id-siege` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
@@ -1049,36 +1006,29 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                         while($row = mysqli_fetch_array($sql))
                                                                                             {  
                                                                                             $cnt = $cnt + 1; 
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
-                                                                                            $idmembre[$cnt] = $row['id-membre']; 
-                                                                                            $position[$cnt] = $row['position'];
-                                                                                            $idparticipation[$cnt] = $row['id-participation']; 
-                                                                                            $siege[$cnt] = $row['id-siege']; 
-                                                                                            $option[$cnt] = $row['option'];   
-                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$idmembre[$cnt]'");
+                                                                                            $tableau[$cnt] = $row['id-membre']; 
+                                                                                            $tableau2[$cnt] = $row['position'];
+                                                                                            $tableau1[$cnt] = $row['id-participation']; 
+                                                                                            $tableau4[$cnt] = $row['id-siege']; 
+                                                                                            $tableau5[$cnt] = $row['option'];   
+                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$row[0]'");
                                                                                             while ($row2 = mysqli_fetch_array($sql2)) 
                                                                                                 {
-                                                                                                $pseudo[$cnt] = $row2['pseudo'];
+                                                                                                $tableau3[$cnt] = $row2['pseudo'];
                                                                                                 } 
                                                                                             };
-                                                                                        // // siege ->
-                                                                                        // echo "-".$siege[1].".".$siege[2].".".$siege[3].".".$siege[4].".".$siege[5].".".$siege[6].".".$siege[7].".".$siege[8].".".$siege[9] .$siege[10]."-"  ;
-                                                                                        // // idmembre ->
-                                                                                        // echo "-".$idmembre[1].".".$idmembre[2].".".$idmembre[3].".".$idmembre[4].".".$idmembre[5].".".$idmembre[6].".".$idmembre[7].".".$idmembre[8].".".$idmembre[9].".".$idmembre[10]."-" ;    
+                                                                                        // idmembre ->
+                                                                                        //     echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
                                                                                         // // pseudo ->
-                                                                                        // echo "-".$pseudo[1].".".$pseudo[2].".".$pseudo[3].".".$pseudo[4].".".$pseudo[5].".".$pseudo[6].".".$pseudo[7].".".$pseudo[8].".".$pseudo[9] .$pseudo[10]."-"  ; 
-                                                                                        // // option ->
-                                                                                        // echo "-".$option[1].".".$option[2].".".$option[3].".".$option[4].".".$option[5].".".$option[6].".".$option[7].".".$option[8].".".$option[9] .$option[10]."-"  ;
+                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
+                                                                                        // // positions ->
+                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
                                                                                         // // idparticip ->
-                                                                                        // echo "-".$idparticipation[1].".".$idparticipation[2].".".$idparticipation[3].".".$idparticipation[4].".".$idparticipation[5].".".$idparticipation[6].".".$idparticipation[7].".".$idparticipation[8].".".$idparticipation[9] .$idparticipation[10]."-"  ;                                                                                 
+                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
+                                                                                        // // idsiege ->
+                                                                                        // echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
+                                                                                        // // option ->
+                                                                                        // echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
                                                                                         
                                                                                         ?>
                                                                                         
@@ -1090,38 +1040,38 @@ if (strlen($_SESSION['id'] == 0)) {
         <div class="player player-1 playing" id="player1" >
             <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
             <form method="post">
-                <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
+                <?php if ($tableau5[0] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[0]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[1] ?>
+                        value=<?php echo $tableau1[$tableau4[0]-1] ?>
                         class="btbn btn-pokerblue btn-block "
                         name="submitpl"><?php echo $nom ?>
                     </button>
+                    <!-- <button 
+                        type="submit"
+                        id='submitplb'
+                        value=<?php echo $tableau1[$tableau4[0]-1] ?>
+                        class="btbn btn-pokerblue btn-block "
+                        name="submitplb"><?php echo "Out" ?>
+                    </button> -->
                 </form>
             </div>
         </div>
         <div class="player player-1p playing" id="player1p" >
             <div class='player player-1p playing' opacity:0.33>
-                <div class='place-content' style='color:white' > <a href="modif-horloge.php?bli=<?php echo $_SESSION['blinde'];?>&act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a></div>
+                <div class='place-content'> <span>1</span></div>
             </div>
         </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.33>
-                <div class='place2-content'> <a href="modif-horloge.php?bli=<?php echo $_SESSION['blinde'];?>&act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a></div>
-                <!-- <?php echo $_SESSION["blinde"]; ?> -->
-            </div>
-        </div>                                                                                        
-
 
         <div class="player player-2 playing"  id="player2">
             <div class="avatar p2" style="background: red ;font-size: 1.7vw">
                 <form method="post">
-                <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
+                <?php if ($tableau5[1] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[1]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[2]  ?>
+                        value=<?php echo $tableau1[$tableau4[1]-1] ?>
                         class="btbn btn-pokerred btn-block "
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1131,11 +1081,11 @@ if (strlen($_SESSION['id'] == 0)) {
         <div class="player player-3 playing"  id="player3">
             <div class="avatar p3" style="background: black ;font-size:18px">
             <form method="post">
-            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
+            <?php if ($tableau5[2] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[2]-1] ; ?>
                 <button 
                     type="submit"
                     id='submitpl'
-                    value=<?php echo $idparticipation[3] ?>
+                    value=<?php echo $tableau1[$tableau4[2]-1] ?>
                     class="btnn btn-primary-grey btn-block "
                     name="submitpl"><?php echo $nom ?>
                 </button>
@@ -1145,11 +1095,11 @@ if (strlen($_SESSION['id'] == 0)) {
         <div class="player player-4 playing"  id="player4">
             <div class="avatar p4" style="background: orange; font-size:18px">
             <form method="post">
-            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
+            <?php if ($tableau5[3] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[3]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[4] ?>
+                        value=<?php echo $tableau1[$tableau4[3]-1] ?>
                         class="btnn btn-primary-orange2 btn-block "
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1158,11 +1108,11 @@ if (strlen($_SESSION['id'] == 0)) {
         <div class="player player-5 playing"  id="player5">
             <div class="avatar p5" style="background: grey; font-size:18px">
             <form method="post">
-            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
+            <?php if ($tableau5[4] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[4]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[5] ?>
+                        value=<?php echo $tableau1[$tableau4[4]-1] ?>
                         class="btnn btn-primary-grey btn-block "
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1172,25 +1122,58 @@ if (strlen($_SESSION['id'] == 0)) {
             <div class="avatar p6" style="background: brown; font-size:18px">
              
             <form method="post">
-            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
+            <?php if ($tableau5[5] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[5]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[6] ?>
+                        value=<?php echo $tableau1[$tableau4[5]-1] ?>
                         class="btnn btn-primary-brown btn-block"
                         name="submitpl"><?php echo $nom ?>
                     </button>
             </div>
+            <!-- <div class="btn-primary-brown" style="bbackground: brown; font-size:14px; width:100%">
+                    <table>
+                        <tr colspan=3 style="text-align:center">
+                            <td colspan=3 style="text-align:left">
+                    <button 
+                        type="submit"
+                        id='submitplb'
+                        value=<?php echo $tableau1[$tableau4[5]-1] ?>
+                        class="btbn btn-primary-brown btn-block "
+                        name="submitplb"><?php echo "Recave" ?>
+                    </button>
+                            </td>
+                            <td>
+                        <button 
+                        type="submit"
+                        id='submitplb'
+                        value=<?php echo $tableau1[$tableau4[5]-1] ?>
+                        class="btbn btn-primary-brown btn-block "
+                        name="submitplc"><?php echo "Addon" ?>
+                    </button>
+                        </td>
+                        <td style="text-align:right">
+                        <button 
+                        type="submit"
+                        id='submitplb'
+                        value=<?php echo $tableau1[$tableau4[5]-1] ?>
+                        class="btbn btn-primary-brown btn-block "
+                        name="submitpld"><?php echo "Out" ?>
+                    </button>
+                        </td>    
+                                                                                        </tr>
+                                                                                        </table>                                                                        
+                </div> -->
         </div>
         <div class="player player-7 playing"  id="player7">
             <div class="avatar p7" style="background: pink; font-size:18px">
             
             <form method="post">
-            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
+            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[7] ?>
+                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
                         class="btnn btn-primary-pink btn-block"
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1200,11 +1183,11 @@ if (strlen($_SESSION['id'] == 0)) {
             <div class="avatar p8" style="background: purple; font-size:18px">
              
             <form method="post">
-            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
+            <?php if ($tableau5[7] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[7]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[8] ?>
+                        value=<?php echo $tableau1[$tableau4[7]-1] ?>
                         class="btnn btn-primary-purple btn-block"
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1214,25 +1197,26 @@ if (strlen($_SESSION['id'] == 0)) {
             <div class="avatar p9" style="background: grey; font-size:18px">
             
             <form method="post">
-            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
+            <?php if ($tableau5[8] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[8]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[9] ?>
+                        value=<?php echo $tableau1[$tableau4[8]-1] ?>
                         class="btnn btn-primary-orange2 btn-block"
                         name="submitpl"><?php echo $nom ?>
                     </button>
             </div>
         </div>
+        
         <div class="player player-10 playing"  id="player10">
             <div class="avatar p10" style="background: green; font-size:18px">
             
             <form method="post">
-            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
+            <?php if ($tableau5[9] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[9]-1] ; ?>
                     <button 
                         type="submit"
                         id='submitpl'
-                        value=<?php echo $idparticipation[10] ?>
+                        value=<?php echo $tableau1[$tableau4[9]-1] ?>
                         class="btnn btn-primary-noir btn-block"
                         name="submitpl"><?php echo $nom ?>
                     </button>
@@ -1242,12 +1226,12 @@ if (strlen($_SESSION['id'] == 0)) {
     </div> 
     
     <!-- <div class='square-box' opacity:0.5> -->
-    <div class='square-box' opacity:0.85>
+    <div class='square-box' opacity:1>
         <div class='square-content'> <div id="response"></div></div>
     </div>
-    <!-- <div class='square-box2' opacity:1>
+    <div class='square-box2' opacity:1>
         <div class='square-content'> <span></span></div>
-    </div> -->
+    </div>
 </div>
 
 
@@ -1315,14 +1299,11 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
-                                                                                    $jetons=$res2["jetons"];
-                                                                                    $pot=0;$nbr=0;$nba=0;
+                                                                                    $pot=0;
                                                                                     $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
-                                                                                     $nbr=$nbr+$res3["recave"];
-                                                                                     $nba=$nba+$res3["addon"];
                                                                                     }; 
                                                                                     $tot=$pot+$rowcount2;$final=$tot*$buyin;
                                                                                     if ($payes==2) {
@@ -1351,9 +1332,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                         $p1=$final-$p5-$p4-$p3-$p2;
                                                                                         ?><div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€, P5=".$p5."€" ?></div><?php
                                                                                     };
-                                                                                    $enjeu=($rowcount2-$rowcounteli);
-                                                                                    if ($enjeu == 0 ) $enjeu=1; else $enjeu= $rowcount2-$rowcounteli;
-                                                                                    ?><div class='info5-content '> <?php echo "Stack Moyen : ".($jetons*($rowcount2+$nbr+$nba))/($enjeu)." sur ".($jetons*($rowcount2+$nbr+$nba)) ." = (".$rowcount2."B ) + "." (".$nbr."R ) + "." (".$nba."A )" ?>
+                                                                                    ?>
+                                                                                    
                                                                                 </div>
                                                                                     
                                                                                 </div>
@@ -1387,7 +1367,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                         
                                                                                         ?>
                                                                                     
-                                                                       <?php include('horloge.php'); ?>
+                                                                       <?php include('cpt1.php'); ?>
 
                                                                        
 
@@ -1859,7 +1839,10 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                       
                                                                       
 
-                                                                    
+                                                                    <!-- <?php
+                                                                      include_once('cpt1.php');
+
+?>  -->
 
                                                                        <div id="main">
     <div class="players">

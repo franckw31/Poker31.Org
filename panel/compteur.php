@@ -25,7 +25,7 @@ $_SESSION["stop2"]='0';
 
 
 <div class='square-box' opacity:0.99>
-        <div class='square-content' id="response" style='font-size:30px ; color:white'></div>
+        <div class='square-content' id="response" style='font-size:30px ; color:grey'></div>
     </div>
 
 <!-- <div id="response2"></div> -->

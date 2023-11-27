@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include_once('include/config.php');
 
-$res=mysqli_query($con,"SELECT * FROM `blindes` WHERE (`id-activite` = $id AND `ordre` = 1)");
+$res=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 1)");
 $row=mysqli_fetch_array($res);
 $fin=$row["fin"];
 $nom=$row["nom"];

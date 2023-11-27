@@ -57,14 +57,25 @@ if (strlen($_SESSION['id'] == 0)) {
     }
     if (isset($_POST['btnrecave'])) {
         $id_activite = $_POST['id-activite'];
+        $id_membre_vainqueur = $_POST['vainqueur'];
+        
+        $rech = mysqli_query($con, "SELECT `bounty` FROM `participation` WHERE ( `id-activite` = '$id_activite' AND `id-membre` = '$id_membre_vainqueur' )");
+        $result = mysqli_fetch_array($rech);        
+        $bounty = $result['bounty'] + 1;
+        $sql = mysqli_query($con, "UPDATE `participation` SET `bounty`= $bounty,`ds`= CURRENT_TIMESTAMP WHERE ((`participation`.`id-activite` = '$id_activite') AND (`participation`.`id-membre`) = '$id_membre_vainqueur')");
         ?><script language="JavaScript" type="text/javascript"> 
-            window.location.replace("recaves.php?id=<?php echo $id ?>&ac=<?php echo $id_activite ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
+            window.location.replace("recaves.php?par=<?php echo $id ?>&act=<?php echo $id_activite ?>&sou=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
         </script><?php
         $_SESSION['msg'] = "recave added successfully !!";
     }
     if (isset($_POST['btnelim'])) {
         $id_activite = $_POST['id-activite'];
-        $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`bounty`='$bounty'+1,`gain`='$gain',`recave`='$recave',`addon`='$addon',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
+        $id_membre_vainqueur = $_POST['vainqueur'];
+
+        $rech = mysqli_query($con, "SELECT `bounty` FROM `participation` WHERE ( `id-activite` = '$id_activite' AND `id-membre` = '$id_membre_vainqueur' )");
+        $result = mysqli_fetch_array($rech);        
+        $bounty = $result['bounty'] + 1;
+        $sql = mysqli_query($con, "UPDATE `participation` SET `bounty`='$bounty',`ds`= CURRENT_TIMESTAMP WHERE ((`participation`.`id-activite` = $id_activite) AND (`participation`.`id-membre`) = '$id_membre_vainqueur')");
        
         ?><script language="JavaScript" type="text/javascript"> 
             window.location.replace("eliminiation.php?id=<?php echo $id ?>&ac=<?php echo $id_activite ?>&source=<?php echo "https://poker31.org/panel/voir-activite.php?uid="?>"); 
@@ -401,15 +412,25 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                 <td colspan="2"
                                                                                                                                                     style="text-align:center ;">
                                                                                                                                                     <button type="submit"
+                                                                                                                                                        class="btn btn-primary btn-block"
+                                                                                                                                                        name="btnrecave">Recave</button>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                                <td colspan="2"
+                                                                                                                                                    style="text-align:center ;">
+                                                                                                                                                    <button type="submit"
+                                                                                                                                                        class="btn btn-primary btn-block"
+                                                                                                                                                        name="btnaddon">Addon</button>
+                                                                                                                                                </td>
+                                                                                                                                                <td colspan="2"
+                                                                                                                                                    style="text-align:center ;">
+                                                                                                                                                    <button type="submit"
                                                                                                                                                         class="btn btn-primary-rouge btn-block"
                                                                                                                                                         name="btnelim">Valider Elimination</button>
                                                                                                                                                 </td>
-                                                                                                                                                <!-- <td colspan="2">
-                                                                                                                                                    <a href="/reg/activite-validee.php?email=<?php echo $monemail; ?>&membre=<?php echo $monmembre; ?>&activite=<?php echo $monactivite; ?>&reset=<?php echo $monCodeV; ?>&date=<?php echo $madateactivite; ?>&ville=<?php echo $mavilleactivite; ?>&titre=<?php echo $montitreactivite; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i> - Envoyer Email de Validation -</a>
-                                                                                                                                                    <i class="ffas faa-edit"></i></a>
-                                                                                                                                                </td> -->
+                                                                                                                
                                                                                                                                             </tr>
-                                                                                                                                            <tr>
+                                                                                                                                            <!-- <tr>
                                                                                                                                                 <td colspan="2"
                                                                                                                                                     style="text-align:center ;">
                                                                                                                                                     <button type="submit"
@@ -422,7 +443,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         class="btn btn-primary btn-block"
                                                                                                                                                         name="btnaddon">Addon</button>
                                                                                                                                                 </td>
-                                                                                                                                            </tr>
+                                                                                                                                            </tr> -->
                                                                                             </table>
                                                                                         </form>
                                                                         <?php } ?>                                                                        

@@ -122,7 +122,16 @@ if (strlen($idmembresession == 0)) {
 								<span class="title"> Gestion des Loisirs </span>
 							</a>
 						</li>
-
+						<li>
+							<a href="ajout-blindes.php">
+								<span class="title"> Gestion des Blindes </span>
+							</a>
+						</li>
+						<li>
+							<a href="ajout-structures.php">
+								<span class="title"> Gestion des Structures </span>
+							</a>
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -248,7 +257,7 @@ if (strlen($idmembresession == 0)) {
 						</li>
 						<li>
 							<a href="contact.php">
-								<span class="title">Cotnact Us </span>
+								<span class="title">Contact Us </span>
 							</a>
 						</li>
 					</ul>
@@ -387,6 +396,16 @@ else
 						<li>
 							<a href="ajout-loisirs.php">
 								<span class="title"> Gestion des Loisirs </span>
+							</a>
+						</li>
+						<li>
+							<a href="ajout-blindes.php">
+								<span class="title"> Gestion des Blindes </span>
+							</a>
+						</li>
+						<li>
+							<a href="ajout-structures.php">
+								<span class="title"> Gestion des Structures </span>
 							</a>
 						</li>
 
