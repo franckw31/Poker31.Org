@@ -6,17 +6,12 @@ if (strlen($_SESSION['id'] == 0)) {
 	header('location:logout.php');
 } else {
 
-
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
-
 	<head>
 		<title>AdmiN | Dashboard</title>
-
-		<link
-			href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic"
-			rel="stylesheet" type="text/css" />
+		<linkh href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="vendor/themify-icons/themify-icons.min.css">
@@ -30,7 +25,6 @@ if (strlen($_SESSION['id'] == 0)) {
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-
 
 	</head>
 
@@ -52,9 +46,7 @@ if (strlen($_SESSION['id'] == 0)) {
 			include('include/sidebar.php');
 			?>
 			<div class="app-content">
-
 				<?php include('include/header.php'); ?>
-
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content">
 					<div class="wrap-content container" id="container">
@@ -84,20 +76,63 @@ if (strlen($_SESSION['id'] == 0)) {
 						<!-- start: BASIC EXAMPLE bg-white-->
 						<div class="container-fluid container-fullw ">
 							<div class="row">
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<!-- <div class="panel panel-white no-radius text-center"> -->
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i><a href="liste-membres-container.php"> <i
-													class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Gestion des Membres</h2>
 
+								<div class="col-sm-4"><a href="prochaines-activites.php">
+									<div class="ppanel panel-white-fond1 no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="faa faa-square faa-stack-2x ttext-primary"></i>
+												<i class="faa faa-users faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Prochaines Activités</h2> -->
+											<p class="cl-effect-1">
+												<a href="prochaines-activites.php">
+													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Prochaines Activités :
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4"><a href="liste-membres-container.php">
+									<div class="panel panel-white-membres no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x">
+												<i class="faa faa-square faa-stack-2x ttext-primary"></i> 
+												<i class="faa faa-users faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Gestion des Activités</h2> -->
 											<p class="cl-effect-1">
 												<a href="liste-membres-container.php">
-													<?php $result = mysqli_query($con, "SELECT * FROM membres ");
+													<?php $result1 = mysqli_query($con, "SELECT * FROM membres ");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Nos membres :
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-sm-4"><a href="liste-activites.php">
+									<div class="panel panel-white-activites no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="faa faa-square faa-stack-2x ttext-primary"></i> 
+												<i class="faa faa-smile-o faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Gestion des Membres</h2> -->
+
+											<p class="cl-effect-1">
+												<a href="liste-activites.php">
+													<?php $result = mysqli_query($con, "SELECT * FROM activite ");
 													$num_rows = mysqli_num_rows($result); {
 														?>
-														Nb de Membres :
+														Activités :
 														<?php echo htmlentities($num_rows);
 													} ?>
 												</a>
@@ -105,57 +140,14 @@ if (strlen($_SESSION['id'] == 0)) {
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-4"><a href="liste-activites.php">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i
-													class="fa fa-square fa-stack-2x text-primary"></i> <i
-													class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Gestion des Activités</h2>
 
-											<p class="cl-effect-1">
-												<a href="liste-activites.php">
-													<?php $result1 = mysqli_query($con, "SELECT * FROM activite ");
-													$num_rows1 = mysqli_num_rows($result1); {
-														?>
-														Nb d activités :
-														<?php echo htmlentities($num_rows1);
-													} ?>
-												</a>
-
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-4"><a href="prochaines-activites.php">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i
-													class="fa fa-square fa-stack-2x text-primary"></i> <i
-													class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Prochaines Activités</h2>
-
-											<p class="cl-effect-1">
-												<a href="prochaines-activites.php">
-													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
-													$num_rows1 = mysqli_num_rows($result1); {
-														?>
-														Nb d activités :
-														<?php echo htmlentities($num_rows1);
-													} ?>
-												</a>
-
-											</p>
-										</div>
-									</div>
-								</div>
 								<div class="col-sm-4">
 									<div class="panel panel-white no-radius text-center">
 										<div class="panel-body">
 											<span class="fa-stack fa-2x"> <i
 													class="fa fa-square fa-stack-2x text-primary"></i> <i
 													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle"> Gestion des Competences</h2>
+											<h2 class="StepTitle"> Gestion des Competences.</h2>
 
 											<p class="links cl-effect-1">
 												<a href="book-appointment.php">
@@ -203,26 +195,24 @@ if (strlen($_SESSION['id'] == 0)) {
 											<span class="fa-stack fa-2x"> <i
 													class="fa fa-square fa-stack-2x text-primary"></i> <i
 													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Gestion des Challenges</h2>
+											<h2 class="StepTitle"> Gestion des Collections</h2>
 
 											<p class="links cl-effect-1">
-												<a href="gestion-challenge.php">
-													<?php $result = mysqli_query($con, "SELECT * FROM challenge ");
-													$num_rows = mysqli_num_rows($result); {
-														?>
-														Total Challenge :
-														<?php echo htmlentities($num_rows);
-													} ?>
+												<a href="book-appointment.php">
+													<a href="ajout-collection.php">
+														<?php $sql = mysqli_query($con, "SELECT * FROM collections");
+														$num_rows2 = mysqli_num_rows($sql); {
+															?>
+															Nb de collections :
+															<?php echo htmlentities($num_rows2);
+														} ?>
+													</a>
 												</a>
 											</p>
 										</div>
 									</div>
 								</div>
-
-
-
-
-
+								
 								<div class="col-sm-4">
 									<div class="panel panel-white no-radius text-center">
 										<div class="panel-body">
@@ -274,7 +264,51 @@ if (strlen($_SESSION['id'] == 0)) {
 										<div class="panel-body">
 											<span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
 													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Recherche Globale</h2>
+											<h2 class="StepTitle">Recherche par Collection</h2>
+
+											<p class="links cl-effect-1">
+												<a href="book-appointment.php">
+													<a href="recherche-collection.php">
+														<?php
+														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
+														$num_rows22 = mysqli_num_rows($sql);
+														?>
+														Lancer recherche :
+														<?php echo htmlentities($num_rows22); ?>
+													</a>
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4"><a href="gestion-challenges.php">
+									<div class="ppanel panel-white-chal no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="faa faa-square faa-stack-2x ttext-primary"></i>
+												<i class="faa faa-users faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Prochaines Activités</h2> -->
+											<p class="cl-effect-1">
+												<a href="gestion-challenges.php">
+													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Prochaines challenges :
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4"><a href="recherche-loisir.php">
+									<div class="panel panel-white-dico no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="tti-files ffa-1x ttext-primary"></i>
+												<i class="faa faa-terminal faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Recherche Textuelle</h2> -->
 
 											<p class="links cl-effect-1">
 												<a href="book-appointment.php">
@@ -283,8 +317,31 @@ if (strlen($_SESSION['id'] == 0)) {
 														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
 														$num_rows22 = mysqli_num_rows($sql);
 														?>
-														-> Initier la recherche <- </a>
+														Rechercher </a>
 													</a>
+											</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4"><a href="/indexnav.html">
+									<div class="panel panel-white-france no-radius text-center">
+									<div class="panel-body">
+											<span class="fa-stack fa-4x"> <i
+													class="faa faa-square faa-stack-4x ttext-primary"></i> <i
+													class="faa faa-users faa-stack-1x faa-inverse"></i> </span> 
+													<!-- <span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
+													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span> -->
+											<!-- <h2 class="StepTitle">Recherche Cartographique</h2> -->
+											<p class="cl-effect-1">
+												<a href="/indexnav.html">
+													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Carte</a>
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
 											</p>
 										</div>
 									</div>
@@ -292,11 +349,6 @@ if (strlen($_SESSION['id'] == 0)) {
 
 							</div>
 						</div>
-
-
-
-
-
 
 						<!-- end: SELECT BOXES -->
 

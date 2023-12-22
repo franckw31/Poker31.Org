@@ -15,15 +15,15 @@
 
         if ($rowcount == '0') {
            
-            $sql3 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = '$quoi' AND `option` LIKE 'Reservation' ");
+            $sql3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$quoi' AND `option` LIKE 'Reservation' OR `id-activite` = '$quoi' AND `option` LIKE 'Inscrit' )");
             $ordre = mysqli_num_rows($sql3);
 
             $intordre = (int) $ordre;
             $intordre = $intordre + 1;
             $ordre = (string) $intordre;
 
-            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-participation`, `id-membre`, `id-membre-vaiqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`) VALUES (NULL, '$qui', '', '$quoi', '', '', '', 'Reservation', '$ordre', 'Actif', NULL, '0', '0', '0', CURRENT_TIMESTAMP, '', '', '')");        
-            echo "Inscription Prise en compte, Merci en ". $ordre;  
+            $sql2 = mysqli_query($con, "INSERT INTO `participation` ( `id-membre`, `id-membre-vainqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`) VALUES ('$qui', '', '$quoi', '', '', '', 'Reservation', '$ordre', 'Actif', NULL, '1', '0', '0', CURRENT_TIMESTAMP, '', '', '')");        
+            echo "Inscription Prise en compte, Merci en :". $ordre;  
 
         }
         else 

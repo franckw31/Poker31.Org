@@ -75,20 +75,20 @@
 
         .mapboxgl-popup-content {
             text-align: center;
-            font-size: 16px;
+            font-size: 14px;
             background: #666;
             background-color: #666;
             font-family: 'Open Sans', sans-serif;
             color: #040404;
             background-color: #f1f0f0;
             border-color: #666;
-            max-width: 100%;
-            width: 100%;
-            min-width: 35%;
+            max-width: 40%;
+            width: 40%;
+            min-width: 150px;
             min-height: 100px;
             box-shadow: 5px 5px 4px #8B5D33;
             font-family: 'Oswald';
-            left: 50px;
+            left: 62%;
             bottom: 1px;
             /* top: auto;
             right: auto; */
@@ -143,7 +143,7 @@
 
         .mapboxgl-map .mapboxgl-popup {
             min-width: 35%;
-            max-width: 35%;
+            max-width: 150px;
             min-height: 17%;
             left: 20%;
             bottom: 60px;
@@ -172,11 +172,37 @@
             text-align: center;
             color: #fff;
             background: #c9800c;
+            opacity: 0.75;
             /* background-image: url("https://poker31.org/panel/assets/images/logo.png") opacity: 0.7; */
             position: absolute;
             z-index: 1;
-            top: 69px;
+            top: 155px;
             left: 2%;
+            border-radius: 3px;
+            width: 125px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #accesmenu {
+            display: block;
+            position: absolute;
+            margin: 0px auto;
+            width: 10%;
+            height: 40px;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.66;
+            color: #fff;
+            background: #3887be;
+            /* background-image: url("https://poker31.org/panel/assets/images/logo.png") opacity: 0.7; */
+            position: absolute;
+            z-index: 1;
+            top: 155px;
+            right: 20px;
             border-radius: 3px;
             width: 125px;
             border: 1px solid rgba(0, 0, 0, 0.25);
@@ -186,19 +212,20 @@
         #dashb {
             position: absolute;
             z-index: 1;
-            top: 5px;
-            left: 35%;
+            top: 10px;
+            right: 15px;
             /* right : -250px; */
             display: block;
-            position: relative;
+            /* position: relative; */
             margin: 0px auto;
             width: 12%;
-            height: 50px;
+            height: 130px;
             padding: 5px;
-            background-image: url('https://poker31.org/panel/assets/images/logo.png');
+            opacity: 0.9;
+            background-image: url('https://poker31.org/panel/images/menucarre.png');
             background-size: cover;
-            width: 100px;
-            height: 100px;
+            width: 135px;
+            height: 120px;
             font-size: 2rem;
         }
     </style>
@@ -209,6 +236,7 @@
     <nav id="menu"></nav>
     <div id="map"></div>
     <button id="fit">Recentrer Carte</button>
+    <button id="accesmenu">Menu Général</button>
     <button id="dashb"></button>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
     <!--    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/> -->
@@ -218,9 +246,12 @@
         src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiZnJhbmNrdzMxIiwiYSI6ImNsbmJqemU5cjA0MDYya3RkczNrMHdqb2wifQ.6NLEMz-lShL80j9QuGW9cA';
+        
         const symbo = `url(https://placekitten.com/g/100/100/)`;
-        var map = new mapboxgl.Map({
+
+            var map = new mapboxgl.Map({
             container: 'map',
+            // style: 'mapbox://styles/mapbox/streets-v12',
             style: 'mapbox://styles/franckw31/clnd1m23b03o501qu3x5ab4xk',
             center: [1.36, 43.55],
             zoom: 9.5,
@@ -229,7 +260,7 @@
         // create the popup			
         // create DOM element for the marker
 
-        map.on('load', function () {
+            map.on('load', function () {
             //place object we will add our events to
             map.addSource('Activités', {
                 'type': 'geojson',
@@ -238,7 +269,21 @@
                     'features': []
                 }
             });
-            map.addSource('Membres', {
+            map.addSource('hommes', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features_m': []
+                }
+            });
+            map.addSource('femmes', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features_m': []
+                }
+            });
+            map.addSource('services', {
                 'type': 'geojson',
                 'data': {
                     'type': 'FeatureCollection',
@@ -257,21 +302,49 @@
                     'visibility': 'visible'
                 },
                 'paint': {
-                    'icon-opacity': 0.7
+                    'icon-opacity': 0.9
                 }
             });
             map.addLayer({
-                'id': 'Membres',
+                'id': 'hommes',
                 'type': 'symbol',
-                'source': 'Membres',
+                'source': 'hommes',
                 'layout': {
                     'icon-image': '{icon}',
-                    'icon-size': 1.2,
+                    'icon-size': 0.4,
                     'icon-allow-overlap': true,
                     'visibility': 'visible'
                 },
                 'paint': {
-                    'icon-opacity': 0.7
+                    'icon-opacity': 0.9
+                }
+            });
+            map.addLayer({
+                'id': 'femmes',
+                'type': 'symbol',
+                'source': 'femmes',
+                'layout': {
+                    'icon-image': '{icon}',
+                    'icon-size': 0.4,
+                    'icon-allow-overlap': true,
+                    'visibility': 'visible'
+                },
+                'paint': {
+                    'icon-opacity': 0.9
+                }
+            });
+            map.addLayer({
+                'id': 'services',
+                'type': 'symbol',
+                'source': 'services',
+                'layout': {
+                    'icon-image': '{icon}',
+                    'icon-size': 0.10,
+                    'icon-allow-overlap': true,
+                    'visibility': 'visible'
+                },
+                'paint': {
+                    'icon-opacity': 0.9
                 }
             });
             document.getElementById('fit').addEventListener('click', () => {
@@ -288,8 +361,38 @@
             document.getElementById('dashb').addEventListener('click', () => {
                 document.location.href = "https://poker31.org/panel/dashboard.php";
             });
+            document.getElementById('accesmenu').addEventListener('click', () => {
+                document.location.href = "https://poker31.org/panel/dashboard.php";
+            });
             //Handle popups		
             map.on('click', 'Activités', (e) => {
+                map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 13 });
+                const symbo = e.features[0].properties.t2;
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const description = e.features[0].properties.description;
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                const tml = '';
+                const titi = '<table style border:"1"><tr><th>Date</th><th>Buyin</th><th>Max</th></tr><tr><th>'+e.features[0].properties.date_depart+'</th><th>'+e.features[0].properties.buyin+'</th><th>'+e.features[0].properties.places+'</th></tr></table>';
+                const el = document.createElement('div');
+                el.id = 'marker';
+                el.style.backgroundImage = `${symbo}`;
+                el.style.width = `125px`;
+                el.style.height = `125px`;
+                el.style.opacity = `0.8`;
+                el.style.backgroundSize = `100%`;
+                new mapboxgl.Popup({ closeOnClick: true, closeButton: false })
+                    .setLngLat(coordinates)
+                    .setHTML(description + titi)
+                    .addTo(map);
+                new mapboxgl.Marker(el)
+                    .setLngLat(coordinates)
+                // .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates).setHTML(description)) 
+                <!--        .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates)) -->
+                // .addTo(map);
+            });
+            map.on('click', 'hommes', (e) => {
                 map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 14 });
                 const symbo = e.features[0].properties.t2;
                 const coordinates = e.features[0].geometry.coordinates.slice();
@@ -302,7 +405,7 @@
                 el.style.backgroundImage = `${symbo}`;
                 el.style.width = `125px`;
                 el.style.height = `125px`;
-                el.style.opacity = `0.8`;
+                el.style.opacity = `0.5`;
                 el.style.backgroundSize = `100%`;
                 new mapboxgl.Popup({ closeOnClick: true, closeButton: false })
                     .setLngLat(coordinates)
@@ -310,11 +413,36 @@
                     .addTo(map);
                 new mapboxgl.Marker(el)
                     .setLngLat(coordinates)
-                // .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates).setHTML(description)) 
-                <!--        .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates)) -->
+                // .setPopup(new mapboxgl.Popup({ offset: 25,closeOnClick: true }).setLngLat(coordinates).setHTML(description)) 
+                // .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates))
                 // .addTo(map);
             });
-            map.on('click', 'Membres', (e) => {
+            map.on('click', 'femmes', (e) => {
+                map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 14 });
+                const symbo = e.features[0].properties.t2;
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const description = e.features[0].properties.description;
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                const el = document.createElement('div');
+                el.id = 'marker';
+                el.style.backgroundImage = `${symbo}`;
+                el.style.width = `125px`;
+                el.style.height = `125px`;
+                el.style.opacity = `0.5`;
+                el.style.backgroundSize = `100%`;
+                new mapboxgl.Popup({ closeOnClick: true, closeButton: false })
+                    .setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+                new mapboxgl.Marker(el)
+                    .setLngLat(coordinates)
+                // .setPopup(new mapboxgl.Popup({ offset: 25,closeOnClick: true }).setLngLat(coordinates).setHTML(description)) 
+                // .setPopup(new mapboxgl.Popup({ offset: 25, closeOnClick: true }).setLngLat(coordinates))
+                // .addTo(map);
+            });
+            map.on('click', 'services', (e) => {
                 map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 14 });
                 const symbo = e.features[0].properties.t2;
                 const coordinates = e.features[0].geometry.coordinates.slice();
@@ -346,15 +474,29 @@
             map.on('mouseleave', 'Activités', () => {
                 map.getCanvas().style.cursor = '';
             });
-            map.on('mouseenter', 'Membres', () => {
+            map.on('mouseenter', 'hommes', () => {
                 map.getCanvas().style.cursor = 'pointer';
             });
-            map.on('mouseleave', 'Membres', () => {
+            map.on('mouseleave', 'hommes', () => {
+                map.getCanvas().style.cursor = '';
+            });
+            map.on('mouseenter', 'femmes', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'femmes', () => {
+                map.getCanvas().style.cursor = '';
+            });
+            map.on('mouseenter', 'services', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'services', () => {
                 map.getCanvas().style.cursor = '';
             });
             //get our data from php function
             getAllEvents();
             getAllEvents_m();
+            getAllEvents_f();
+            getAllEvents_s();
         });
         function getAllEvents() {
             $.ajax({
@@ -375,12 +517,12 @@
         }
         function getAllEvents_m() {
             $.ajax({
-                url: "sql2map-membres.php",
+                url: "sql2map-membres-m.php",
                 contentType: "application/json",
                 dataType: "json",
                 success: function (eventData) {
                     console.log(eventData)
-                    map.getSource('Membres').setData({
+                    map.getSource('hommes').setData({
                         'type': 'FeatureCollection',
                         'features': eventData
                     });
@@ -390,17 +532,50 @@
                 }
             });
         }
-
+        function getAllEvents_f() {
+            $.ajax({
+                url: "sql2map-membres-f.php",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (eventData) {
+                    console.log(eventData)
+                    map.getSource('femmes').setData({
+                        'type': 'FeatureCollection',
+                        'features': eventData
+                    });
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+        function getAllEvents_s() {
+            $.ajax({
+                url: "sql2map-membres-s.php",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (eventData) {
+                    console.log(eventData)
+                    map.getSource('services').setData({
+                        'type': 'FeatureCollection',
+                        'features': eventData
+                    });
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
         // After the last frame rendered before the map enters an "idle" state.
         // const popup = new mapboxgl.Popup({ offset: 37, anchor: 'bottom' }).setDOMContent('<h5>Hello</h5>').setLngLat('[1.42056, 43.60842]').addTo(map);
         map.on('idle', () => {
             // If these two layers were not added to the map, abort
-            if (!map.getLayer('Membres') || !map.getLayer('Activités')) {
+            if (!map.getLayer('hommes') || !map.getLayer('Activités') || !map.getLayer('femmes')|| !map.getLayer('services')) {
                 return;
             }
             // Enumerate ids of the layers.
-            const toggleableLayerIds = ['Activités', 'Membres'];
-            // const toggleableLayerIds = ['membres','test','Activités'];
+            const toggleableLayerIds = ['Activités', 'hommes', 'femmes', 'services'];
+            // const toggleableLayerIds = ['hommes','test','Activités'];
             // Set up the corresponding toggle button for each layer.
             for (const id of toggleableLayerIds) {
                 // Skip layers that already have a button set up.

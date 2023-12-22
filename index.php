@@ -1,5 +1,20 @@
 <?php
 session_start();
+$num_membre = $_GET['membre']; // get value
+$num_activite = $_GET['activite']; // get value
+$code = $_GET['code']; // get value
+
+define('DB_SERVER','db5011397709.hosting-data.io');
+define('DB_USER','dbu5472475');
+define('DB_PASS' ,'Kookies7*');
+define('DB_NAME', 'dbs9616600');
+$con = mysqli_connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+$sql = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` = '$num_membre' ");
+$result = mysqli_fetch_array($sql) ;
+$email = $result['email'];
+$mdp = $result['password'];
+$codev = $result['CodeV'];
+
 if (isset($_SESSION['login'])) {
   header("Location: https://poker31.org/indexnav.html");
   die();
@@ -89,7 +104,7 @@ if (isset($_POST['submit'])) {
     }
   </style>
 </head>
-
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=ncsRFoXJ"></script>
 <body>
   <div class="container">
     <div class="forms-container">

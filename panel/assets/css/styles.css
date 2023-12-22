@@ -3853,6 +3853,68 @@ a.text-light:hover {
 opacity :0.8;
   border: 1px solid rgba(0, 0, 0, 0.07);
 }
+.panel-white-activites, .partition-white-activites {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/activites.png");
+  position: relative;
+  /* color: #5b5b60; */
+opacity :0.95;
+  /* border: 1px solid rgba(0, 0, 0, 0.07); */
+}
+
+.panel-white-fond1, .partition-white-fond1 {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/calendrier.png");
+  position: relative;
+  /* color: #5b5b60; */
+opacity :0.95;
+  /* border: 1px solid rgba(0, 0, 0, 0.07); */
+}
+
+.panel-white-france, .partition-white-france {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/france.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.panel-white-membres, .partition-white-membres {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/membres.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  /* border: 1px solid rgba(0, 0, 0, 0.07); */
+}
+.panel-white-chal, .partition-white-chal {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/chal.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.panel-white-dico, .partition-white-dico {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/dico.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
 
 .panel-dark, .partition-dark {
   background-color: #2C2F3B;

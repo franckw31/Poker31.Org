@@ -1,10 +1,12 @@
 <?php
 session_start();
+// $_SESSION['pause'.'30'] = 0;
+// $_SESSION['pause'.'58'] = 0;
 error_reporting(0);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
+//$comp = intval($_GET['comp']); // get value
 include_once('include/config.php');
 $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE 1 ");
 while ($row = mysqli_fetch_array($ret)) 
@@ -44,13 +46,15 @@ if (strlen($_SESSION['id'] == 0)) {
         // $structure = $_POST['structure'];
         $jetons = $_POST['jetons'];
         $bonus = $_POST['bonus'];
+        $lng = $_POST['lng'];
+        $lat = $_POST['lat'];
         $addon = $_POST['addon'];
         $nb_tables = $_POST['nb-tables'];
         $idmembresession = $_SESSION['id'];
 
         
         if (($idmembresession == $idmembre) OR ($idmembresession == 265)) {
-            $msg = mysqli_query($con, "UPDATE `activite` SET `id-membre` = '$idmembre' , `titre-activite` = '$titre_activite' , `date_depart` = '$date_depart' , `heure_depart` = '$heure_depart' ,`ville` = '$ville' , `places` = '$places' , `nb-tables` = '$nb_tables' , `commentaire` = '$commentaire' , `buyin` = '$buyin' , `rake` = '$rake' , `bounty` = '$bounty' , `jetons` = '$jetons' , `recave` = '$recave' , `addon` = '$addon' , `ante` = '$ante' , `bonus` = '$bonus' WHERE `id-activite` = '$id'");
+            $msg = mysqli_query($con, "UPDATE `activite` SET `id-membre` = '$idmembre' , `titre-activite` = '$titre_activite' , `date_depart` = '$date_depart' , `heure_depart` = '$heure_depart' ,`ville` = '$ville' , `places` = '$places' , `nb-tables` = '$nb_tables' , `commentaire` = '$commentaire' , `buyin` = '$buyin' , `rake` = '$rake' , `bounty` = '$bounty' , `jetons` = '$jetons' , `recave` = '$recave' , `addon` = '$addon' , `ante` = '$ante' , `bonus` = '$bonus' , `lng` = '$lng' , `lat` = '$lat' WHERE `id-activite` = '$id'");
         };
         // $_SESSION['msg'] = "Activité ajoutée avec succés !!";
         // header('location:http://poker31.org/panel/liste-activites.php');
@@ -67,6 +71,27 @@ if (strlen($_SESSION['id'] == 0)) {
     }
     if (isset($_POST['submitplb'])) {
         $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
+    }  
+    if (isset($_POST['xxx'])) {
+        $lois = $_SESSION['id'];
+        $activi = $id;
+        // $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
+        $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-membre-vainqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`, `bounty`) VALUES ( '$lois', '', '$activi', '', '', '', 'Reservation', '$ordre', 'Actif', NULL, '1', '0', '0', CURRENT_TIMESTAMP, '', '', '', '0')");
+    }
+    if ($_POST['btn-info']) {
+        ?>
+        <script type="text/javascript" language="javascript">
+            afficher('infos');
+        </script>;
+        <?php
+    }
+    if ($_POST['pause']) {
+        $pau = $_POST['pause'];
+        $_SESSION['pause'.$id] = $pau;
+        ?><div class='place3-content'> <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop controls></audio></div><?php
+        
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
+        // $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
     }    
     if (isset($_POST['submit2'])) {
         $compet = $_POST['compet'];
@@ -82,8 +107,12 @@ if (strlen($_SESSION['id'] == 0)) {
     //}
     if ((isset($_POST['submit-ins'])) OR (isset($_POST['submit3']))){
         $lois = $_POST['lois'];
-        $activi = $_POST['activi'];
-        // $lois = "30";$activi = "31";
+
+        // $lois = $_SESSION['id'];
+
+        $activi = $id;
+        // $lois = "30";
+        // $activi = "30";
 
         $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
         // Return the number of rows in result set
@@ -274,19 +303,22 @@ if (strlen($_SESSION['id'] == 0)) {
                                                 <link rel="stylesheet" href="css/mes-styles.css">
                                                 <link rel="stylesheet" href="css/les-styles.css">
 
-
+                                                <script>responsiveVoice.setDefaultVoice("French Female")</script>
+                                                <!-- <script>responsiveVoice.speak("menu activite")</script> -->
                                                 <style>
   body{
         /* background-image: url('/assets/images/table.jpg') !important;
     } */
+ /* img { width: 100%} */
   .square-box {
         position: absolute;
         width: 87%;
-        height: 58%;
+        height: 62%;
         overflow: hidden;
-        /* background: #6495ED; */
-        background-size: cover;
+        /* background: #000;  */
+        background-size: 100% 100% ;
         background-image: url('/panel/images/table-empire-10j.jpg');
+        background-repeat: no-repeat; 
         opacity: 1;
         left: 0;
         right: 0;
@@ -377,16 +409,46 @@ if (strlen($_SESSION['id'] == 0)) {
         font-size: 2vw;
 
     }
+    .info6-content {
+        position: absolute;
+        top: 82%;
+        left: 22%;
+        color: red;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2vw;
+
+    }
+    .info7-content {
+        position: absolute;
+        top: 88%;
+        left: 34%;
+        color: green;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2vw;
+
+    }
+    .info8-content {
+        position: absolute;
+        top: 94%;
+        left: 32%;
+        color: green;
+        width: 100%%;
+        height: 100%%;
+        font-size: 2vw;
+
+    }
     .square-box2 {
         position: absolute;
         width: 50%;
         height: 20%;
         overflow: hidden;
-        background: grey;
+        background: red;
         opacity: 0.25;
         left: 0;
         right: 0;
-        top: -110px;
+        top: -130px;
         bottom: 0;
         margin: auto;
         /* border-radius: 200px;
@@ -417,25 +479,46 @@ if (strlen($_SESSION['id'] == 0)) {
         font-size: 2.25vw;
 
     }
-
-    .place-content {
+    .square2-content {
         position: absolute;
-        top: 45%;
-        left: 20%;
+        top: 53%;
+        left: 28%;
         color: white;
         width: 100%%;
         height: 100%%;
-        font-size: 2.5vw;
+        font-size: 2.25vw;
+
+    }
+
+    .place-content {
+        position: relative;
+        top: 33px;
+        left: -60px;
+        color: white;
+        width: 100%;
+        height: 100%;
+        font-size: 2.25vw;
 
     }
     .place2-content {
         position: relative;
-        top: 40px;
-        left: 20px;
+        top: 33px;
+        left: 80px;
         color: white;
         width: 100%%;
         height: 100%%;
-        font-size: 2.5vw;
+        font-size: 2.25vw;
+
+    }
+
+    .place3-content {
+        position: absolute;
+        top: 120px;
+        left: 140px;
+        color: white;
+        width: 80%%;
+        height: 100%%;
+        font-size:1.5vw;
 
     }
 
@@ -727,6 +810,22 @@ if (strlen($_SESSION['id'] == 0)) {
                                                         });
                                                     }
                                                 </script>
+                                                <script>
+                                                    // var audio = new Audio("plus1_071016_Alex.WAV");
+                                                    // var audio = new Audio("http://glpjt.s3.amazonaws.com/so/av/a12.mp3");                 
+                                                    var audio = new Audio("https://s3.amazonaws.com/audio-experiments/examples/elon_mono.wav");
+                                                    function playAudio() {
+                                                        audio.play();
+                                                    }   
+                                                    function pauseAudio() {
+                                                        audio.pause();
+                                                    }
+                                                    function cancelAudio() {
+                                                        audio.pause();
+                                                        audio.currentTime = 0;
+                                                    }
+                                                    //  playAudio();
+                                                </script>
                                             </head>
                                             <body>
                                                 <div id="app">
@@ -760,16 +859,65 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                 <div id="conteneur">
                                                                     <div id="contenu">
                                                                         <div id="auCentre">
+                                                                            <?php
+                                                                            $id = intval($_GET['uid']);
+                                                                            $reqnbt = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-activite` = '$id' ");
+                                                                            $res = mysqli_fetch_array($reqnbt) ;
+                                                                            $nbt = $res["nb-tables"];   
+                                                                            
+                                                                            if ($nbt == '1') 
+                                                                            {?>
+                                                                                <div id="bMenu">
+                                                                                <a href="#" id="infos" class="btnnav" onmouseover="afficher1('infos')">Infos</a>
+                                                                                <a href="#" id="inscrits" class="btnnav" onmouseover="afficher1('inscrits')">Inscrits</a>
+                                                                                <a href="#" id="t1" class="btnnav" onmouseover="afficher1('t1')">Table 1</a>
+                                                                                <!-- <a href="#" id="t2" class="btnnav" onmouseover="afficher2('t2')">Table 2</a> -->
+                                                                                <!-- <a href="#" id="t3" class="btnnav" onmouseover="afficher2('t3')">Table 3</a> -->
+                                                                                <!-- <a href="#" id="t4" class="btnnav" onmouseover="afficher2('t4')">Table 4</a> -->
+                                                                                </div>
+                                                                            <?php };
+
+                                                                            if ($nbt == '2') 
+                                                                            {?>
+                                                                                <div id="bMenu">
+                                                                                <a href="#" id="infos" class="btnnav" onmouseover="afficher2('infos')">Infos</a>
+                                                                                <a href="#" id="inscrits" class="btnnav" onmouseover="afficher2('inscrits')">Inscrits</a>
+                                                                                <a href="#" id="t1" class="btnnav" onmouseover="afficher2('t1')">Table 1</a>
+                                                                                <a href="#" id="t2" class="btnnav" onmouseover="afficher2('t2')">Table 2</a>
+                                                                                <!-- <a href="#" id="t3" class="btnnav" onmouseover="afficher2('t3')">Table 3</a> -->
+                                                                                <!-- <a href="#" id="t4" class="btnnav" onmouseover="afficher2('t4')">Table 4</a> -->
+                                                                                </div>
+                                                                            <?php };
+
+                                                                            if ($nbt == '3') 
+                                                                            {?>
+                                                                                <div id="bMenu">
+                                                                                <a href="#" id="infos" class="btnnav" onmouseover="afficher3('infos')">Infos</a>
+                                                                                <a href="#" id="inscrits" class="btnnav" onmouseover="afficher3('inscrits')">Inscrits</a>
+                                                                                <a href="#" id="t1" class="btnnav" onmouseover="afficher3('t1')">Table 1</a>
+                                                                                <a href="#" id="t2" class="btnnav" onmouseover="afficher3('t2')">Table 2</a>
+                                                                                <a href="#" id="t3" class="btnnav" onmouseover="afficher3('t3')">Table 3</a>
+                                                                                <!-- <a href="#" id="t4" class="btnnav" onmouseover="afficher3('t4')">Table 4</a> -->
+                                                                                </div>
+                                                                            <?php };
+
+                                                                            if ($nbt == '4') 
+                                                                            {?>
                                                                             <div id="bMenu">
-                                                                                <a href="#" id="infos" class="btnnav" onmouseover="afficher('infos')">Infos</a>
-                                                                                <a href="#" id="inscrits" class="btnnav" onmouseover="afficher('inscrits')">Inscrits</a>
-                                                                                <a href="#" id="t1" class="btnnav" onmouseover="afficher('t1')">Table 1</a>
-                                                                                <a href="#" id="t2" class="btnnav" onmouseover="afficher('t2')">Table 2</a>
-                                                                                <a href="#" id="t3" class="btnnav" onmouseover="afficher('t3')">Table 3</a>
-                                                                                <a href="#" id="t4" class="btnnav" onmouseover="afficher('t4')">Table 4</a>
+                                                                                <a href="#" id="infos" class="btnnav" onmouseover="afficher4('infos')">Infos</a>
+                                                                                <a href="#" id="inscrits" class="btnnav" onmouseover="afficher4('inscrits')">Inscrits</a>
+                                                                                <a href="#" id="t1" class="btnnav" onmouseover="afficher4('t1')">Table 1</a>
+                                                                                <a href="#" id="t2" class="btnnav" onmouseover="afficher4('t2')">Table 2</a>
+                                                                                <a href="#" id="t3" class="btnnav" onmouseover="afficher4('t3')">Table 3</a>
+                                                                                <a href="#" id="t4" class="btnnav" onmouseover="afficher4('t4')">Table 4</a>
                                                                             </div>
+                                                                            <?php };
+                                                                            
+                                                                            ?>
+
                                                                             <div id="bSection">
                                                                                 <div id="infosE">
+                                                                                <script src="voice.js?key=ncsRFoXJ"></script>
                                                                                     <div class="wrap-content container" id="container">
                                                                                         <div class="container-fluid bbg-pink">
                                                                                             <div class="col-md-12">
@@ -780,14 +928,15 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                             <div class="form-group">
                                                                                                                 <?php
                                                                                                                 $id = intval($_GET['uid']);
+                                                                                                                $_SESSION['pause'.'$id'] = 1;
                                                                                                                 $sql = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-activite` =  '$id'");
                                                                                                                 while ($row = mysqli_fetch_array($sql)) { $id_org = $row["id-membre"];
                                                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$id_org'");
                                                                                                                     while ($row2 = mysqli_fetch_array($sql2)) { $nom_org = $row2['pseudo']; } ?>
                                                                                                                         <!-- <form method="post"> -->
                                                                                                                         <table class="table table-bordered">            
-                                                                                                                            <tr><td rowspan="2" ><img src="images/<?php echo $row['photo']; ?>" width="85" height="85" style="align:center">
-                                                                                                                                    <form id="image_upload_form" enctype="multipart/form-data" action="upload-photo-activite.php?editid=<?php echo $id; ?>" method="post" class="change-pic">
+                                                                                                                            <tr><td rowspan="2" ><img src="images/<?php echo $row['photo'] ?>" width="85" height="85" style="align:center">
+                                                                                                                                    <form id="image_upload_form" enctype="multipart/form-data" action="upload-photo-activite.php?editid=<?php echo $id ?>" method="post" class="change-pic">
                                                                                                                                         <input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
                                                                                                                                         <div>
                                                                                                                                             <input type="file"  class = "fa fa-camera" id="file" name="fileToUpload"  style="display:none;"/><input type="button" onClick="fileToUpload.click();" value="Modifier"/>
@@ -796,9 +945,9 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                         <script type="text/javascript">
                                                                                                                                             document.getElementById("file").onchange = function() {
                                                                                                                                                 document.getElementById("image_upload_form").submit(); };
-                                                                                                                                        </script>;
-                                                                                                                                        <script src="https://webtinq.nl/ap/script.js"</script>
-                                                                                                                                        <script type="text/javascript">>play('example');</script>
+                                                                                                                                        </script>
+                                                                                                                                        <!-- <script src="https://webtinq.nl/ap/script.js"></script>
+                                                                                                                                        <script type="text/javascript">play('example');</script> -->
                                                                                                                                     </form>
                                                                                                                                 </td> 
                                                                                                                                 <form method="post">                                   
@@ -848,7 +997,9 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                                         type="date"
                                                                                                                                                                         value="<?php echo $row['date_depart']; ?>">
                                                                                                                                                                 </td>
-                                                                                                                                                                <th>Heure</th>
+                                                                                                                                                                <th><a href="creation-blindes.php?act=<?php echo $row['id-activite']; ?>&sou=/panel/voir-activite.php?uid=">Heure</a></th>
+                                                                                                                                                                
+                                                                                                                                                                
                                                                                                                                                                 <td><input
                                                                                                                                                                         class="form-control"
                                                                                                                                                                         id="heure_depart"
@@ -1038,11 +1189,52 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div id="t1E">
-                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">                                                                                                                                                                        
+                                                                                <script>responsiveVoice.setDefaultVoice("French Female")</script>
+                                                                                <!-- <script >responsiveVoice.speak("Table 1","French Female",{volume: 1})</script> -->
+
+                                                                                    <script>
+                                                                                        var audio3 = new Audio("popa.mp3");
+                                                                                        var audio2 = new Audio("http://glpjt.s3.amazonaws.com/so/av/a12.mp3");                 
+                                                                                        var audio = new Audio("https://s3.amazonaws.com/audio-experiments/examples/elon_mono.wav");
+                                                                                        function playAudio() {
+                                                                                            audio3.play();
+                                                                                            }   
+                                                                                        function pauseAudio() {
+                                                                                            audio2.play();
+                                                                                            }
+                                                                                        function cancelAudio() {
+                                                                                            audio.pause();
+                                                                                            audio.currentTime = 0;
+                                                                                            }
+                                                                                        // playAudio();
+                                                                                        // audio3.play();
+                                                                                    </script>
+                                                                                    <script>
+                                                                                        // playAudio();
+                                                                                    </script>
+                                                                                    <!-- <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop controls></audio> -->
+                                                                                    <!-- <audio src="https://poker31.org/panel/popa.mp3" autoplay loop controls></audio> -->
+
+                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">   
+                                                                                        <!-- <button onclick="playAudio()" type="button" class="btn btn-oo btn-primary" id="play" >Audio</button> -->
                                                                                         <?php
-                                                                                        // $tableau=array();
+                                                                                        $rowcountocc = "0";
+                                                                                        $scru = "0";
+                                                                                        // au moins 1 joueur ?
+                                                                                        $sqlv = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = '$id' ");
+                                                                                        $rowcountv = mysqli_num_rows($sqlv);
+                                                                                        while ((int)$rowcountocc < 1 AND $rowcountv > 0) 
+                                                                                        {
+                                                                                            (int)$scru ++;
+                                                                                            // echo $scru."/////////////////////////////////";
+                                                                                            $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$scru' ) LIMIT 1 ");
+                                                                                            $rowcountocc = mysqli_num_rows($sqla);
+                                                                                        };
+                                                                                        (int)$tableaff = (int)$scru;
+                                                                                        // $tableaff = 1;
                                                                                         $cnt=0;
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '1' )  ORDER BY `id-siege` ");
+                                                                                        unset($idmembre);unset($position);unset($idparticipation);unset($siege);unset($option);unset($pseudo); 
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$tableaff' )  ORDER BY `id-siege` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
                                                                                         
@@ -1069,190 +1261,1046 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                 $pseudo[$cnt] = $row2['pseudo'];
                                                                                                 } 
                                                                                             };
-                                                                                        // // siege ->
+                                                                                        // //siege ->
                                                                                         // echo "-".$siege[1].".".$siege[2].".".$siege[3].".".$siege[4].".".$siege[5].".".$siege[6].".".$siege[7].".".$siege[8].".".$siege[9] .$siege[10]."-"  ;
-                                                                                        // // idmembre ->
+                                                                                        // //idmembre ->
                                                                                         // echo "-".$idmembre[1].".".$idmembre[2].".".$idmembre[3].".".$idmembre[4].".".$idmembre[5].".".$idmembre[6].".".$idmembre[7].".".$idmembre[8].".".$idmembre[9].".".$idmembre[10]."-" ;    
-                                                                                        // // pseudo ->
+                                                                                        // //pseudo ->
                                                                                         // echo "-".$pseudo[1].".".$pseudo[2].".".$pseudo[3].".".$pseudo[4].".".$pseudo[5].".".$pseudo[6].".".$pseudo[7].".".$pseudo[8].".".$pseudo[9] .$pseudo[10]."-"  ; 
-                                                                                        // // option ->
+                                                                                        // //option ->
                                                                                         // echo "-".$option[1].".".$option[2].".".$option[3].".".$option[4].".".$option[5].".".$option[6].".".$option[7].".".$option[8].".".$option[9] .$option[10]."-"  ;
-                                                                                        // // idparticip ->
+                                                                                        // //idparticip ->
                                                                                         // echo "-".$idparticipation[1].".".$idparticipation[2].".".$idparticipation[3].".".$idparticipation[4].".".$idparticipation[5].".".$idparticipation[6].".".$idparticipation[7].".".$idparticipation[8].".".$idparticipation[9] .$idparticipation[10]."-"  ;                                                                                 
+                                                                                        // echo "{".$_SESSION["fin".$_SESSION["blinde"]]."}"."/".$_SESSION["blinde"];
+                                                                                        // echo $_SESSION["blinde"]." --> ".$_SESSION["fin"."1"].$_SESSION["fin"."2"].$_SESSION["fin"."3"].$_SESSION["fin"."4"]."-----".$_SESSION["fin".$_SESSION["bl"]]."*****".$_SESSION["bl"]."t=".$tableaff.$scru.$rowcountocc."a";
+                                                                                        // echo $_SESSION['pause'.$id]."-".$_SESSION['login']."-".$id."/".$_SESSION["ante"."1"];
+                                                                                        ?>
+                                                                                        
+                                                                                        <div id="main">
+
+                                                                                            <div class="players">
+
+                                                                                                <div class="player player-1 playing" id="player1" >
+                                                                                                    <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[1] ?>
+                                                                                                                class="btbn btn-pokerblue btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="pplayer player-1p pplaying" id="pplayer1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.66>
+                                                                                                        <div class='place-content' style='color:white' > 
+                                                                                                            <a href="modif-horloge.php?act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place2-content'> 
+                                                                                                            <a href="modif-horloge.php?act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>     
+                                                                                                
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place3-content'> 
+                                                                                                            <form method="post">
+                                                                                                                <button 
+                                                                                                                    type="submit"
+                                                                                                                    id='pause'
+                                                                                                                    value=<?php echo "22" ?>
+                                                                                                                    class="btbn btn-pokerred btn-block "
+                                                                                                                    name="pause"><?php echo "//" ?>
+                                                                                                                </button>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-2 playing"  id="player2">
+                                                                                                    <div class="avatar p2" style="background: red ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[2]  ?>
+                                                                                                                class="btbn btn-pokerred btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+        
+                                                                                                <div class="player player-3 playing"  id="player3">
+                                                                                                    <div class="avatar p3" style="background: black ;font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                 id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[3] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form> 
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-4 playing"  id="player4">
+                                                                                                    <div class="avatar p4" style="background: orange; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[4] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>     
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-5 playing"  id="player5">
+                                                                                                    <div class="avatar p5" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[5] ?>
+                                                                                                                class="btnn btn-primary-grey btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-6 playing"  id="player6">
+                                                                                                    <div class="avatar p6" style="background: brown; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[6] ?>
+                                                                                                                class="btnn btn-primary-brown btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-7 playing"  id="player7">
+                                                                                                    <div class="avatar p7" style="background: pink; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[7] ?>
+                                                                                                                class="btnn btn-primary-pink btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-8 playing"  id="player8">
+                                                                                                    <div class="avatar p8" style="background: purple; font-size:18px">
+             
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[8] ?>
+                                                                                                                class="btnn btn-primary-purple btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-9 playing"  id="player9">
+                                                                                                    <div class="avatar p9" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[9] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-10 playing"  id="player10">
+                                                                                                    <div class="avatar p10" style="background: green; font-size:18px">
+            
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[10] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div> 
+                                                                                            
+                                                                                            <div class='square-box' opacity:0.85>
+                                                                                                <div class='square-content'> 
+                                                                                                    <?php if (1) {?> <div id="response"></div><?php }; ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- <div class='square-box' opacity:0.85>
+                                                                                                <div class='square2-content'> 
+                                                                                                    <?php if (1) {?> <div id="car-pause"></div><?php }; ?>
+                                                                                                </div>
+                                                                                            </div> -->
+                                                                                            
+                                                                                                <!-- <div class='square-content'>  </div> -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <?php
+                                                                                    $req=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 1)");
+                                                                                    $row=mysqli_fetch_array($req);$commence = $row["fin"];
+                                                                                    $actu=strtotime(date("Y-m-d H:i:s"));
+                                                                                    $debu=strtotime($commence);
+                                                                                    $ecar=$debu-$actu-1200;
+                                                                                    $m=(int)gmdate("m ",$ecar);$m=$m-1;
+                                                                                    $j=(int)gmdate("d ",$ecar);$j=$j-1;
+                                                                                    $h=(int)gmdate("H ",$ecar);
+                                                                                    $mi=(int)gmdate("i ",$ecar);$mi=$mi+1;
+                                                                                                                                                                    // $star="Début : ".$m." mois ".$j." Jour(s) ".$h." Heure(s) ".$mi." Minute(s)";
+                                                                                    $star="Début dans ".$j." Jour(s) ".$h." Heure(s) et ".$mi." Minute(s)";
+                                                                                                                                                                    // echo gmdate("Y-m-d H:i:s",$debu)."-";
+                                                                                                                                                                    // echo gmdate("Y-m-d H:i:s",$actu)."-";
+                                                                                                                                                                    // echo "--> ".$ecar;
+                                                                                    if ($ecar > 0) { 
+                                                                                        ?> <div class='info6-content '> <?php echo $star; ?> </div> <?php 
+                                                                                    $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE ((`id-activite` = $id AND `option` NOT LIKE 'Annule' ) AND (`id-activite` = $id AND `option` NOT LIKE 'Elimine' ) AND (`id-activite` = $id AND `id-membre` <> '2' ))");
+                                                                                    $rowcounta = mysqli_num_rows($sqla);
+                                                                                    $sqlb=mysqli_query($con,"SELECT * FROM `activite` WHERE `id-activite` = $id");
+                                                                                    $resb=mysqli_fetch_array($sqlb);$joueursmax = $resb["places"];
+                                                                                    ?><div class='info7-content '> <?php echo $rowcounta." Joueurs inscrits sur ".$joueursmax." max" ?></div>
+                                                                                    <div class='info8-content'>
+                                                                                        <table class="table ttable-bordered">
+                                                                                            <form method="post">
+                                                                                                <tr><td style="text-align:center ; display:none" >
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            name="xxx"
+                                                                                                            id="submit" 
+                                                                                                            class="btn btn-oo btn-primary">
+                                                                                                            Mise à jour
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button type="submit"
+                                                                                                            class="btn btn-primaryg btn-block"
+                                                                                                            name="xxx">S'inscrire 
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button type="submit"
+                                                                                                            class="btn btn-primary btn-block"
+                                                                                                            name="btn-info">Infos
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button 
+                                                                                                            type="submit"
+                                                                                                            class="btn btn-primary-rouge btn-block"
+                                                                                                            name="xxx">Se désinscrire
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </form>
+                                                                                        </table> 
+                                                                                    </div>
+                                                                                    <?php }
+                                                                                    else
+                                                                                    {         
+                                                                                    ?>                                    
+                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
+                                                                                        <?php
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
+                                                                                        $rowcount = mysqli_num_rows($sql);
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' )");
+                                                                                        $rowcount2 = mysqli_num_rows($sql);
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
+                                                                                        $rowcount3 = mysqli_num_rows($sql);
+                                                                                        $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                        $rowcounteli = mysqli_num_rows($req);               
+                                                                                        while ($res = mysqli_fetch_array($req)) 
+                                                                                        { 
+                                                                                            $eli1=$res["id-membre"];
+                                                                                            $res2=mysqli_query($con,"SELECT * FROM `membres` WHERE (`id-membre` = $eli1)");
+                                                                                            $row2=mysqli_fetch_array($res2);$nom1=$row2["pseudo"];
+                                                                                        };
+                                                                                        echo $nom1; 
+                                                                                        ?>
+                                                                                    </div>
+
+                                                                                    <div class='info2-content'> 
+                                                                                        <div id="car-pause">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                        <?php
+                                                                                        if ($rowcount2>5) { $payes=2; $r1=0.6; $r2=0.4; };
+                                                                                        if ($rowcount2>8) { $payes=3; $r1=0.5; $r2=0.3; $r3=0.2; };
+                                                                                        if ($rowcount2>13) { $payes=4; $r1=0.4; $r2=0.28; $r3=0.19; $r4=0.13; };
+                                                                                        if ($rowcount2>20) { $payes=5; $r1=0.35; $r2=0.25; $r3=0.18; $r4=0.13; $r5=0.09; };
+                                                                                        ?>
+                                                                                        <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                        { ?>
+                                                                                            <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                        <?php } else { ?>
+                                                                                            <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                        <?php };
+                                                                                        $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
+                                                                                        $res2 = mysqli_fetch_array($sql2);
+                                                                                        $buyin=$res2["buyin"];
+                                                                                        $jetons=$res2["jetons"];
+                                                                                        $pot=0;$nbr=0;$nba=0;
+                                                                                        $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
+                                                                                        while ($res3 = mysqli_fetch_array($req3)) 
+                                                                                        {    
+                                                                                         $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
+                                                                                         $nbr=$nbr+$res3["recave"];
+                                                                                         $nba=$nba+$res3["addon"];
+                                                                                        };  
+                                                                                        $tot=$pot+$rowcount2;$final=$tot*$buyin;
+                                                                                        if ($payes==2) {
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p2;
+                                                                                            ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==3) { 
+                                                                                        $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p3-$p2;
+                                                                                        ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==4) {
+                                                                                            $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                            $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p4-$p3-$p2;
+                                                                                            ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==5) {
+                                                                                            $p5=$final * $r5; $p5=$p5/10; $p5=round($p5,0); $p5=$p5*10;
+                                                                                            $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                            $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p5-$p4-$p3-$p2;
+                                                                                            ?><div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€, P5=".$p5."€" ?></div><?php
+                                                                                        };
+                                                                                        $enjeu=($rowcount2-$rowcounteli);
+                                                                                        if ($enjeu == 0 ) $enjeu=1; else $enjeu= $rowcount2-$rowcounteli;
+                                                                                        ?>
+                                                                                        
+                                                                                        <div class='info5-content '> <?php echo "Stack Moyen : ".($jetons*($rowcount2+$nbr+$nba))/($enjeu)." sur ".($jetons*($rowcount2+$nbr+$nba)) ." = (".$rowcount2."B ) + "." (".$nbr."R ) + "." (".$nba."A )" ?>
+                                                                                        </div>
+                                                                                        
+                                                                                        <?php $_SESSION["act"]=$id;include_once('horloge.php'); ?>  
+                                                                                        <?php $_SESSION["act"]=$id;include_once('horloge-pause.php'); ?>  
+                                                                                    <?php }; ?>
+                                                                                </div>
+                                                                                <div id="t2E">
+                                                                                <script>responsiveVoice.setDefaultVoice("French Female")</script>
+                                                                                <!-- <script >responsiveVoice.speak("Table 2","French Female",{volume: 1})</script> -->
+                                                                                <?php if ($nbt >= '2') { ?>
+                                                                                    <script>
+                                                                                        var audio3 = new Audio("popa.mp3");
+                                                                                        var audio2 = new Audio("http://glpjt.s3.amazonaws.com/so/av/a12.mp3");                 
+                                                                                        var audio = new Audio("https://s3.amazonaws.com/audio-experiments/examples/elon_mono.wav");
+                                                                                        function playAudio() {
+                                                                                            audio3.play();
+                                                                                            }   
+                                                                                        function pauseAudio() {
+                                                                                            audio2.play();
+                                                                                            }
+                                                                                        function cancelAudio() {
+                                                                                            audio.pause();
+                                                                                            audio.currentTime = 0;
+                                                                                            }
+                                                                                        // playAudio();
+                                                                                        // audio3.play();
+                                                                                    </script>
+                                                                                    <script>
+                                                                                        // playAudio();
+                                                                                    </script>
+                                                                                    <!-- <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop controls></audio> -->
+                                                                                    <!-- <audio src="https://poker31.org/panel/popa.mp3" autoplay loop controls></audio> -->
+
+                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">   
+                                                                                    <?php
+                                                                                        $rowcountocc = "0";
+                                                                                        $scru = $tableaff;
+                                                                                        if ((int)$rowcountocc < 1) 
+                                                                                        {
+                                                                                            (int)$scru ++;
+                                                                                            // echo $scru."/////////////////////////////////";
+                                                                                            $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$scru' ) LIMIT 1 ");
+                                                                                            $rowcountocc = mysqli_num_rows($sqla);
+                                                                                        };
+                                                                                        (int)$tableaff = (int)$scru;
+                                                                                        $tableaff = 2;
+                                                                                        $cnt=0;
+                                                                                        unset($idmembre);unset($position);unset($idparticipation);unset($siege);unset($option);unset($pseudo); 
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$tableaff' )  ORDER BY `id-siege` ");
+                                                                                        $nb_lignes=mysqli_num_rows($sql);
+                                                                                        // echo $nb_lignes;
+                                                                                        
+                                                                                        while($row = mysqli_fetch_array($sql))
+                                                                                            {  
+                                                                                            $cnt = $cnt + 1; 
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            $idmembre[$cnt] = $row['id-membre']; 
+                                                                                            $position[$cnt] = $row['position'];
+                                                                                            $idparticipation[$cnt] = $row['id-participation']; 
+                                                                                            $siege[$cnt] = $row['id-siege']; 
+                                                                                            $option[$cnt] = $row['option'];   
+                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$idmembre[$cnt]'");
+                                                                                            while ($row2 = mysqli_fetch_array($sql2)) 
+                                                                                                {
+                                                                                                $pseudo[$cnt] = $row2['pseudo'];
+                                                                                                } 
+                                                                                            };
+                                                                                        // //siege ->
+                                                                                        // echo "-".$siege[1].".".$siege[2].".".$siege[3].".".$siege[4].".".$siege[5].".".$siege[6].".".$siege[7].".".$siege[8].".".$siege[9] .$siege[10]."-"  ;
+                                                                                        // //idmembre ->
+                                                                                        // echo "-".$idmembre[1].".".$idmembre[2].".".$idmembre[3].".".$idmembre[4].".".$idmembre[5].".".$idmembre[6].".".$idmembre[7].".".$idmembre[8].".".$idmembre[9].".".$idmembre[10]."-" ;    
+                                                                                        // //pseudo ->
+                                                                                        // echo "-".$pseudo[1].".".$pseudo[2].".".$pseudo[3].".".$pseudo[4].".".$pseudo[5].".".$pseudo[6].".".$pseudo[7].".".$pseudo[8].".".$pseudo[9] .$pseudo[10]."-"  ; 
+                                                                                        // //option ->
+                                                                                        // echo "-".$option[1].".".$option[2].".".$option[3].".".$option[4].".".$option[5].".".$option[6].".".$option[7].".".$option[8].".".$option[9] .$option[10]."-"  ;
+                                                                                        // //idparticip ->
+                                                                                        // echo "-".$idparticipation[1].".".$idparticipation[2].".".$idparticipation[3].".".$idparticipation[4].".".$idparticipation[5].".".$idparticipation[6].".".$idparticipation[7].".".$idparticipation[8].".".$idparticipation[9] .$idparticipation[10]."-"  ;                                                                                 
+                                                                                        // echo "{".$_SESSION["fin".$_SESSION["blinde"]]."}"."/".$_SESSION["blinde"];
+                                                                                        // echo $_SESSION["blinde"]." --> ".$_SESSION["fin"."1"].$_SESSION["fin"."2"].$_SESSION["fin"."3"].$_SESSION["fin"."4"]."-----".$_SESSION["fin".$_SESSION["bl"]]."*****".$_SESSION["bl"]."t=".$tableaff.$scru.$rowcountocc."a";
+                                                                                        // echo $_SESSION['pause'.$id]."-".$_SESSION['login']."-".$id."/".$_SESSION["ante"."1"];
+                                                                                        ?>
+                                                                                        
+                                                                                        <div id="main">
+
+                                                                                            <div class="players">
+
+                                                                                                <div class="player player-1 playing" id="player1" >
+                                                                                                    <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[1] ?>
+                                                                                                                class="btbn btn-pokerblue btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="pplayer player-1p pplaying" id="pplayer1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.66>
+                                                                                                        <div class='place-content' style='color:white' > 
+                                                                                                            <a href="modif-horloge.php?act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place2-content'> 
+                                                                                                            <a href="modif-horloge.php?act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>     
+                                                                                                
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place3-content'> 
+                                                                                                            <form method="post">
+                                                                                                                <button 
+                                                                                                                    type="submit"
+                                                                                                                    id='pause'
+                                                                                                                    value=<?php echo "22" ?>
+                                                                                                                    class="btbn btn-pokerred btn-block "
+                                                                                                                    name="pause"><?php echo "//" ?>
+                                                                                                                </button>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-2 playing"  id="player2">
+                                                                                                    <div class="avatar p2" style="background: red ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[2]  ?>
+                                                                                                                class="btbn btn-pokerred btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+        
+                                                                                                <div class="player player-3 playing"  id="player3">
+                                                                                                    <div class="avatar p3" style="background: black ;font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                 id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[3] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form> 
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-4 playing"  id="player4">
+                                                                                                    <div class="avatar p4" style="background: orange; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[4] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>     
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-5 playing"  id="player5">
+                                                                                                    <div class="avatar p5" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[5] ?>
+                                                                                                                class="btnn btn-primary-grey btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-6 playing"  id="player6">
+                                                                                                    <div class="avatar p6" style="background: brown; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[6] ?>
+                                                                                                                class="btnn btn-primary-brown btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-7 playing"  id="player7">
+                                                                                                    <div class="avatar p7" style="background: pink; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[7] ?>
+                                                                                                                class="btnn btn-primary-pink btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-8 playing"  id="player8">
+                                                                                                    <div class="avatar p8" style="background: purple; font-size:18px">
+             
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[8] ?>
+                                                                                                                class="btnn btn-primary-purple btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-9 playing"  id="player9">
+                                                                                                    <div class="avatar p9" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[9] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-10 playing"  id="player10">
+                                                                                                    <div class="avatar p10" style="background: green; font-size:18px">
+            
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[10] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div> 
+                                                                                            
+                                                                                            <div class='square-box' opacity:0.85>
+                                                                                                <div class='square-content'> 
+                                                                                                    <?php if (1) {?> <div id="response"></div><?php }; ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- <div class='square-box' opacity:0.85>
+                                                                                                <div class='square2-content'> 
+                                                                                                    <?php if (1) {?> <div id="car-pause"></div><?php }; ?>
+                                                                                                </div>
+                                                                                            </div> -->
+                                                                                            
+                                                                                                <!-- <div class='square-content'>  </div> -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <?php
+                                                                                    $req=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 1)");
+                                                                                    $row=mysqli_fetch_array($req);$commence = $row["fin"];
+                                                                                    $actu=strtotime(date("Y-m-d H:i:s"));
+                                                                                    $debu=strtotime($commence);
+                                                                                    $ecar=$debu-$actu-1200;
+                                                                                    $m=(int)gmdate("m ",$ecar);$m=$m-1;
+                                                                                    $j=(int)gmdate("d ",$ecar);$j=$j-1;
+                                                                                    $h=(int)gmdate("H ",$ecar);
+                                                                                    $mi=(int)gmdate("i ",$ecar);$mi=$mi+1;
+                                                                                                                                                                    // $star="Début : ".$m." mois ".$j." Jour(s) ".$h." Heure(s) ".$mi." Minute(s)";
+                                                                                    $star="Début dans ".$j." Jour(s) ".$h." Heure(s) et ".$mi." Minute(s)";
+                                                                                                                                                                    // echo gmdate("Y-m-d H:i:s",$debu)."-";
+                                                                                                                                                                    // echo gmdate("Y-m-d H:i:s",$actu)."-";
+                                                                                                                                                                    // echo "--> ".$ecar;
+                                                                                    if ($ecar > 0) { 
+                                                                                        ?> <div class='info6-content '> <?php echo $star; ?> </div> <?php 
+                                                                                    $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
+                                                                                    $rowcounta = mysqli_num_rows($sqla);
+                                                                                    $sqlb=mysqli_query($con,"SELECT * FROM `activite` WHERE `id-activite` = $id");
+                                                                                    $resb=mysqli_fetch_array($sqlb);$joueursmax = $resb["places"];
+                                                                                    $activi=$id;
+
+                                                                                    ?><div class='info7-content '> <?php echo $rowcounta." Joueurs inscrits sur ".$joueursmax." max" ?></div>
+                                                                                    <div class='info8-content'>
+                                                                                        <table class="table ttable-bordered">
+                                                                                            <form method="post">
+                                                                                                <tr><td style="text-align:center ; display:none" >
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            name="xxx"
+                                                                                                            id="submit" 
+                                                                                                            class="btn btn-oo btn-primary">
+                                                                                                            Mise à jour
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button type="submit"
+                                                                                                            class="btn btn-primaryg btn-block"
+                                                                                                            name="xxx">S'inscrire 
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button type="submit"
+                                                                                                            class="btn btn-primary btn-block"
+                                                                                                            name="xxx">Infos
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td style="text-align:center ;">
+                                                                                                        <button 
+                                                                                                            type="submit"
+                                                                                                            class="btn btn-primary-rouge btn-block"
+                                                                                                            name="xxx">Se désinscrire
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </form>
+                                                                                        </table> 
+                                                                                    </div>
+                                                                                    <?php }
+                                                                                    else
+                                                                                    {         
+                                                                                    ?>                                    
+                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
+                                                                                        <?php
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
+                                                                                        $rowcount = mysqli_num_rows($sql);
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' )");
+                                                                                        $rowcount2 = mysqli_num_rows($sql);
+                                                                                        $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
+                                                                                        $rowcount3 = mysqli_num_rows($sql);
+                                                                                        $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
+                                                                                        $rowcounteli = mysqli_num_rows($req);               
+                                                                                        while ($res = mysqli_fetch_array($req)) 
+                                                                                        { 
+                                                                                            $eli1=$res["id-membre"];
+                                                                                            $res2=mysqli_query($con,"SELECT * FROM `membres` WHERE (`id-membre` = $eli1)");
+                                                                                            $row2=mysqli_fetch_array($res2);$nom1=$row2["pseudo"];
+                                                                                        };
+                                                                                        echo $nom1; 
+                                                                                        ?>
+                                                                                    </div>
+
+                                                                                    <div class='info2-content'> 
+                                                                                        <div id="car-pause">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                        <?php
+                                                                                        if ($rowcount2>5) { $payes=2; $r1=0.6; $r2=0.4; };
+                                                                                        if ($rowcount2>8) { $payes=3; $r1=0.5; $r2=0.3; $r3=0.2; };
+                                                                                        if ($rowcount2>13) { $payes=4; $r1=0.4; $r2=0.28; $r3=0.19; $r4=0.13; };
+                                                                                        if ($rowcount2>20) { $payes=5; $r1=0.35; $r2=0.25; $r3=0.18; $r4=0.13; $r5=0.09; };
+                                                                                        ?>
+                                                                                        <?php if ($rowcount2-$rowcounteli-$payes>0) 
+                                                                                        { ?>
+                                                                                            <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
+                                                                                        <?php } else { ?>
+                                                                                            <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
+                                                                                        <?php };
+                                                                                        $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
+                                                                                        $res2 = mysqli_fetch_array($sql2);
+                                                                                        $buyin=$res2["buyin"];
+                                                                                        $jetons=$res2["jetons"];
+                                                                                        $pot=0;$nbr=0;$nba=0;
+                                                                                        $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
+                                                                                        while ($res3 = mysqli_fetch_array($req3)) 
+                                                                                        {    
+                                                                                         $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
+                                                                                         $nbr=$nbr+$res3["recave"];
+                                                                                         $nba=$nba+$res3["addon"];
+                                                                                        };  
+                                                                                        $tot=$pot+$rowcount2;$final=$tot*$buyin;
+                                                                                        if ($payes==2) {
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p2;
+                                                                                            ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==3) { 
+                                                                                        $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p3-$p2;
+                                                                                        ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==4) {
+                                                                                            $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                            $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p4-$p3-$p2;
+                                                                                            ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€" ?></div><?php
+                                                                                        };
+                                                                                        if ($payes==5) {
+                                                                                            $p5=$final * $r5; $p5=$p5/10; $p5=round($p5,0); $p5=$p5*10;
+                                                                                            $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                            $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                            $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                            $p1=$final-$p5-$p4-$p3-$p2;
+                                                                                            ?><div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€, P5=".$p5."€" ?></div><?php
+                                                                                        };
+                                                                                        $enjeu=($rowcount2-$rowcounteli);
+                                                                                        if ($enjeu == 0 ) $enjeu=1; else $enjeu= $rowcount2-$rowcounteli;
+                                                                                        ?>
+                                                                                        
+                                                                                        <div class='info5-content '> <?php echo "Stack Moyen : ".($jetons*($rowcount2+$nbr+$nba))/($enjeu)." sur ".($jetons*($rowcount2+$nbr+$nba)) ." = (".$rowcount2."B ) + "." (".$nbr."R ) + "." (".$nba."A )" ?>
+                                                                                        </div>
+                                                                                        
+                                                                                        <?php $_SESSION["act"]=$id;include_once('horloge.php'); ?>  
+                                                                                        <?php $_SESSION["act"]=$id;include_once('horloge-pause.php'); ?>  
+                                                                                    <?php }; ?>
+                                                                                </div>
+                                                                                <?php } ?>    
+                                                                                </div>
+                                                                                <div id="t3E">
+                                                                                <?php if ($nbt >= '3') { ?>
+                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">                                                                                                                                                                        
+                                                                                        <?php
+                                                                                        $rowcountocc = "0";
+                                                                                        $scru = $tableaff;
+                                                                                        if ((int)$rowcountocc < 1) 
+                                                                                        {
+                                                                                            (int)$scru ++;
+                                                                                            // echo $scru."/////////////////////////////////";
+                                                                                            $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$scru' ) LIMIT 1 ");
+                                                                                            $rowcountocc = mysqli_num_rows($sqla);
+                                                                                        };
+                                                                                        (int)$tableaff = (int)$scru;
+                                                                                        $tableaff = 3;
+                                                                                        $cnt=0;
+                                                                                        unset($idmembre);unset($position);unset($idparticipation);unset($siege);unset($option);unset($pseudo); 
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$tableaff' )  ORDER BY `id-siege` ");
+                                                                                        $nb_lignes=mysqli_num_rows($sql);
+                                                                                        // echo $nb_lignes;
+                                                                                        
+                                                                                        while($row = mysqli_fetch_array($sql))
+                                                                                            {  
+                                                                                            $cnt = $cnt + 1; 
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            $idmembre[$cnt] = $row['id-membre']; 
+                                                                                            $position[$cnt] = $row['position'];
+                                                                                            $idparticipation[$cnt] = $row['id-participation']; 
+                                                                                            $siege[$cnt] = $row['id-siege']; 
+                                                                                            $option[$cnt] = $row['option'];   
+                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$idmembre[$cnt]'");
+                                                                                            while ($row2 = mysqli_fetch_array($sql2)) 
+                                                                                                {
+                                                                                                $pseudo[$cnt] = $row2['pseudo'];
+                                                                                                } 
+                                                                                            };
+                                                                                        // //siege ->
+                                                                                        // echo "-".$siege[1].".".$siege[2].".".$siege[3].".".$siege[4].".".$siege[5].".".$siege[6].".".$siege[7].".".$siege[8].".".$siege[9] .$siege[10]."-"  ;
+                                                                                        // //idmembre ->
+                                                                                        // echo "-".$idmembre[1].".".$idmembre[2].".".$idmembre[3].".".$idmembre[4].".".$idmembre[5].".".$idmembre[6].".".$idmembre[7].".".$idmembre[8].".".$idmembre[9].".".$idmembre[10]."-" ;    
+                                                                                        // //pseudo ->
+                                                                                        // echo "-".$pseudo[1].".".$pseudo[2].".".$pseudo[3].".".$pseudo[4].".".$pseudo[5].".".$pseudo[6].".".$pseudo[7].".".$pseudo[8].".".$pseudo[9] .$pseudo[10]."-"  ; 
+                                                                                        // //option ->
+                                                                                        // echo "-".$option[1].".".$option[2].".".$option[3].".".$option[4].".".$option[5].".".$option[6].".".$option[7].".".$option[8].".".$option[9] .$option[10]."-"  ;
+                                                                                        // //idparticip ->
+                                                                                        // echo "-".$idparticipation[1].".".$idparticipation[2].".".$idparticipation[3].".".$idparticipation[4].".".$idparticipation[5].".".$idparticipation[6].".".$idparticipation[7].".".$idparticipation[8].".".$idparticipation[9] .$idparticipation[10]."-"  ;                                                                                 
+                                                                                        // $variable_comp = '<script type="text/javascript">document.write(comp);</script>'; 
+                                                                                        // echo "{".$_SESSION["fin".$_SESSION["blinde"]]."}"."/".$_SESSION["blinde"];
+                                                                                        // echo $_SESSION["blinde"]." --> ".$_SESSION["fin"."1"].$_SESSION["fin"."2"].$_SESSION["fin"."3"].$_SESSION["fin"."4"]."-----".$_SESSION["fin".$_SESSION["bl"]]."*****".$_SESSION["bl"]."t=".$tableaff.$scru.$rowcountocc."a";
                                                                                         
                                                                                         ?>
                                                                                         
-                                                                       
-                                                                       
+                                                                                        <div id="main">
 
-<div id="main">
-    <div class="players">
-        <div class="player player-1 playing" id="player1" >
-            <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
-            <form method="post">
-                <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[1] ?>
-                        class="btbn btn-pokerblue btn-block "
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.33>
-                <div class='place-content' style='color:white' > <a href="modif-horloge.php?bli=<?php echo $_SESSION['blinde'];?>&act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a></div>
-            </div>
-        </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.33>
-                <div class='place2-content'> <a href="modif-horloge.php?bli=<?php echo $_SESSION['blinde'];?>&act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a></div>
-                <!-- <?php echo $_SESSION["blinde"]; ?> -->
-            </div>
-        </div>                                                                                        
+                                                                                            <div class="players">
 
+                                                                                                <div class="player player-1 playing" id="player1" >
+                                                                                                    <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[1] ?>
+                                                                                                                class="btbn btn-pokerblue btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
-        <div class="player player-2 playing"  id="player2">
-            <div class="avatar p2" style="background: red ;font-size: 1.7vw">
-                <form method="post">
-                <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[2]  ?>
-                        class="btbn btn-pokerred btn-block "
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-3 playing"  id="player3">
-            <div class="avatar p3" style="background: black ;font-size:18px">
-            <form method="post">
-            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
-                <button 
-                    type="submit"
-                    id='submitpl'
-                    value=<?php echo $idparticipation[3] ?>
-                    class="btnn btn-primary-grey btn-block "
-                    name="submitpl"><?php echo $nom ?>
-                </button>
-            </form>
-            </div>
-        </div>
-        <div class="player player-4 playing"  id="player4">
-            <div class="avatar p4" style="background: orange; font-size:18px">
-            <form method="post">
-            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[4] ?>
-                        class="btnn btn-primary-orange2 btn-block "
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-5 playing"  id="player5">
-            <div class="avatar p5" style="background: grey; font-size:18px">
-            <form method="post">
-            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[5] ?>
-                        class="btnn btn-primary-grey btn-block "
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-6 playing"  id="player6">
-            <div class="avatar p6" style="background: brown; font-size:18px">
-             
-            <form method="post">
-            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[6] ?>
-                        class="btnn btn-primary-brown btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-7 playing"  id="player7">
-            <div class="avatar p7" style="background: pink; font-size:18px">
-            
-            <form method="post">
-            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[7] ?>
-                        class="btnn btn-primary-pink btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-8 playing"  id="player8">
-            <div class="avatar p8" style="background: purple; font-size:18px">
-             
-            <form method="post">
-            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[8] ?>
-                        class="btnn btn-primary-purple btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[9] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $idparticipation[10] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place-content' style='color:white' > <a href="modif-horloge.php?act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a></div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place2-content'> <a href="modif-horloge.php?act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a></div>
+                                                                                                    </div>
+                                                                                                </div>                                                                                        
+
+                                                                                                <div class="player player-2 playing"  id="player2">
+                                                                                                    <div class="avatar p2" style="background: red ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[2]  ?>
+                                                                                                                class="btbn btn-pokerred btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
         
-    </div> 
+                                                                                                <div class="player player-3 playing"  id="player3">
+                                                                                                    <div class="avatar p3" style="background: black ;font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                 id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[3] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form> 
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-4 playing"  id="player4">
+                                                                                                    <div class="avatar p4" style="background: orange; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[4] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>     
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-5 playing"  id="player5">
+                                                                                                    <div class="avatar p5" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[5] ?>
+                                                                                                                class="btnn btn-primary-grey btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-6 playing"  id="player6">
+                                                                                                    <div class="avatar p6" style="background: brown; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[6] ?>
+                                                                                                                class="btnn btn-primary-brown btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-7 playing"  id="player7">
+                                                                                                    <div class="avatar p7" style="background: pink; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[7] ?>
+                                                                                                                class="btnn btn-primary-pink btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-8 playing"  id="player8">
+                                                                                                    <div class="avatar p8" style="background: purple; font-size:18px">
+             
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[8] ?>
+                                                                                                                class="btnn btn-primary-purple btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-9 playing"  id="player9">
+                                                                                                    <div class="avatar p9" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[9] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-10 playing"  id="player10">
+                                                                                                    <div class="avatar p10" style="background: green; font-size:18px">
+            
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[10] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div> 
     
-    <!-- <div class='square-box' opacity:0.5> -->
-    <div class='square-box' opacity:0.85>
-        <div class='square-content'> <div id="response"></div></div>
-    </div>
-    <!-- <div class='square-box2' opacity:1>
-        <div class='square-content'> <span></span></div>
-    </div> -->
-</div>
+                                                                                            <div class='square-box' opacity:0.85>
+                                                                                                <div class='square-content'> <div id="response"></div></div>
+                                                                                            </div>
 
-
-                                                                                           
-
+                                                                                                <!-- <div class='square-content'>  </div> -->
+                                                                                        </div>
                                                                                     </div>
                                                                                     
                                                                                     <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
@@ -1279,30 +2327,16 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     <?php
                                                                                     
                                                                                     if ($rowcount2>5) {
-                                                                                        $payes=2 ;
-                                                                                        $r1=0.6;
-                                                                                        $r2=0.4;
+                                                                                        $payes=2; $r1=0.6; $r2=0.4;
                                                                                     };
                                                                                     if ($rowcount2>8) {
-                                                                                        $payes=3;
-                                                                                        $r1=0.5;
-                                                                                        $r2=0.3;
-                                                                                        $r3=0.2;
+                                                                                        $payes=3; $r1=0.5; $r2=0.3; $r3=0.2;
                                                                                     };
                                                                                     if ($rowcount2>13) {
-                                                                                        $payes=4;
-                                                                                        $r1=0.4;
-                                                                                        $r2=0.28;
-                                                                                        $r3=0.19;
-                                                                                        $r4=0.13;
+                                                                                        $payes=4; $r1=0.4; $r2=0.28; $r3=0.19; $r4=0.13;
                                                                                     };
                                                                                     if ($rowcount2>20) {
-                                                                                        $payes=5;
-                                                                                        $r1=0.35;
-                                                                                        $r2=0.25;
-                                                                                        $r3=0.18;
-                                                                                        $r4=0.13;
-                                                                                        $r5=0.09; 
+                                                                                        $payes=5; $r1=0.35; $r2=0.25; $r3=0.18; $r4=0.13; $r5=0.09; 
                                                                                     };
                                                                                     ?>
                                                                                     <?php if ($rowcount2-$rowcounteli-$payes>0) 
@@ -1355,661 +2389,246 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     if ($enjeu == 0 ) $enjeu=1; else $enjeu= $rowcount2-$rowcounteli;
                                                                                     ?><div class='info5-content '> <?php echo "Stack Moyen : ".($jetons*($rowcount2+$nbr+$nba))/($enjeu)." sur ".($jetons*($rowcount2+$nbr+$nba)) ." = (".$rowcount2."B ) + "." (".$nbr."R ) + "." (".$nba."A )" ?>
                                                                                 </div>
-                                                                                    
+                                                                                <?php } ?>    
                                                                                 </div>
-                                                                                <div id="t2E">
-                                                                                    <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
+                                                                                <div id="t4E"> 
+                                                                                <?php if ($nbt >= '4') { ?>
+                                                                                    <div class="ccontainer-fluid ccontainer-fullw bg-dark-bricky " style="background-color:grey;opacity:1">                                                                                                                                                                        
                                                                                         <?php
-                                                                                        $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '2')  ORDER BY `id-siege` ");
+                                                                                        $rowcountocc = "0";
+                                                                                        $scru = $tableaff;
+                                                                                        if ((int)$rowcountocc < 1) 
+                                                                                        {
+                                                                                            (int)$scru ++;
+                                                                                            // echo $scru."/////////////////////////////////";
+                                                                                            $sqla = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$scru' ) LIMIT 1 ");
+                                                                                            $rowcountocc = mysqli_num_rows($sqla);
+                                                                                        };
+                                                                                        (int)$tableaff = (int)$scru;
+                                                                                        $tableaff = 4;
+                                                                                        $cnt=0;
+                                                                                        unset($idmembre);unset($position);unset($idparticipation);unset($siege);unset($option);unset($pseudo); 
+                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation`,`id-siege`,`option` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '$tableaff' )  ORDER BY `id-siege` ");
                                                                                         $nb_lignes=mysqli_num_rows($sql);
                                                                                         // echo $nb_lignes;
                                                                                         
                                                                                         while($row = mysqli_fetch_array($sql))
-                                                                                            {   $tableau[] = $row[0]; 
-                                                                                                $tableau2[] = $row[1];
-                                                                                                $tableau1[] = $row[2];    
-                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$row[0]'");
-                                                                                            while ($row2 = mysqli_fetch_array($sql2)) { $tableau3[] = $row2['pseudo']; } 
+                                                                                            {  
+                                                                                            $cnt = $cnt + 1; 
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            if ($row['id-siege'] <> $cnt ) $cnt=$cnt+1;
+                                                                                            $idmembre[$cnt] = $row['id-membre']; 
+                                                                                            $position[$cnt] = $row['position'];
+                                                                                            $idparticipation[$cnt] = $row['id-participation']; 
+                                                                                            $siege[$cnt] = $row['id-siege']; 
+                                                                                            $option[$cnt] = $row['option'];   
+                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$idmembre[$cnt]'");
+                                                                                            while ($row2 = mysqli_fetch_array($sql2)) 
+                                                                                                {
+                                                                                                $pseudo[$cnt] = $row2['pseudo'];
+                                                                                                } 
                                                                                             };
-                                                                                            // idmembre ->
-                                                                                        //     echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
-                                                                                        // // pseudo ->
-                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
-                                                                                        // // positions ->
-                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
-                                                                                        // // idparticip ->
-                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
-                                                                                        // // idsiege ->
-                                                                                        // echo "[".$tableau4[0].".".$tableau4[1].".".$tableau4[2].".".$tableau4[3].".".$tableau4[4] .".".$tableau4[5].".".$tableau4[6].".".$tableau4[7].".".$tableau4[8]."]" ;                                                                                 
-                                                                                        // // option ->
-                                                                                        // echo "[".$tableau5[0].".".$tableau5[1].".".$tableau5[2].".".$tableau5[3].".".$tableau5[4] .".".$tableau5[5].".".$tableau5[6].".".$tableau5[7].".".$tableau5[8]."]" ;                                                                                 
+                                                                                        // //siege ->
+                                                                                        // echo "-".$siege[1].".".$siege[2].".".$siege[3].".".$siege[4].".".$siege[5].".".$siege[6].".".$siege[7].".".$siege[8].".".$siege[9] .$siege[10]."-"  ;
+                                                                                        // //idmembre ->
+                                                                                        // echo "-".$idmembre[1].".".$idmembre[2].".".$idmembre[3].".".$idmembre[4].".".$idmembre[5].".".$idmembre[6].".".$idmembre[7].".".$idmembre[8].".".$idmembre[9].".".$idmembre[10]."-" ;    
+                                                                                        // //pseudo ->
+                                                                                        // echo "-".$pseudo[1].".".$pseudo[2].".".$pseudo[3].".".$pseudo[4].".".$pseudo[5].".".$pseudo[6].".".$pseudo[7].".".$pseudo[8].".".$pseudo[9] .$pseudo[10]."-"  ; 
+                                                                                        // //option ->
+                                                                                        // echo "-".$option[1].".".$option[2].".".$option[3].".".$option[4].".".$option[5].".".$option[6].".".$option[7].".".$option[8].".".$option[9] .$option[10]."-"  ;
+                                                                                        // //idparticip ->
+                                                                                        // echo "-".$idparticipation[1].".".$idparticipation[2].".".$idparticipation[3].".".$idparticipation[4].".".$idparticipation[5].".".$idparticipation[6].".".$idparticipation[7].".".$idparticipation[8].".".$idparticipation[9] .$idparticipation[10]."-"  ;                                                                                 
+                                                                                        // $variable_comp = '<script type="text/javascript">document.write(comp);</script>'; 
+                                                                                        // echo "{".$_SESSION["fin".$_SESSION["blinde"]]."}"."/".$_SESSION["blinde"];
+                                                                                        // echo $_SESSION["blinde"]." --> ".$_SESSION["fin"."1"].$_SESSION["fin"."2"].$_SESSION["fin"."3"].$_SESSION["fin"."4"]."-----".$_SESSION["fin".$_SESSION["bl"]]."*****".$_SESSION["bl"]."t=".$tableaff.$scru.$rowcountocc."a";
                                                                                         
                                                                                         ?>
-                                                                                    
-                                                                       <?php include('horloge.php'); ?>
+                                                                                        
+                                                                                        <div id="main">
 
-                                                                       
+                                                                                            <div class="players">
 
+                                                                                                <div class="player player-1 playing" id="player1" >
+                                                                                                    <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[1] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[1] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[1] ?>
+                                                                                                                class="btbn btn-pokerblue btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
-<div id="main">
-    <div class="players">
-        <div class="player player-1 playing" id="player1" >
-            <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
-            <form method="post">
-            
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[0] ?>
-                        class="btbn btn-pokerblue btn-block "
-                        name="submitpl"><?php echo $tableau3[0] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.5>
-                <div class='place-content'> <span>1</span></div>
-            </div>
-        </div>
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place-content' style='color:white' > <a href="modif-horloge.php?act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a></div>
+                                                                                                    </div>
+                                                                                                </div>
 
-        <div class="player player-2 playing"  id="player2">
-            <div class="avatar p2" style="background: red ;font-size: 1.7vw">
-                <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[1] ?>
-                        class="btbn btn-pokerred btn-block "
-                        name="submitpl"><?php echo $tableau3[1] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-3 playing"  id="player3">
-            <div class="avatar p3" style="background: black ;font-size:18px">
-            <form method="post">
-                <button 
-                    type="submit"
-                    id='submitpl'
-                    value=<?php echo $tableau1[2] ?>
-                    class="btnn btn-primary-noir btn-block "
-                    name="submitpl"><?php echo $tableau3[2] ?>
-                </button>
-            </form>
-            </div>
-        </div>
-        <div class="player player-4 playing"  id="player4">
-            <div class="avatar p4" style="background: orange; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[3] ?>
-                        class="btnn btn-primary-orange2 btn-block "
-                        name="submitpl"><?php echo $tableau3[3] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-5 playing"  id="player5">
-            <div class="avatar p5" style="background: grey; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[4] ?>
-                        class="btnn btn-primary-grey btn-block "
-                        name="submitpl"><?php echo $tableau3[4] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-6 playing"  id="player6">
-            <div class="avatar p6" style="background: brown; font-size:18px">
-             
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[5] ?>
-                        class="btnn btn-primary-brown btn-block"
-                        name="submitpl"><?php echo $tableau3[5] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-7 playing"  id="player7">
-            <div class="avatar p7" style="background: pink; font-size:18px">
-            
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[6] ?>
-                        class="btnn btn-primary-pink btn-block"
-                        name="submitpl"><?php echo $tableau3[6] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-8 playing"  id="player8">
-            <div class="avatar p8" style="background: purple; font-size:18px">
-             
-            <form method="post">
-            <?php if ($tableau5[7] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[7]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[7]-1] ?>
-                        class="btnn btn-primary-purple btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[8] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[8]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[8]-1] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
+                                                                                                <div class="player player-1p playing" id="player1p" >
+                                                                                                    <div class='player player-1p playing' opacity:0.33>
+                                                                                                        <div class='place2-content'> <a href="modif-horloge.php?act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a></div>
+                                                                                                    </div>
+                                                                                                </div>                                                                                        
+
+                                                                                                <div class="player player-2 playing"  id="player2">
+                                                                                                    <div class="avatar p2" style="background: red ;font-size: 1.7vw">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[2] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[2] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[2]  ?>
+                                                                                                                class="btbn btn-pokerred btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
         
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[9] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[9]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[9]-1] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-    </div>
-        <!-- <div class='square-box' opacity:0.5> -->
-        <div class='square-box' opacity:1>
-        <div class='square-content'> <div id="response"></div></div>
-    </div>
-    <div class='square-box2' opacity:1>
-        <div class='square-content'> <span></span></div>
-    </div>
-</div>
-                                                                                    </div>   
-                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
-                                                                                    <?php
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
-                                                                                    $rowcount = mysqli_num_rows($sql);
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' )");
-                                                                                    $rowcount2 = mysqli_num_rows($sql);
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
-                                                                                    $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
-                                                                                    $rowcounteli = mysqli_num_rows($req);               
-                                                                                    while ($res = mysqli_fetch_array($req)) 
-                                                                                    { 
-                                                                                        $eli1=$res["id-membre"];
-                                                                                        $res2=mysqli_query($con,"SELECT * FROM `membres` WHERE (`id-membre` = $eli1)");
-                                                                                        $row2=mysqli_fetch_array($res2);$nom1=$row2["pseudo"];
-                                                                                    };
-                                                                                    echo $nom1; 
-                                                                                    ?>
-                                                                                    </div>
+                                                                                                <div class="player player-3 playing"  id="player3">
+                                                                                                    <div class="avatar p3" style="background: black ;font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[3] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[3] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                 id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[3] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form> 
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                                                    <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
-                                                                                    <?php
-                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
-                                                                                    ?>
-                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
-                                                                                    { ?>
-                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
-                                                                                    <?php } else { ?>
-                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
-                                                                                    <?php };
-                                                                                    $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
-                                                                                    $res2 = mysqli_fetch_array($sql2);
-                                                                                    $buyin=$res2["buyin"];
-                                                                                    $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
-                                                                                    while ($res3 = mysqli_fetch_array($req3)) 
-                                                                                    {    
-                                                                                     $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
-                                                                                    }; 
-                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
-                                                                                    ?>
-                                                                                    <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
-                                                                                </div>
-                                                                                                                                                                  
-                                                                                    </div> 
-                                                                                <div id="t3E">
-                                                                                    <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
-                                                                                        <?php
-                                                                                        $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '3')  ORDER BY `id-siege` ");
-                                                                                        $nb_lignes=mysqli_num_rows($sql);
-                                                                                        // echo $nb_lignes;
-                                                                                        
-                                                                                        while($row = mysqli_fetch_array($sql))
-                                                                                            {   $tableau[] = $row[0]; 
-                                                                                                $tableau2[] = $row[1];
-                                                                                                $tableau1[] = $row[2];    
-                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$row[0]'");
-                                                                                            while ($row2 = mysqli_fetch_array($sql2)) { $tableau3[] = $row2['pseudo']; } 
-                                                                                            };
-                                                                                        // echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
-                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
-                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
-                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
-                                                                                        
-                                                                                        ?>
-                                                                       
-                                                                       
+                                                                                                <div class="player player-4 playing"  id="player4">
+                                                                                                    <div class="avatar p4" style="background: orange; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[4] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[4] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[4] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>     
+                                                                                                    </div>
+                                                                                                </div>
 
+                                                                                                <div class="player player-5 playing"  id="player5">
+                                                                                                    <div class="avatar p5" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[5] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[5] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[5] ?>
+                                                                                                                class="btnn btn-primary-grey btn-block "
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
-<div id="main">
-    <div class="players">
-        <div class="player player-1 playing" id="player1" >
-            <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
-            <form method="post">
-            
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[0] ?>
-                        class="btbn btn-pokerblue btn-block "
-                        name="submitpl"><?php echo $tableau3[0] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.5>
-                <div class='place-content'> <span>1</span></div>
-            </div>
-        </div>
+                                                                                                <div class="player player-6 playing"  id="player6">
+                                                                                                    <div class="avatar p6" style="background: brown; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[6] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[6] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[6] ?>
+                                                                                                                class="btnn btn-primary-brown btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
-        <div class="player player-2 playing"  id="player2">
-            <div class="avatar p2" style="background: red ;font-size: 1.7vw">
-                <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[1] ?>
-                        class="btbn btn-pokerred btn-block "
-                        name="submitpl"><?php echo $tableau3[1] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-3 playing"  id="player3">
-            <div class="avatar p3" style="background: black ;font-size:18px">
-            <form method="post">
-                <button 
-                    type="submit"
-                    id='submitpl'
-                    value=<?php echo $tableau1[2] ?>
-                    class="btnn btn-primary-noir btn-block "
-                    name="submitpl"><?php echo $tableau3[2] ?>
-                </button>
-            </form>
-            </div>
-        </div>
-        <div class="player player-4 playing"  id="player4">
-            <div class="avatar p4" style="background: orange; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[3] ?>
-                        class="btnn btn-primary-orange2 btn-block "
-                        name="submitpl"><?php echo $tableau3[3] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-5 playing"  id="player5">
-            <div class="avatar p5" style="background: grey; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[4] ?>
-                        class="btnn btn-primary-grey btn-block "
-                        name="submitpl"><?php echo $tableau3[4] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-6 playing"  id="player6">
-            <div class="avatar p6" style="background: brown; font-size:18px">
+                                                                                                <div class="player player-7 playing"  id="player7">
+                                                                                                    <div class="avatar p7" style="background: pink; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[7] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[7] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[7] ?>
+                                                                                                                class="btnn btn-primary-pink btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="player player-8 playing"  id="player8">
+                                                                                                    <div class="avatar p8" style="background: purple; font-size:18px">
              
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[5] ?>
-                        class="btnn btn-primary-brown btn-block"
-                        name="submitpl"><?php echo $tableau3[5] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-7 playing"  id="player7">
-            <div class="avatar p7" style="background: pink; font-size:18px">
-            
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[6] ?>
-                        class="btnn btn-primary-pink btn-block"
-                        name="submitpl"><?php echo $tableau3[6] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-8 playing"  id="player8">
-            <div class="avatar p8" style="background: purple; font-size:18px">
-             
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[7] ?>
-                        class="btnn btn-primary-purple btn-block"
-                        name="submitpl"><?php echo $tableau3[7] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-    </div>
-    <div class='square-box' opacity:0.99>
-    <div class='square-content'> <div id="response"></div></div>
-    </div>
-    <div class='square-box2' opacity:0.99>
-        <div class='square-content'> </div>
-    </div>
-</div>
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[8] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[8] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[8] ?>
+                                                                                                                class="btnn btn-primary-purple btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
+                                                                                                <div class="player player-9 playing"  id="player9">
+                                                                                                    <div class="avatar p9" style="background: grey; font-size:18px">
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[9] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[9] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[9] ?>
+                                                                                                                class="btnn btn-primary-orange2 btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
 
+                                                                                                <div class="player player-10 playing"  id="player10">
+                                                                                                    <div class="avatar p10" style="background: green; font-size:18px">
+            
+                                                                                                        <form method="post">
+                                                                                                            <?php if ($option[10] == 'Elimine' ) $nom ='X'; else $nom = $pseudo[10] ; ?>
+                                                                                                            <button 
+                                                                                                                type="submit"
+                                                                                                                id='submitpl'
+                                                                                                                value=<?php echo $idparticipation[10] ?>
+                                                                                                                class="btnn btn-primary-noir btn-block"
+                                                                                                                name="submitpl"><?php echo $nom ?>
+                                                                                                            </button>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div> 
+    
+                                                                                            <div class='square-box' opacity:0.85>
+                                                                                                <div class='square-content'> <div id="response"></div></div>
+                                                                                            </div>
+
+                                                                                                <!-- <div class='square-content'>  </div> -->
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
-                                                                                    <?php
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
-                                                                                    $rowcount = mysqli_num_rows($sql);
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' )");
-                                                                                    $rowcount2 = mysqli_num_rows($sql);
-                                                                                    $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule' ) OR (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
-                                                                                    $rowcount3 = mysqli_num_rows($sql);
-                                                                                    $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = $id AND `option` LIKE 'Elimine' ORDER BY `ds` ASC"); 
-                                                                                    $rowcounteli = mysqli_num_rows($req);               
-                                                                                    while ($res = mysqli_fetch_array($req)) 
-                                                                                    { 
-                                                                                        $eli1=$res["id-membre"];
-                                                                                        $res2=mysqli_query($con,"SELECT * FROM `membres` WHERE (`id-membre` = $eli1)");
-                                                                                        $row2=mysqli_fetch_array($res2);$nom1=$row2["pseudo"];
-                                                                                    };
-                                                                                    echo $nom1; 
-                                                                                    ?>
-                                                                                    </div>
-
-                                                                                    <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
-                                                                                    <?php
-                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
-                                                                                    ?>
-                                                                                    <?php if ($rowcount2-$rowcounteli-$payes>0) 
-                                                                                    { ?>
-                                                                                        <div class='info3-content '> <?php echo "Premier des ".$payes." payés dans ".$rowcount2-$rowcounteli-$payes." Joueurs sur ".$rowcount2 ?></div>
-                                                                                    <?php } else { ?>
-                                                                                        <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
-                                                                                    <?php };
-                                                                                    $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
-                                                                                    $res2 = mysqli_fetch_array($sql2);
-                                                                                    $buyin=$res2["buyin"];
-                                                                                    $pot=0;
-                                                                                    $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
-                                                                                    while ($res3 = mysqli_fetch_array($req3)) 
-                                                                                    {    
-                                                                                     $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
-                                                                                    }; 
-                                                                                    $tot=$pot+$rowcount2;$final=$tot*$buyin;
-                                                                                    ?>
-                                                                                    <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
-                                                                                </div>
                                                                                     
-                                                                                <div id="t4E">
-                                                                                    <div class="ccontainer-fluid ccontainer-fullw bbg-white ">                                                                                                                                                                        
-                                                                                        <?php
-                                                                                        $tableau=array();$tableau1=array();$tableau2=array();$tableau3=array();
-                                                                                        $sql = mysqli_query($con, "SELECT  `id-membre`,`position`,`id-participation` FROM `participation` WHERE (`id-activite` = '$id' AND `id-table` = '4')  ORDER BY `id-siege` ");
-                                                                                        $nb_lignes=mysqli_num_rows($sql);
-                                                                                        // echo $nb_lignes;
-                                                                                        
-                                                                                        while($row = mysqli_fetch_array($sql))
-                                                                                            {   $tableau[] = $row[0]; 
-                                                                                                $tableau2[] = $row[1];
-                                                                                                $tableau1[] = $row[2];    
-                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$row[0]'");
-                                                                                            while ($row2 = mysqli_fetch_array($sql2)) { $tableau3[] = $row2['pseudo']; } 
-                                                                                            };
-                                                                                        // echo "-".$tableau[0].".".$tableau[1].".".$tableau[2].".".$tableau[3].".".$tableau[4].".".$tableau[5].".".$tableau[6].".".$tableau[7].".".$tableau[8]."-"   ;    
-                                                                                        // echo "/".$tableau3[0].".".$tableau3[1].".".$tableau3[2].".".$tableau3[3].".".$tableau3[4].".".$tableau3[5].".".$tableau3[6].".".$tableau3[7].".".$tableau3[8]."/" ; 
-                                                                                        // echo "(".$tableau2[0].".".$tableau2[1].".".$tableau2[2].".".$tableau2[3].".".$tableau2[4].".".$tableau2[5].".".$tableau2[6].".".$tableau2[7].".".$tableau2[8].")" ;
-                                                                                        // echo "{".$tableau1[0].".".$tableau1[1].".".$tableau1[2].".".$tableau1[3].".".$tableau1[4] .".".$tableau1[5].".".$tableau1[6].".".$tableau1[7].".".$tableau1[8]."}" ;                                                                                 
-                                                                                        
-                                                                                        ?>
-                                                                      
-                                                                      
-
-                                                                    
-
-                                                                       <div id="main">
-    <div class="players">
-        <div class="player player-1 playing" id="player1" >
-            <div class="avatar p1" style="background: blue ;font-size: 1.7vw">
-            <form method="post">
-            
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[0] ?>
-                        class="btbn btn-pokerblue btn-block "
-                        name="submitpl"><?php echo $tableau3[0] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-1p playing" id="player1p" >
-            <div class='player player-1p playing' opacity:0.5>
-                <div class='place-content'> <span>1</span></div>
-            </div>
-        </div>
-
-        <div class="player player-2 playing"  id="player2">
-            <div class="avatar p2" style="background: red ;font-size: 1.7vw">
-                <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[1] ?>
-                        class="btbn btn-pokerred btn-block "
-                        name="submitpl"><?php echo $tableau3[1] ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="player player-3 playing"  id="player3">
-            <div class="avatar p3" style="background: black ;font-size:18px">
-            <form method="post">
-                <button 
-                    type="submit"
-                    id='submitpl'
-                    value=<?php echo $tableau1[2] ?>
-                    class="btnn btn-primary-noir btn-block "
-                    name="submitpl"><?php echo $tableau3[2] ?>
-                </button>
-            </form>
-            </div>
-        </div>
-        <div class="player player-4 playing"  id="player4">
-            <div class="avatar p4" style="background: orange; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[3] ?>
-                        class="btnn btn-primary-orange2 btn-block "
-                        name="submitpl"><?php echo $tableau3[3] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-5 playing"  id="player5">
-            <div class="avatar p5" style="background: grey; font-size:18px">
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[4] ?>
-                        class="btnn btn-primary-grey btn-block "
-                        name="submitpl"><?php echo $tableau3[4] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-6 playing"  id="player6">
-            <div class="avatar p6" style="background: brown; font-size:18px">
-             
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[5] ?>
-                        class="btnn btn-primary-brown btn-block"
-                        name="submitpl"><?php echo $tableau3[5] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-7 playing"  id="player7">
-            <div class="avatar p7" style="background: pink; font-size:18px">
-            
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[6] ?>
-                        class="btnn btn-primary-pink btn-block"
-                        name="submitpl"><?php echo $tableau3[6] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-8 playing"  id="player8">
-            <div class="avatar p8" style="background: purple; font-size:18px">
-             
-            <form method="post">
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[7] ?>
-                        class="btnn btn-primary-purple btn-block"
-                        name="submitpl"><?php echo $tableau3[7] ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-9 playing"  id="player9">
-            <div class="avatar p9" style="background: grey; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-orange2 btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-        <div class="player player-10 playing"  id="player10">
-            <div class="avatar p10" style="background: green; font-size:18px">
-            
-            <form method="post">
-            <?php if ($tableau5[6] == 'Elimine' ) $nom ='X'; else $nom = $tableau3[$tableau4[6]-1] ; ?>
-                    <button 
-                        type="submit"
-                        id='submitpl'
-                        value=<?php echo $tableau1[$tableau4[6]-1] ?>
-                        class="btnn btn-primary-noir btn-block"
-                        name="submitpl"><?php echo $nom ?>
-                    </button>
-            </div>
-        </div>
-    </div>
-    <div class='square-box' opacity:0.99>
-        <div class='square-content'> <div id="response"></div></div>
-    </div>
-    <div class='square-box2' opacity:0.99>
-        <div class='square-content'> </div>
-    </div>
-</div>
-</div>
-<div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
+                                                                                    <div class='info1-content '> <?php echo "Dernier Eliminé : " ?>
                                                                                     <?php
                                                                                     $sql = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Elimine' )");
                                                                                     $rowcount = mysqli_num_rows($sql);
@@ -2031,7 +2650,19 @@ if (strlen($_SESSION['id'] == 0)) {
 
                                                                                     <div class='info2-content '> <?php echo "Pause et fin des recaves dans : .. minutes" ?></div>
                                                                                     <?php
-                                                                                    if ($rowcount2>5) $payes=2;if ($rowcount2>8) $payes=3;if ($rowcount2>13) $payes=4;if ($rowcount2>20) $payes=5;
+                                                                                    
+                                                                                    if ($rowcount2>5) {
+                                                                                        $payes=2; $r1=0.6; $r2=0.4;
+                                                                                    };
+                                                                                    if ($rowcount2>8) {
+                                                                                        $payes=3; $r1=0.5; $r2=0.3; $r3=0.2;
+                                                                                    };
+                                                                                    if ($rowcount2>13) {
+                                                                                        $payes=4; $r1=0.4; $r2=0.28; $r3=0.19; $r4=0.13;
+                                                                                    };
+                                                                                    if ($rowcount2>20) {
+                                                                                        $payes=5; $r1=0.35; $r2=0.25; $r3=0.18; $r4=0.13; $r5=0.09; 
+                                                                                    };
                                                                                     ?>
                                                                                     <?php if ($rowcount2-$rowcounteli-$payes>0) 
                                                                                     { ?>
@@ -2039,19 +2670,52 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                     <?php } else { ?>
                                                                                         <div class='info3-content '> <?php echo $payes." payés maintenant sur les ".$rowcount2." joueurs" ?></div>
                                                                                     <?php };
+                                                                                    
                                                                                     $sql2 = mysqli_query($con, "SELECT * FROM `activite` WHERE (`id-activite` = $id  )");
                                                                                     $res2 = mysqli_fetch_array($sql2);
                                                                                     $buyin=$res2["buyin"];
-                                                                                    $pot=0;
+                                                                                    $jetons=$res2["jetons"];
+                                                                                    $pot=0;$nbr=0;$nba=0;
                                                                                     $req3 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = $id AND `option` NOT LIKE 'Annule') ");                
                                                                                     while ($res3 = mysqli_fetch_array($req3)) 
                                                                                     {    
                                                                                      $pot=$pot+(((int)($res3["recave"])+(int)($res3["addon"])));
+                                                                                     $nbr=$nbr+$res3["recave"];
+                                                                                     $nba=$nba+$res3["addon"];
                                                                                     }; 
                                                                                     $tot=$pot+$rowcount2;$final=$tot*$buyin;
-                                                                                    ?>
-                                                                                    <div class='info4-content '> <?php echo "Pot total : ".$final." €"; ?></div>
-                                                                                </div>  
+                                                                                    if ($payes==2) {
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p2;
+                                                                                        ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€" ?></div><?php
+                                                                                    };
+                                                                                    if ($payes==3) { 
+                                                                                        $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p3-$p2;
+                                                                                        ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€" ?></div><?php
+                                                                                    };
+                                                                                    if ($payes==4) {
+                                                                                        $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                        $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p4-$p3-$p2;
+                                                                                        ?> <div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€" ?></div><?php
+                                                                                    };
+                                                                                    if ($payes==5) {
+                                                                                        $p5=$final * $r5; $p5=$p5/10; $p5=round($p5,0); $p5=$p5*10;
+                                                                                        $p4=$final * $r4; $p4=$p4/10; $p4=round($p4,0); $p4=$p4*10; 
+                                                                                        $p3=$final * $r3; $p3=$p3/10; $p3=round($p3,0); $p3=$p3*10;
+                                                                                        $p2=$final * $r2; $p2=$p2/10; $p2=round($p2,0); $p2=$p2*10;
+                                                                                        $p1=$final-$p5-$p4-$p3-$p2;
+                                                                                        ?><div class='info4-content '> <?php echo "Pot total : ".$final."€ soit : "."P1=".$p1."€, P2=".$p2."€, P3=".$p3."€, P4=".$p4."€, P5=".$p5."€" ?></div><?php
+                                                                                    };
+                                                                                    $enjeu=($rowcount2-$rowcounteli);
+                                                                                    if ($enjeu == 0 ) $enjeu=1; else $enjeu= $rowcount2-$rowcounteli;
+                                                                                    ?><div class='info5-content '> <?php echo "Stack Moyen : ".($jetons*($rowcount2+$nbr+$nba))/($enjeu)." sur ".($jetons*($rowcount2+$nbr+$nba)) ." = (".$rowcount2."B ) + "." (".$nbr."R ) + "." (".$nba."A )" ?>
+                                                                                </div>
+                                                                                <?php } ?>    
+                                                                                </div>
                                                                                 <div id="inscritsE">
                                                                                 <div class="row">
                                                                                         <div class="col-md-12">
@@ -2273,7 +2937,74 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                 <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
             <script src="../js/datatables-simple-demo.js"></script> -->
                                                 <script type="text/javascript" language="javascript">
-                                                    function afficher(id) {
+                                                    
+                                                    function afficher1(id) {
+                                                        var leCalque = document.getElementById(id);
+                                                        var leCalqueE = document.getElementById(id + "E");
+
+                                                        document.getElementById("infosE").className = "rubrique bgImg";
+                                                        // document.getElementById("t2E").className = "rubrique bgImg";
+                                                        document.getElementById("inscritsE").className = "rubrique bgImg";
+                                                        document.getElementById("t1E").className = "rubrique bgImg";
+                                                        // document.getElementById("t3E").className = "rubrique bgImg";
+                                                        // document.getElementById("t4E").className = "rubrique bgImg";
+
+                                                        document.getElementById("infos").className = "btnnav";
+                                                        // document.getElementById("t2").className = "btnnav";
+                                                        document.getElementById("inscrits").className = "btnnav";
+                                                        document.getElementById("t1").className = "btnnav";
+                                                        // document.getElementById("t3").className = "btnnav";
+                                                        // document.getElementById("t4").className = "btnnav";
+
+                                                        leCalqueE.className += " montrer";
+                                                        leCalque.className = "btnnavA";
+                                                    }
+
+                                                    function afficher2(id) {
+                                                        var leCalque = document.getElementById(id);
+                                                        var leCalqueE = document.getElementById(id + "E");
+
+                                                        document.getElementById("infosE").className = "rubrique bgImg";
+                                                        document.getElementById("t2E").className = "rubrique bgImg";
+                                                        document.getElementById("inscritsE").className = "rubrique bgImg";
+                                                        document.getElementById("t1E").className = "rubrique bgImg";
+                                                        // document.getElementById("t3E").className = "rubrique bgImg";
+                                                        // document.getElementById("t4E").className = "rubrique bgImg";
+
+                                                        document.getElementById("infos").className = "btnnav";
+                                                        document.getElementById("t2").className = "btnnav";
+                                                        document.getElementById("inscrits").className = "btnnav";
+                                                        document.getElementById("t1").className = "btnnav";
+                                                        // document.getElementById("t3").className = "btnnav";
+                                                        // document.getElementById("t4").className = "btnnav";
+
+                                                        leCalqueE.className += " montrer";
+                                                        leCalque.className = "btnnavA";
+                                                    }
+
+                                                    function afficher3(id) {
+                                                        var leCalque = document.getElementById(id);
+                                                        var leCalqueE = document.getElementById(id + "E");
+
+                                                        document.getElementById("infosE").className = "rubrique bgImg";
+                                                        document.getElementById("t2E").className = "rubrique bgImg";
+                                                        document.getElementById("inscritsE").className = "rubrique bgImg";
+                                                        document.getElementById("t1E").className = "rubrique bgImg";
+                                                        document.getElementById("t3E").className = "rubrique bgImg";
+                                                        // document.getElementById("t4E").className = "rubrique bgImg";
+
+                                                        document.getElementById("infos").className = "btnnav";
+                                                        document.getElementById("t2").className = "btnnav";
+                                                        document.getElementById("inscrits").className = "btnnav";
+                                                        document.getElementById("t1").className = "btnnav";
+                                                        document.getElementById("t3").className = "btnnav";
+                                                        // document.getElementById("t4").className = "btnnav";
+
+                                                        leCalqueE.className += " montrer";
+                                                        leCalque.className = "btnnavA";
+                                                    }
+
+                                                    function afficher4(id) {
                                                         var leCalque = document.getElementById(id);
                                                         var leCalqueE = document.getElementById(id + "E");
 
@@ -2297,7 +3028,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                     }
                                                 </script>
                                                 <?php
-                                                $onglet = 'inf';
+                                                // $onglet = 'inf';
                                                 $onglet = $_GET['onglet'];
                                                 if ($onglet == 'inf') {
                                                     ?>
@@ -2341,10 +3072,33 @@ if (strlen($_SESSION['id'] == 0)) {
                                                     </script>;
                                                     <?php 
                                                 };
-                                                if ($onglet == '') {
+                                                if ($onglet == '' AND $nbt == "1") {
                                                     ?>
                                                     <script type="text/javascript" language="javascript">
-                                                        afficher('infos');
+                                                        afficher1('t1');
+                                                    </script>;
+                                                    <?php 
+                                                };
+
+                                                if ($onglet == '' AND $nbt == "2") {
+                                                    ?>
+                                                    <script type="text/javascript" language="javascript">
+                                                        afficher2('t1');
+                                                    </script>;
+                                                    <?php 
+                                                };
+                                                
+                                                if ($onglet == '' AND $nbt == "3") {
+                                                    ?>
+                                                    <script type="text/javascript" language="javascript">
+                                                        afficher3('t1');
+                                                    </script>;
+                                                    <?php 
+                                                };
+                                                if ($onglet == '' AND $nbt == "4") {
+                                                    ?>
+                                                    <script type="text/javascript" language="javascript">
+                                                        afficher4('t1');
                                                     </script>;
                                                     <?php 
                                                 };

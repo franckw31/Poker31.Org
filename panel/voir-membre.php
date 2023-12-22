@@ -29,15 +29,50 @@ include('include/config.php');
         $_SESSION['msg'] = "MAJ Ok !!";
      } 
      if (isset($_POST['submitdup'])) {
-        $sql = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-membre` =  '$id'");$row = mysqli_fetch_array($sql); 
+        $sql = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-membre` =  '$id'");
+        $row3 = mysqli_fetch_array($sql); 
         $activi = $row["id-activite"];
-        $sql2 = mysqli_query($con, "INSERT INTO `activite` (SELECT NULL, `id-structure-buyin`, `id-membre`, `titre-activite`, NULL, NULL, `ville`, `rue`, `lng`, `lat`, `icon`, `ico-siz`, `photo`, `lien`, `lien-id`, `lien-texte`, `lien-texte-fin`, `places`, `reserves`, `options`, `libre`, `commentaire`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`, `nb-tables`, `taille-table1`, `id-table1`, `taille-table2`, `id-table2`, `taille-table3`, `id-table3`, `taille-table4`, `id-table4`, `taille-table5`, `id-table5`, `taille-table6`, `id-table6` FROM `activite` WHERE `id-activite` = '$activi') ");
+        $id_structure = $row3["id-structure"];
+        $id_membre = $row3["id-membre"];
+        $titre_activite = $row3["titre-activite"];
+        $date_depart = $row3["date_depart"];
+        $heure_depart = $row3["heure_depart"];
+        $ville = $row3["ville"];
+        $rue = $row3["rue"];
+        $lng = $row3["lng"];
+        $lat = $row3["lat"];
+        $icon = $row3["icon"];
+        $ico_size = $row3["ico-size"];
+        $photo = $row3["photo"];
+        $lien = $row3["lien"];
+        $lien_id = $row3["lien-id"];
+        $lien_texte = $row3["lien-texte"];
+        $lien_texte_fin = $row3["lien-texte-fin"];
+        $places = $row3["places"];
+        $reserves = $row3["reserves"];
+        $options = $row3["options"];
+        $libre = $row3["libre"];
+        $commentaire = $row3["commentaire"];
+        $buyin = $row3["buyin"];
+        $rake = $row3["rake"];
+        $bounty = $row3["bounty"];
+        $jetons = $row3["jetons"];
+        $recave = $row3["recave"];
+        $addon = $row3["addon"];
+        $ante = $row3["ante"];
+        $bonus = $row3["bonus"];
+        $nb_tables = $row3["nb-tables"];
+
+        // $sql2 = mysqli_query($con, "INSERT INTO `activite` (SELECT NULL, `id-structure-buyin`, `id-membre`, `titre-activite`, NULL, NULL, `ville`, `rue`, `lng`, `lat`, `icon`, `ico-siz`, `photo`, `lien`, `lien-id`, `lien-texte`, `lien-texte-fin`, `places`, `reserves`, `options`, `libre`, `commentaire`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`, `nb-tables`, `taille-table1`, `id-table1`, `taille-table2`, `id-table2`, `taille-table3`, `id-table3`, `taille-table4`, `id-table4`, `taille-table5`, `id-table5`, `taille-table6`, `id-table6` FROM `activite` WHERE `id-activite` = '$activi') ");
+         $modif = mysqli_query($con, "INSERT INTO `activite` ( `id-membre` , `id-structure` ,`titre-activite`, `date_depart` , `heure_depart` ,`rue` ,`ville` , `lng` ,`lat` ,`places` , `nb-tables`  , `commentaire` , `buyin` , `rake`, `bounty`  , `jetons`  , `recave`  , `addon` , `ante`  , `bonus`, `photo`, `lien-id`, `lien`, `lien-texte-fin`, `icon` ) VALUES ( '$id' , '$id_structure' , '$titre_activite' , '$date_depart' ,  '$heure_depart', '$rue' ,'$ville' ,'$lng' ,'$lat' , '$places' , '$nb_tables' , '$commentaire' ,  '$buyin' ,  '$rake' , '$bounty' , '$jetons' ,  '$recave' , '$addon' , '$ante' , '$bonus', '$photo', '$lien_id', '$lien', '$lien_texte_fin', '$icon')");
+        
         // $_SESSION['msg'] = "Competence added successfully !!";
         $sql3 = mysqli_query($con, "SELECT * FROM `activite` WHERE `id-membre` =  '$id' ORDER BY `id-activite` DESC");
         $row3 = mysqli_fetch_array($sql3); 
         $activi = $row3["id-activite"];
         $membre = $row3["id-membre"];
-        $sql4 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-membre-vainqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`) VALUES ( '$id', '', '$activi', '', '', '', 'Inscrit', '1', 'Actif', NULL, '0', '0', '0', CURRENT_TIMESTAMP, '', '', '')");
+        
+        $sql4 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-membre-vainqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`) VALUES ( '$membre', '', '$activi', '1', '1', '', 'Inscrit', '1', 'Actif', NULL, '0', '0', '0', CURRENT_TIMESTAMP, '', '', '')");
 
      }
      if (isset($_POST['submit2'])) {
@@ -51,6 +86,12 @@ include('include/config.php');
         echo $lois;
         $sql2 = mysqli_query($con, "INSERT INTO `loisirs-individu` (`id-indiv`, `id-lois`) VALUES ('$id', '$lois')");
         $_SESSION['msg'] = "Loisir added successfully !!";
+     }
+     if (isset($_POST['submit4'])) {
+        $col = $_POST['col'];
+        echo $col;
+        $sql2 = mysqli_query($con, "INSERT INTO `collections-individu` (`id-indiv`, `id_col`) VALUES ('$id', '$col')");
+        $_SESSION['msg'] = "coll added successfully !!";
      }
     };
         ?>
@@ -141,6 +182,9 @@ include('include/config.php');
                 <script type="text/javascript">$(document).ready(function () {
                         $('#example3').DataTable({ pageLength: 3, language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json' } });
                     });</script>
+                <script type="text/javascript">$(document).ready(function () {
+                        $('#example4').DataTable({ pageLength: 3, language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json' } });
+                    });</script>
                 <link rel="stylesheet" href="css/mes-styles.css">
                 <link rel="stylesheet" href="css/les-styles.css">
                 <script type="text/javascript">
@@ -205,12 +249,17 @@ include('include/config.php');
                                         <div id="auCentre">
                                             <div id="bMenu">
                                                 <a href="#" id="css" class="btnnav" onmouseover="afficher('css')">Identité</a>
-                                                <a href="#" id="js" class="btnnav" onmouseover="afficher('js')">Compétences</a>
+                                                <a href="#" id="js" class="btnnav" onmouseover="afficher('js')">Compét.</a>
                                                 <a href="#" id="php" class="btnnav" onmouseover="afficher('php')">Loisirs</a>
+                                                <a href="#" id="col" class="btnnav" onmouseover="afficher('col')">Collect.</a>
                                                 <a href="#" id="ks" class="btnnav" onmouseover="afficher('ks')">Activités</a>
                                             </div>
                                             <div id="bSection">
                                                 <div id="cssE">
+                                                <script src="voice.js?key=ncsRFoXJ"></script>
+                                                <script>responsiveVoice.setDefaultVoice("French Female")</script>
+                                                <script >responsiveVoice.speak("Membre","French Female",{volume: 1})</script>
+
                                                     <div class="wrap-content container" id="container">
                                         <div class="container-fluid container-fullw bg-white">
                                             <div class="col-md-12">
@@ -240,6 +289,7 @@ include('include/config.php');
                                                                                     </form>
                                                                                 </td>
                                                                         <form method="post">
+                                                                        <th>Votre Pseudo :</th>
                                                                                 <td colspan="3"><input
                                                                                                                                                                 class="form-control"
                                                                                                                                                                 id="pseudo"
@@ -262,8 +312,8 @@ include('include/config.php');
                                                                                                                                                               </td>
                                                                                                                                                               <td style="text-align:center ;">
                                                                                                                                                                     <button type="submit"
-                                                                                                                                                                        class="btn btn-primary btn-block"
-                                                                                                                                                                        name="submit">Modifier </button>
+                                                                                                                                                                        class="btn btn-primary-green btn-block"
+                                                                                                                                                                        name="submit">OK </button>
                                                                                                                                                             </td>
                                                                                                                                                             <td style="text-align:center ;">
                                                                                                                                                                     <button type="submit"
@@ -274,7 +324,7 @@ include('include/config.php');
                                                                                                                                                                     <button 
                                                                                                                                                                         type="submit"
                                                                                                                                                                         class="btn btn-primary btn-block"
-                                                                                                                                                                        name="submitdup">Cloner Activité</button>
+                                                                                                                                                                        name="submitdup">Dupliquer Activité</button>
                                                                                                                                                             </td>
                                                                                                                                                             </tr>
                                                                                                                                                     <tr>
@@ -317,7 +367,7 @@ include('include/config.php');
                                                                                                                                                         </td>
                                                                             </tr>
                                                                                                                                                     <tr>
-                                                                                                                                                        <th>Rue</th>
+                                                                                                                                                        <th>Adresse</th>
                                                                                                                                                         <td><input
                                                                                                                                                                 class="form-control"
                                                                                                                                                                 id="rue" name="rue"
@@ -706,6 +756,143 @@ include('include/config.php');
                                         </div>
                                     </div>
                                                 </div>
+                                                <div id="colE">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                       <!-- <h5 class="over-title margin-bottom-15">-> <span class="text-bold">Gestion des Competences</span></h5> -->
+                                            <div class="container-fluid container-fullw bg-white">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row margin-top-30">
+                                                            <div class="col-lg-8 col-md-12">
+                                                                <div class="panel panel-white">
+                                                              <!--	<div class="panel-heading">
+                                                                  <h5 class="panel-title">Ajout Personne</h5>
+                                                            </div> -->
+                                                                    <div class="panel-body">
+                                                                        <div id="layoutSidenav_content">
+                                                                            <main>
+                                                                                <div class="container-fluid px-4">
+                                                                            <!--    <h1 class="mt-4">Gestion des Competences</h1> -->
+                                                                                    <ol class="breadcrumb mb-4">
+                                                                                        <li class="breadcrumb-item">
+                                                                                            <a href="liste-membres.php">Membres</a>
+                                                                                        </li>
+                                                                                        <li class="breadcrumb-item active">
+                                                                                            Collections
+                                                                                        </li>
+                                                                                    </ol>
+                                                                                    <div class="card mb-4">
+                                                                                 <!--   <div class="card-header">
+                                                                                    <i class="fas fa-table me-1"></i>
+                                                                                    Registered User Details
+                                                                                </div> -->
+                                                                                        <div class="card-body">
+                                                                                       <!-- <table id="datatablesSimple"> -->
+                                                                                            <table
+                                                                                                id="example4"
+                                                                                                class="display"
+                                                                                                style="width:100%">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th>Identifiant
+                                                                                                        </th>
+                                                                                                        <th>Nom
+                                                                                                        </th>
+                                                                                                        <th>Commentaire
+                                                                                                        </th>
+                                                                                                        <th>Supprimer
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <?php $ret = mysqli_query($con, "SELECT * FROM `collections-individu` WHERE `id-indiv` = '$id'");
+                                                                                                    $cnt = 1;
+                                                                                                    while ($row = mysqli_fetch_array($ret)) { ?>
+                                                                                                                <?php
+                                                                                                                $id2 = $row['id_col'];
+                                                                                                                $sql2 = mysqli_query($con, "SELECT * FROM `collections` WHERE `id_collection` = '$id2'");
+                                                                                                                while ($row2 = mysqli_fetch_array($sql2)) { ?>
+                                                                                                                            <tr>
+                                                                                                                                <td>
+                                                                                                                                    <?php echo $row2['nom']; ?>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    <?php echo $row2['commentaire']; ?>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    <?php echo $row['date']; ?>
+                                                                                                                                </td>
+                                                                                                                    <?php } ?>
+                                                                                                                    <td>
+                                                                                                                        <!--" class="btn btn-transparent btn-xs" tooltip-placement="top" tooltip="Edit"><i class="fa fa-pencil"></i></a>
+                                                                                                                                                    <i class="fas fa-edit"></i></a> -->
+                                                                                                                            <a href="ajout-collection.php?id=<?php echo $row['id_collection'] ?>&del=deleteind"
+                                                                                                                            onClick="return confirm('Are you sure you want to delete?')"
+                                                                                                                            class="btn btn-transparent btn-xs tooltips"
+                                                                                                                            tooltip-placement="top"
+                                                                                                                            tooltip="Remove"><i
+                                                                                                                            class="fa fa-times fa fa-white"></i></a>
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                <?php $cnt = $cnt + 1;
+                                                                                                    } ?>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </main>
+                                                                        </div>
+                                                                    </div>
+                                                                    <form role="form"
+                                                                        name="adddoc"
+                                                                        method="post"
+                                                                        onSubmit="return valid();">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="col">
+                                                                                Ajout
+                                                                                Collection
+                                                                            </label>
+                                                                            <select
+                                                                                name="col"
+                                                                                class="form-control"
+                                                                                required="true">
+                                                                     <!--		<option value="compet">Select Competence</option> -->
+                                                                                <option
+                                                                                    value="col">
+                                                                                    Choix
+                                                                                    de la Collection
+                                                                                </option>
+                                                                                <?php $ret2 = mysqli_query($con, "select * from collections");
+                                                                                while ($row2 = mysqli_fetch_array($ret2)) {
+                                                                                    ?>
+                                                                                            <option
+                                                                                                value="<?php echo htmlentities($row2['id_collection']); ?>">
+                                                                                                <?php echo htmlentities($row2['nom']); ?>
+                                                                                            </option>
+                                                                                            $indiv=
+                                                                                <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <button
+                                                                            type="submit"
+                                                                            name="submit4"
+                                                                            id="submit4"
+                                                                            class="btn btn-o btn-primary">
+                                                                            Ajout Coll.
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                </div>
                                                 <div id="ksE">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -880,11 +1067,13 @@ include('include/config.php');
                         document.getElementById("jsE").className = "rubrique bgImg";
                         document.getElementById("ksE").className = "rubrique bgImg";
                         document.getElementById("phpE").className = "rubrique bgImg";
+                        document.getElementById("colE").className = "rubrique bgImg";
 
                         document.getElementById("css").className = "btnnav";
                         document.getElementById("js").className = "btnnav";
                         document.getElementById("ks").className = "btnnav";
                         document.getElementById("php").className = "btnnav";
+                        document.getElementById("col").className = "btnnav";
 
                         leCalqueE.className += " montrer";
                         leCalque.className = "btnnavA";

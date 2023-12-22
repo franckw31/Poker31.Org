@@ -242,7 +242,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                         value="<?php echo $row['ordre']; ?>">
                                                                                                                                                 </td>
                                                                                                                                             </tr>
-                                                                                                                                                <th>Membre</th>
+                                                                                                                                            <th><a href="voir-membre.php?id=<?php echo $monmembre; ?>">Membre</a></th>
                                                                                                                                                 <td><input
                                                                                                                                                         class="form-control"
                                                                                                                                                         id="id-membre"
@@ -252,7 +252,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                             
                                                                                                                                                         value="<?php echo $row['id-membre']; ?>">
                                                                                                                                                 </td>
-                                                                                                                                                <th>Activité</th>
+                                                                                                                                                <th><a href="voir-activite.php?uid=<?php echo $monactivite; ?>">Activitée</a></th>
+                                                                                                                                                                
                                                                                                                                                 <td><input
                                                                                                                                                         class="form-control"
                                                                                                                                                         id="id-activite"
@@ -783,43 +784,34 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                 <?php 
                                                                                                 echo "/".$id."/";
                                                                                                 $req = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-participation` = '$id'");
-                                                                                                $cnt = 1;
-                                                                                                while ($row = mysqli_fetch_array($req)) { ?>
-                                                                                                        <?php
+                                                                                                while ($row = mysqli_fetch_array($req)) 
+                                                                                                    { 
                                                                                                         $idm=$row['id-membre'];
                                                                                                         echo "+".$idm."+";
-                                                                                                        
-                                                                                                        $sql2 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$idm'");
-                                                                                                        while ($row2 = mysqli_fetch_array($sql2)) 
-                                                                                                            { ?> 
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <?php echo $row2['ds']; ?>
-                                                                                                                    </td>
-                                                                                                                    <td>
-                                                                                                                        <?php echo $row2['id-participation']; ?>
-                                                                                                                    </td>
-                                                                                                                    <td>
-                                                                                                                        <?php echo $row2['id-activite']; ?>
-                                                                                                                    </td>
-                                                                                                            <?php } ?> 
-                                                                                                                <td>
-                                                                                                                    <a href="voir-activite.php?uid=<?php echo $row['id-activite']; ?>"
-                                                                                                                    class="btn btn-transparent btn-xs"
-                                                                                                                    tooltip-placement="top"
-                                                                                                                    tooltip="Edit"><i
-                                                                                                                    class="fa fa-pencil"></i></a>
-                                                                                                               <!-- <i class="fas fa-edit"></i></a>  -->
-                                                                                                               <!-- <a href="ajout-competences.php?id=<?php echo $row['id'] ?>&del=deleteind"
-                                                                                                            onClick="return confirm('Are you sure you want to delete?')"
-                                                                                                            class="btn btn-transparent btn-xs tooltips"
+                                                                                                    }
+                                                                                                $sql2 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$idm'");
+                                                                                                while ($row2 = mysqli_fetch_array($sql2)) 
+                                                                                                    { ?> 
+                                                                                                    <tr>
+                                                                                                        <td>
+                                                                                                            <?php echo $row2['ds']; ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?php echo $row2['id-participation']; ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?php echo $row2['id-activite']; ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <a href="voir-activite.php?uid=<?php echo $row2['id-activite']; ?>"
+                                                                                                            class="btn btn-transparent btn-xs"
                                                                                                             tooltip-placement="top"
-                                                                                                            tooltip="Remove"><i
-                                                                                                            class="fa fa-times fa fa-white"></i></a> -->
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        <?php $cnt = $cnt + 1;
-                                                                                                } ?>
+                                                                                                            tooltip="Edit"><i
+                                                                                                            class="fa fa-pencil"></i></a>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <?php
+                                                                                                    } ?>
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </div>

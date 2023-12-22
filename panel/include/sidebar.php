@@ -123,6 +123,11 @@ if (strlen($idmembresession == 0)) {
 							</a>
 						</li>
 						<li>
+							<a href="ajout-collection.php">
+								<span class="title"> Gestion des Collections </span>
+							</a>
+						</li>
+						<li>
 							<a href="ajout-blindes.php">
 								<span class="title"> Gestion des Blindes </span>
 							</a>
@@ -275,7 +280,18 @@ if (strlen($idmembresession == 0)) {
 						</div>
 					</a>
 				</li>
-
+				<li>
+					<a href="https://poker31.org/cash.php">
+						<div class="item-content">
+							<div class="item-media">
+								<i class="ti-search"></i>
+							</div>
+							<div class="item-inner">
+								<span class="title"> Cash </span>
+							</div>
+						</div>
+					</a>
+				</li>
 			</ul>
 			<!-- end: CORE FEATURES -->
 

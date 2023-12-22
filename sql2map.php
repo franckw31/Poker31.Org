@@ -5,7 +5,7 @@ $db = "dbs9616600";
 $host = "db5011397709.hosting-data.io";
 $user = 'dbu5472475';
 $pass = 'Kookies7*';
-
+$actu = strtotime(date("Y-m-d"));
 //PDO Connection
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
@@ -22,7 +22,9 @@ function p($arr){
     echo "</pre>";
 }
 
-$sql = "SELECT * FROM activite";
+// $sql = "SELECT * FROM `activite` WHERE ($actu > `date_depart`) ORDER BY `date_depart` ";
+$sql = "SELECT * FROM `activite` WHERE `date_depart` <> '0000-00-00' and datediff(`date_depart`,now())>-1 ORDER BY `date_depart` ";
+// $sql = "SELECT * FROM `activite` WHERE ($actu > `date_depart`) ORDER BY `date_depart` ";
 
 try {
     $stmt = $pdo->prepare($sql);

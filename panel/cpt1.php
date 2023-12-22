@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include_once('include/config.php');
 
-$res=mysqli_query($con,"SELECT * FROM `blindes` WHERE (`id-activite` = $id AND `ordre` = 1)");
+$res=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 1)");
 $row=mysqli_fetch_array($res);
 $fin=$row["fin"];
 $nom=$row["nom"];
@@ -14,12 +14,12 @@ $_SESSION["nom"]=$nom;
 $_SESSION["stop"]='0';
 $_SESSION["blinde"]="1";
 
-$res=mysqli_query($con,"SELECT * FROM `blindes` WHERE (`id-activite` = $id AND `ordre` = 2)");
+$res=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 2)");
 $row=mysqli_fetch_array($res);
 $fin2=$row["fin"]; $nom2=$row["nom"]; $ordre2=$row["ordre"];$ante2=$row["ante"];
 $_SESSION["fin2"]=$fin2; $_SESSION["nom2"]=$nom2; $_SESSION["stop2"]='0';
 
-$res=mysqli_query($con,"SELECT * FROM `blindes` WHERE (`id-activite` = $id AND `ordre` = 3)");
+$res=mysqli_query($con,"SELECT * FROM `blindes-live` WHERE (`id-activite` = $id AND `ordre` = 3)");
 $row=mysqli_fetch_array($res);
 $fin3=$row["fin"]; $nom3=$row["nom"]; $ordre3=$row["ordre"];$ante3=$row["ante"];
 $_SESSION["fin3"]=$fin3; $_SESSION["nom3"]=$nom3; $_SESSION["stop3"]='0';
