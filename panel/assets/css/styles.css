@@ -3915,6 +3915,16 @@ opacity :0.95;
 opacity :0.95;
   border: 1px solid rgba(0, 0, 0, 0.07);
 }
+.panel-white-loisirs, .partition-white-loisirs {
+  /* background-color: #ffffff; */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:url("/panel/images/loisir.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
 
 .panel-dark, .partition-dark {
   background-color: #2C2F3B;

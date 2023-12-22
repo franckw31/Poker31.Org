@@ -147,7 +147,7 @@ if (strlen($_SESSION['id'] == 0)) {
 											<span class="fa-stack fa-2x"> <i
 													class="fa fa-square fa-stack-2x text-primary"></i> <i
 													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle"> Gestion des Competences.</h2>
+											<h2 class="StepTitle">Gestion des Compet.</h2>
 
 											<p class="links cl-effect-1">
 												<a href="book-appointment.php">
@@ -155,35 +155,34 @@ if (strlen($_SESSION['id'] == 0)) {
 														<?php $sql = mysqli_query($con, "SELECT * FROM competences");
 														$num_rows2 = mysqli_num_rows($sql); {
 															?>
-															Nb de Competences :
+															Competences :
 															<?php echo htmlentities($num_rows2);
 														} ?>
-													</a>
+													<!-- </a> -->
 												</a>
 											</p>
 										</div>
 									</div>
 								</div>
 
-								<div class="col-sm-4">
+								<div class="col-sm-4"><a href="ajout-loisir.php">
 									<div class="panel panel-white no-radius text-center">
 										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i
-													class="fa fa-square fa-stack-2x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
+											<span class="fa-stack fa-2x">
+												<i class="fa fa-square fa-stack-2x text-primary"></i>
+												<i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+											</span>
 											<h2 class="StepTitle"> Gestion des Loisirs</h2>
-
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="ajout-loisir.php">
-														<?php $sql = mysqli_query($con, "SELECT * FROM loisirs");
-														$num_rows2 = mysqli_num_rows($sql); {
-															?>
-															Nb de loisirs :
-															<?php echo htmlentities($num_rows2);
-														} ?>
-													</a>
+											<p class="llinks cl-effect-1">
+												<a href="ajout-loisir.php">
+													<?php $sql = mysqli_query($con, "SELECT * FROM loisirs");
+													$num_rows2 = mysqli_num_rows($sql); {
+														?>
+														Nb de loisirs :
+														<?php echo htmlentities($num_rows2);
+													} ?>
 												</a>
+											</a>
 											</p>
 										</div>
 									</div>
@@ -218,7 +217,7 @@ if (strlen($_SESSION['id'] == 0)) {
 										<div class="panel-body">
 											<span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
 													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Recherche par Compétence</h2>
+											<h2 class="StepTitle">Recherche par Compet.</h2>
 
 											<p class="links cl-effect-1">
 												<a href="book-appointment.php">

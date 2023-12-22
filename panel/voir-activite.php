@@ -19,7 +19,7 @@ while ($row = mysqli_fetch_array($ret))
         { 
         $id = $row2['id-participation'];
         $pointeur_ordre = $pointeur_ordre + 1;
-        $modif = mysqli_query($con, "UPDATE `participation` SET `ordre` = '$pointeur_ordre' WHERE `id-participation` = '$id'");
+        // $modif = mysqli_query($con, "UPDATE `participation` SET `ordre` = '$pointeur_ordre' WHERE `id-participation` = '$id'");
         } ;
     };
 // echo "Reorg Ok";
@@ -43,7 +43,7 @@ if (strlen($_SESSION['id'] == 0)) {
         $ante = $_POST['ante'];
         $idmembre = $_POST['id-membre'];
         $commentaire = $_POST['commentaire'];
-        // $structure = $_POST['structure'];
+        $structure = $_POST['id-structure'];
         $jetons = $_POST['jetons'];
         $bonus = $_POST['bonus'];
         $lng = $_POST['lng'];
@@ -60,7 +60,7 @@ if (strlen($_SESSION['id'] == 0)) {
         // header('location:http://poker31.org/panel/liste-activites.php');
         // exit;
     }
-    if (isset($_POST['submitpl'])) {
+    if (($_POST['submitpl'])) {
         $particip=$_POST['submitpl'];
         // echo $particip;
         header('location:voir-participation.php?id='.$particip);
@@ -69,10 +69,10 @@ if (strlen($_SESSION['id'] == 0)) {
         // $sql2 = mysqli_query($con, "INSERT INTO `competences-individu` (`id-indiv`, `id-comp`) VALUES ('$id', '$compet')");
         // $_SESSION['msg'] = "Doctor Specialization added successfully !!";
     }
-    if (isset($_POST['submitplb'])) {
+    if (($_POST['submitplb'])) {
         $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
     }  
-    if (isset($_POST['xxx'])) {
+    if (($_POST['xxx'])) {
         $lois = $_SESSION['id'];
         $activi = $id;
         // $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
@@ -93,7 +93,7 @@ if (strlen($_SESSION['id'] == 0)) {
         // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
         // $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
     }    
-    if (isset($_POST['submit2'])) {
+    if (($_POST['submit2'])) {
         $compet = $_POST['compet'];
         echo $compet;
         $sql2 = mysqli_query($con, "INSERT INTO `competences-individu` (`id-indiv`, `id-comp`) VALUES ('$id', '$compet')");
@@ -105,31 +105,33 @@ if (strlen($_SESSION['id'] == 0)) {
         //$sql2 = mysqli_query($con, "INSERT INTO `loisirs-individu` (`id-indiv`, `id-lois`) VALUES ('$id', '$lois')");
         // $_SESSION['msg'] = "Doctor Specialization added successfully !!";
     //}
-    if ((isset($_POST['submit-ins'])) OR (isset($_POST['submit3']))){
-        $lois = $_POST['lois'];
+    if (isset($_POST['submit3'])) {
+        // if ( ($_POST['submit-ins']) OR ($_POST['submit3']) ) {
 
-        // $lois = $_SESSION['id'];
+        // $lois = $_POST['lois'];
 
-        $activi = $id;
-        // $lois = "30";
-        // $activi = "30";
+        // // $lois = $_SESSION['id'];
 
+        // $activi = $id;
+        $lois = "67";
+        $activi = "64";
         $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
         // Return the number of rows in result set
         $rowcount = mysqli_num_rows($sql0);
 
-        if ($rowcount == '0') {
-            $ordre = '0';
-            $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
-            $ordre = mysqli_num_rows($sql0);
-            $intordre = (int) $ordre;
+        // if ($rowcount == '0') {
+        if (1) {
+            $ordre = "0";
+            $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
+            $ordre = mysqli_num_rows($sql1);
+            $intordre = (int)$ordre;
             $intordre = $intordre + 1;
-            $ordre = (string) $intordre;
+            $ordre = (string)$intordre;
  
-            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-membre-vainqueur`, `id-activite`, `id-siege`, `id-table`, `id-challenge`, `option`, `ordre`, `valide`, `commentaire`, `classement`, `points`, `gain`, `ds`, `ip-ins`, `ip-mod`, `ip-sup`, `bounty`) VALUES ( '$lois', '', '$activi', '', '', '', 'Reservation', '$ordre', 'Actif', NULL, '1', '0', '0', CURRENT_TIMESTAMP, '', '', '', '0')");
+            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ( `$lois`, `$activi` )");
 
             // recherche email
-            $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  '$lois'");
+            $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  $lois ");
             while ($result = mysqli_fetch_array($sql3)) {
                 $email = $result['email'];
                 $num_membre = $result['id-membre'];
@@ -142,8 +144,8 @@ if (strlen($_SESSION['id'] == 0)) {
             $mail = new PHPMailer(true);
             try {
                 //Server settings
-                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                $mail->SMTPDebug = 0; //Enable verbose debug output
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                // $mail->SMTPDebug = 0; //Enable verbose debug output
                 $mail->isSMTP(); //Send using SMTP
                 $mail->Host = 'smtp.ionos.fr'; //Set the SMTP server to send through
                 $mail->SMTPAuth = true; //Enable SMTP authentication
@@ -177,14 +179,14 @@ if (strlen($_SESSION['id'] == 0)) {
             }
         ;};
 
-        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
+        //  echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
 
-        // header('location:/panel/liste-activites.php');
-        // exit;
+        //  header('location:/panel/liste-activites.php');
+        //  exit;
 
         // $_SESSION['msg'] = "bingo !!";
     };
-    if (isset($_POST['submit-desins'])) {
+    if (($_POST['submit-desins'])) {
         $lois = $_SESSION['id'];
         $activi = $id;
 
@@ -2854,7 +2856,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                                 </select>
                                                                                                                                 </td>                                                                                    
                                                                                                                                                             
-                                                                                                                                <td style="display:none" ; colspan="2" >
+                                                                                                                                <td style="display:yes" ; colspan="2" >
                                                                                                                                                                     <select name="activi" value = "activi" class="form-control" required="false">
                                                                                                                                                                         <option value="<?php echo htmlentities($id); ?>"> <?php echo htmlentities($id); ?></option>
                                                                                                                                                                     </select>

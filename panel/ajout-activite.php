@@ -20,15 +20,15 @@ if (strlen($_SESSION['id'] == 0)) {
         $ante = $_POST['ante'];
         $idmembre = $_POST['id-membre'];
         $commentaire = $_POST['commentaire'];
-        $structure = $_POST['structure'];
+        $structure = $_POST['id-structure'];
         $jetons = $_POST['jetons'];
         $addon = $_POST['addon'];
-        $msg = mysqli_query($con, "INSERT INTO `activite` (`id-activite`, `titre-activite`, `id-membre`, `date_depart`, `heure_depart`, `ville`, `rue`, `lng`, `lat`, `places`, `reserves`, `options`, `libre`, `commentaire`, `structure`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`) VALUES (NULL, '$titreactivite', '', '$date_depart', '$heure_depart', '$ville', NULL, NULL, NULL, '$places', NULL, '0', NULL, '$commentaire', '$Structure', '$buyin', '$rake', '$bounty', '$jetons', '$recave', '$addon', '$ante', '0')");
+        $msg = mysqli_query($con, "INSERT INTO `activite` ( `titre-activite`, `id-membre`, `date_depart`, `heure_depart`, `ville`, `rue`, `lng`, `lat`, `places`, `reserves`, `options`, `libre`, `commentaire`, `id-structure`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`) VALUES ( '$titreactivite', '$idmembre', '$date_depart', '$heure_depart', '$ville', NULL, NULL, NULL, '$places', NULL, '0', NULL, '$commentaire', '$structure', '$buyin', '$rake', '$bounty', '$jetons', '$recave', '$addon', '$ante', '0')");
         //$msg=mysqli_query($con,"INSERT INTO `activite` (`id-activite`, `titre-activite`, `id-membre`, `date_depart`, `heure_depart`, `ville`, `rue`, `lng`, `lat`, `places`, `reserves`, `options`, `libre`, `commentaire`, `structure`, `buyin`, `rake`, `bounty`, `jetons`, `recave`, `addon`, `ante`, `bonus`) VALUES (NULL, '-', '', '2022-12-31', '', '?', NULL, NULL, NULL, '8', NULL, '0', NULL, 'Aucun', 'Structure', '25', '5', '0', '40000', '1', '0', '0', '')");
         //$sql=mysqli_query($con,"insert into competences(nom) values('$doctorspecilization')");
         $_SESSION['msg'] = "Activité ajoutée avec succés !!";
-        header('location:http://poker31.org/panel/gestion-parties.php');
-        exit;
+        // header('location:http://poker31.org/panel/liste-activites.php');
+        // exit;
     }
     //Code Deletion
     if (isset($_GET['del'])) {
@@ -198,9 +198,9 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Structure</th>
-                                                                    <td><input class="form-control" id="structure"
-                                                                            name="structure" type="text"
-                                                                            value="<?php echo $result['structure']; ?>"></td>
+                                                                    <td><input class="form-control" id="id-structure"
+                                                                            name="id-structure" type="text"
+                                                                            value="<?php echo $result['id-structure']; ?>"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Stack</th>
