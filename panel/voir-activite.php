@@ -7,7 +7,7 @@ error_reporting(0);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-unset ($_POST['submitins-manu']);
+// unset ($_POST['submitins-manu']);
 //$comp = intval($_GET['comp']); // get value
 include_once('include/config.php');
 $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE 1 ");
@@ -123,8 +123,8 @@ if (strlen($_SESSION['id'] == 0)) {
         // Return the number of rows in result set
         $rowcount = mysqli_num_rows($sql0);
 
-        if ($rowcount == '0') {
-        // if (1) {
+        // if ($rowcount == '0') {
+        if (1) {
             $ordre = "0";
             $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
             $ordre = mysqli_num_rows($sql1);
@@ -182,6 +182,7 @@ if (strlen($_SESSION['id'] == 0)) {
                 // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
         ;};
+        unset ($_POST['submitins-manu']);
 
          echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
 
