@@ -1,11 +1,13 @@
 <?php
 session_start();
+include_once('include/config.php');
 // $_SESSION['pause'.'30'] = 0;
 // $_SESSION['pause'.'58'] = 0;
 error_reporting(0);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+unset ($_POST['submitins-manu']);
 //$comp = intval($_GET['comp']); // get value
 include_once('include/config.php');
 $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE 1 ");
@@ -105,22 +107,24 @@ if (strlen($_SESSION['id'] == 0)) {
         //$sql2 = mysqli_query($con, "INSERT INTO `loisirs-individu` (`id-indiv`, `id-lois`) VALUES ('$id', '$lois')");
         // $_SESSION['msg'] = "Doctor Specialization added successfully !!";
     //}
-    if (isset($_POST['submit3'])) {
+    if (isset($_POST['submitins-manu'])) {
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ('67', '64' )");
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
         // if ( ($_POST['submit-ins']) OR ($_POST['submit3']) ) {
 
-        // $lois = $_POST['lois'];
+        $lois = $_POST['lois'];
 
         // // $lois = $_SESSION['id'];
 
-        // $activi = $id;
-        $lois = "67";
-        $activi = "64";
+        $activi = $id;
+        // $lois = "67";
+        // $activi = "64";
         $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
         // Return the number of rows in result set
         $rowcount = mysqli_num_rows($sql0);
 
-        // if ($rowcount == '0') {
-        if (1) {
+        if ($rowcount == '0') {
+        // if (1) {
             $ordre = "0";
             $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
             $ordre = mysqli_num_rows($sql1);
@@ -128,7 +132,7 @@ if (strlen($_SESSION['id'] == 0)) {
             $intordre = $intordre + 1;
             $ordre = (string)$intordre;
  
-            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ( `$lois`, `$activi` )");
+            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '$lois', '$activi','$ordre' )");
 
             // recherche email
             $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  $lois ");
@@ -140,7 +144,7 @@ if (strlen($_SESSION['id'] == 0)) {
             }
             ;
             // debut mail
-
+            echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
             $mail = new PHPMailer(true);
             try {
                 //Server settings
@@ -179,10 +183,10 @@ if (strlen($_SESSION['id'] == 0)) {
             }
         ;};
 
-        //  echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
+         echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
 
-        //  header('location:/panel/liste-activites.php');
-        //  exit;
+         header('location:/panel/liste-activites.php');
+         exit;
 
         // $_SESSION['msg'] = "bingo !!";
     };
@@ -2864,8 +2868,8 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                 <td>
                                                                                                                                                                 <button
                                                                                                                                                                     type="submit"
-                                                                                                                                                                    name="submit3"
-                                                                                                                                                                    id="submit3"
+                                                                                                                                                                    name="submitins-manu"
+                                                                                                                                                                    id="submitins-manu"
                                                                                                                                                                     class="btn btn-o btn-primary">
                                                                                                                                                                     Ajout
                                                                                                                                                                 </button>
