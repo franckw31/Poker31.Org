@@ -224,7 +224,7 @@ h5.over-title {
   overflow: hidden;
 }
 #app .app-content {
-  height: 150%;
+  height: 250%;
 }
 #app .app-content:before, #app .app-content:after {
   content: " ";
@@ -3857,6 +3857,7 @@ opacity :0.8;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/activites.png");
   position: relative;
   /* color: #5b5b60; */
@@ -3868,6 +3869,7 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/calendrier.png");
   position: relative;
   /* color: #5b5b60; */
@@ -3879,6 +3881,7 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/france.png");
   position: relative;
   color: #5b5b60;
@@ -3889,6 +3892,7 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/membres.png");
   position: relative;
   color: #5b5b60;
@@ -3899,6 +3903,7 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/chal.png");
   position: relative;
   color: #5b5b60;
@@ -3909,6 +3914,7 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/dico.png");
   position: relative;
   color: #5b5b60;
@@ -3919,7 +3925,41 @@ opacity :0.95;
   /* background-color: #ffffff; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-position: center center;
   background-image:url("/panel/images/loisir.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.panel-white-regles, .partition-white-regles {
+  /* background-color: #ffffff; */
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image:url("/panel/images/regles.png");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.panel-white-blindest, .partition-white-blindest {
+  /* background-color: #ffffff; */
+  background-size: 70% 90%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image:url("/panel/images/blindes-timer.jpg");
+  position: relative;
+  color: #5b5b60;
+opacity :0.95;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.panel-white-texto, .partition-white-texto {
+  /* background-color: #ffffff; */
+  background-size: 40% 95%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image:url("/panel/images/texto.png");
   position: relative;
   color: #5b5b60;
 opacity :0.95;

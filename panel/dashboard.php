@@ -67,15 +67,15 @@ if (strlen($_SESSION['id'] == 0)) {
 										<span>Admin.</span>
 									</li>
 									<li class="active">
-										<span>Dashboard</span>
+										<span>DashboarD</span>
 									</li>
 								</ol>
 							</div>
 						</section>
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE bg-white-->
-						<div class="container-fluid container-fullw ">
-							<div class="row">
+						<div class="ccontainer-fluid ccontainer-fullw ">
+							<div class="rrow">
 
 								<div class="col-sm-4"><a href="prochaines-activites.php">
 									<div class="ppanel panel-white-fond1 no-radius text-center">
@@ -141,145 +141,43 @@ if (strlen($_SESSION['id'] == 0)) {
 									</div>
 								</div>
 
-								<div class="col-sm-4">
+								<div class="col-sm-4"><a href="prochaines-activites.php">
 									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i
-													class="fa fa-square fa-stack-2x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Gestion des Compet.</h2>
-
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="ajout-competences.php">
-														<?php $sql = mysqli_query($con, "SELECT * FROM competences");
-														$num_rows2 = mysqli_num_rows($sql); {
-															?>
-															Competences :
-															<?php echo htmlentities($num_rows2);
-														} ?>
-													<!-- </a> -->
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-sm-4"><a href="ajout-loisir.php">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x">
-												<i class="fa fa-square fa-stack-2x text-primary"></i>
-												<i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
 											</span>
-											<h2 class="StepTitle"> Gestion des Loisirs</h2>
-											<p class="llinks cl-effect-1">
-												<a href="ajout-loisir.php">
-													<?php $sql = mysqli_query($con, "SELECT * FROM loisirs");
-													$num_rows2 = mysqli_num_rows($sql); {
-														?>
-														Nb de loisirs :
-														<?php echo htmlentities($num_rows2);
-													} ?>
-												</a>
-											</a>
-											</p>
-										</div>
-									</div>
+											<h2 class="StepTitle">Calendrier</h2>
+
+									</div></a>
 								</div>
 
-								<div class="col-sm-4">
+								<div class="col-sm-4"><a href="liste-membres-container.php">
 									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i
-													class="fa fa-square fa-stack-2x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle"> Gestion des Collections</h2>
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Membres</h2>
 
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="ajout-collection.php">
-														<?php $sql = mysqli_query($con, "SELECT * FROM collections");
-														$num_rows2 = mysqli_num_rows($sql); {
-															?>
-															Nb de collections :
-															<?php echo htmlentities($num_rows2);
-														} ?>
-													</a>
-												</a>
-											</p>
-										</div>
-									</div>
+									</div></a>
+								</div>
+
+								<div class="col-sm-4"><a href="liste-activites.php">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Activités</h2>
+
+									</div></a>
 								</div>
 								
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Recherche par Compet.</h2>
-
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="recherche-competence.php">
-														<?php
-														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
-														$num_rows22 = mysqli_num_rows($sql);
-														?>
-														Lancer recherche :
-														<?php echo htmlentities($num_rows22); ?>
-													</a>
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Recherche par Loisir</h2>
-
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="recherche-loisir.php">
-														<?php
-														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
-														$num_rows22 = mysqli_num_rows($sql);
-														?>
-														Lancer recherche :
-														<?php echo htmlentities($num_rows22); ?>
-													</a>
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
-													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">Recherche par Collection</h2>
-
-											<p class="links cl-effect-1">
-												<a href="book-appointment.php">
-													<a href="recherche-collection.php">
-														<?php
-														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
-														$num_rows22 = mysqli_num_rows($sql);
-														?>
-														Lancer recherche :
-														<?php echo htmlentities($num_rows22); ?>
-													</a>
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
+								
 
 								<div class="col-sm-4"><a href="gestion-challenges.php">
 									<div class="ppanel panel-white-chal no-radius text-center">
@@ -345,7 +243,144 @@ if (strlen($_SESSION['id'] == 0)) {
 										</div>
 									</div>
 								</div>
+								<div class="col-sm-4"><a href="gestion-challenges.php">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Challenges</h2>
 
+									</div></a>
+								</div>
+
+								<div class="col-sm-4"><a href="liste-membres-container.php">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Recherches</h2>
+
+									</div></a>
+								</div>
+
+								<div class="col-sm-4"><a href="/indexnav.html">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Localisation</h2>
+
+									</div></a>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4"><a href="gestion-challenges.php">
+									<div class="ppanel panel-white-regles no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="faa faa-square faa-stack-2x ttext-primary"></i>
+												<i class="faa faa-users faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Prochaines Activités</h2> -->
+											<!-- <p class="cl-effect-1">
+												<a href="gestion-challenges.php">
+													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Regles :
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
+											</p> -->
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4"><a href="recherche-loisir.php">
+									<div class="panel panel-white-blindest no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-4x"> 
+												<i class="tti-files ffa-1x ttext-primary"></i>
+												<i class="faa faa-terminal faa-stack-1x faa-inverse"></i> </span>
+											<!-- <h2 class="StepTitle">Recherche Textuelle</h2> -->
+
+											<!-- <p class="links cl-effect-1">
+												<a href="book-appointment.php">
+													<a href="recherche-loisir.php">
+														<?php
+														$sql = mysqli_query($con, "SELECT * FROM tblcontactus where  IsRead is null");
+														$num_rows22 = mysqli_num_rows($sql);
+														?>
+														Timer Blindes </a>
+													</a>
+											</p> -->
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4"><a href="/indexnav.html">
+									<div class="panel panel-white-texto no-radius text-center">
+									<div class="panel-body">
+											<span class="fa-stack fa-4x"> <i
+													class="faa faa-square faa-stack-4x ttext-primary"></i> <i
+													class="faa faa-users faa-stack-1x faa-inverse"></i> </span> 
+													<!-- <span class="fa-stack fa-2x"> <i class="ti-files fa-1x text-primary"></i> <i
+													class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span> -->
+											<!-- <h2 class="StepTitle">Recherche Cartographique</h2> -->
+											<!-- <p class="cl-effect-1">
+												<a href="/indexnav.html">
+													<?php $result1 = mysqli_query($con, "SELECT * FROM activite where date_depart <> '0000-00-00' and datediff(date_depart,now())>-1 order by date_depart");
+													$num_rows1 = mysqli_num_rows($result1); {
+														?>
+														Time 30S</a>
+														<?php echo htmlentities($num_rows1);
+													} ?>
+												</a>
+											</p> -->
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4"><a href="gestion-challenges.php">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle text-center">Règles</h2>
+
+									</div></a>
+								</div>
+
+								<div class="col-sm-4"><a href="liste-membres-container.php">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Blindes</h2>
+
+									</div></a>
+								</div>
+
+								<div class="col-sm-4"><a href="/indexnav.html">
+									<div class="panel panel-white no-radius text-center">
+										<!-- <div class="panel-body"> -->
+											<span class="ffa-stack fa-2x"> 
+												<!-- <i	class="fa fa-square fa-stack-2x text-primary"></i> -->
+												<!-- <i	class="fa fa-terminal fa-stack-1x fa-inverse"></i> -->
+											</span>
+											<h2 class="StepTitle">Messagerie</h2>
+
+									</div></a>
+								</div>
 							</div>
 						</div>
 

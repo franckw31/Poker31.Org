@@ -170,7 +170,7 @@ include('include/config.php');
                 <link rel="stylesheet" href="assets/css/styles.css">
                 <link rel="stylesheet" href="assets/css/plugins.css">
                 <link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-                <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
                 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
                 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
                 <script type="text/javascript">$(document).ready(function () {
@@ -1027,7 +1027,7 @@ include('include/config.php');
                 <script src="vendor/jquery-cookie/jquery.cookie.js"></script>
                 <script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
                 <script src="vendor/switchery/switchery.min.js"></script>
-                <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
                 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
                                                 <!-- end: MAIN JAVASCRIPTS -->
                                                 <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->

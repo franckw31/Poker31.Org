@@ -2,7 +2,9 @@
 session_start();
 
 $_SESSION["bl"]=1;
-$_SESSION["act"]=$id;
+// $_SESSION["act"]=$id;
+$_SESSION["act"]=32;
+$id=32;
 $_SESSION["stop"] = '0';
 error_reporting(0);
 include_once('include/config.php');
@@ -15,7 +17,7 @@ $ecar=$debu-$actu-1200;
 $m=(int)gmdate("m ",$ecar); $m=$m-1; $j=(int)gmdate("d ",$ecar);$j=$j-1;
 $h=(int)gmdate("H ",$ecar); $mi=(int)gmdate("i ",$ecar);$mi=$mi+1;
 $star="Début : ".$j." Jour(s) ".$h." Heure(s) et ".$mi." Minute(s)";
-// echo "--> ".$ecar;
+echo "--> ".$ecar."/";
 
 if ($ecar > 0) { echo $star; } else { 
 
@@ -28,32 +30,16 @@ while($row = mysqli_fetch_array($sql))
     $_SESSION["fin".$cnt]=$row["fin"];$_SESSION["nom".$cnt]=$row["nom"];$_SESSION["ante".$cnt]=$row["ante"]; 
     };    
 
- if ($_SESSION["stop"] == '0') { ?> 
-    <script src="voice.js?key=ncsRFoXJ"></script>
+//  if ($_SESSION["stop"] == '0') {
+    if (1) { ?> 
     <script type="text/javascript">
-        function speak() {
-  // Create a SpeechSynthesisUtterance
-// ok   const utterance = new SpeechSynthesisUtterance("Changement des blunde horloge");
 
-  // Select a voice
-  const voices = speechSynthesis.getVoices();
-  utterance.voice = voices[5]; // Choose a specific voice
-
-  // Speak the text
-  speechSynthesis.speak(utterance);
-}
-// speak();
         let nIntervId;
-        // stopall();
-        function compteur() { if (!nIntervId) { speak();nIntervId = setInterval(decompte, 500);}}
+        stopall();
+        function compteur() { if (!nIntervId) { nIntervId = setInterval(decompte, 500);}}
         function decompte() { var xmlhttp=new XMLHttpRequest(); xmlhttp.open("GET","response.php",false); xmlhttp.send(null);                     
-            if (xmlhttp.responseText == 0) {speak();stopcompteur(); speak();compteur()} else {document.getElementById("response").innerHTML=xmlhttp.responseText;}}
-        function stopcompteur() { speak();clearInterval(nIntervId); nIntervId = null; }
-
-        function compteur_pause() { if (!nIntervId2) { nIntervId2 = setInterval(decompte_pause, 500);}}
-        function decompte_pause() { var xmlhtt2p=new XMLHttpRequest(); xmlhttp2.open("GET","car-pause.php",false); xmlhttp2.send(null);                     
-            if (xmlhttp2.responseText == 0) {stopcompteur_pause();speak();compteur_pause()} else {document.getElementById("carpause").innerHTML=xmlhttp.responseText;}}
-        function stopcompteur_pause() { clearInterval(nIntervId2); nIntervId2 = null; }
+            if (xmlhttp.responseText == 0) {stopcompteur();compteur()} else {document.getElementById("response").innerHTML=xmlhttp.responseText;}}
+        function stopcompteur() { clearInterval(nIntervId); nIntervId = null; }
 
         // function compteur2() { if (!nIntervId) { nIntervId = setInterval(decompte2, 10); }}
         // function decompte2() { var xmlhttp=new XMLHttpRequest(); xmlhttp.open("GET","response.php",false); xmlhttp.send(null);                     
@@ -176,9 +162,9 @@ while($row = mysqli_fetch_array($sql))
         // function stopcompteur25() { clearInterval(nIntervId); nIntervId = null; }
 
         function stopall() { stopcompteur();stopcompteur2();stopcompteur3();stopcompteur4();stopcompteur5();stopcompteur6();stopcompteur7();stopcompteur8();stopcompteur9();stopcompteur10();stopcompteur11();stopcompteur12();stopcompteur13();stopcompteur14();stopcompteur15();stopcompteur16();stopcompteur17();stopcompteur18();stopcompteur19();stopcompteur20();stopcompteur21();stopcompteur22();stopcompteur23();stopcompteur(24);stopcompteur25()}
-        // stopall();
+        stopall();
         compteur();
-        compteur_pause();
+        // compteur_pause();
     </script>
     <!-- <div id="response"></div> -->
 

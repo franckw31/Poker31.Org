@@ -7,7 +7,10 @@ error_reporting(0);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-// unset ($_POST['submitins-manu']);
+// unset ($_POST['submitinsmanu']);
+// unset ($_POST['submit']);
+// unset ($_POST['submitplb']);
+// unset ($_POST['submitdesins']);
 //$comp = intval($_GET['comp']); // get value
 include_once('include/config.php');
 $ret = mysqli_query($con, "SELECT * FROM `activite` WHERE 1 ");
@@ -27,6 +30,7 @@ while ($row = mysqli_fetch_array($ret))
 // echo "Reorg Ok";
 require 'vendor/autoload.php';
 if (strlen($_SESSION['id'] == 0)) {
+    // if (1==2) {
     header('location:logout.php');
     exit;
 } else {
@@ -54,6 +58,7 @@ if (strlen($_SESSION['id'] == 0)) {
         $nb_tables = $_POST['nb-tables'];
         $idmembresession = $_SESSION['id'];
 
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '2', '64','1' )");
         
         if (($idmembresession == $idmembre) OR ($idmembresession == 265)) {
             $msg = mysqli_query($con, "UPDATE `activite` SET `id-membre` = '$idmembre' , `titre-activite` = '$titre_activite' , `date_depart` = '$date_depart' , `heure_depart` = '$heure_depart' ,`ville` = '$ville' , `places` = '$places' , `nb-tables` = '$nb_tables' , `commentaire` = '$commentaire' , `buyin` = '$buyin' , `rake` = '$rake' , `bounty` = '$bounty' , `jetons` = '$jetons' , `recave` = '$recave' , `addon` = '$addon' , `ante` = '$ante' , `bonus` = '$bonus' , `lng` = '$lng' , `lat` = '$lat' WHERE `id-activite` = '$id'");
@@ -61,7 +66,195 @@ if (strlen($_SESSION['id'] == 0)) {
         // $_SESSION['msg'] = "Activité ajoutée avec succés !!";
         // header('location:http://poker31.org/panel/liste-activites.php');
         // exit;
-    }
+    };
+    if  (isset($_POST['submitinsmanu']))  {
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '2', '64','1' )");
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+        // header('location:/index.php');
+        //  exit;
+
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ('67', '64' )");
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+        // if ( ($_POST['submit-ins']) OR ($_POST['submit3']) ) {
+
+        $lois = $_POST['lois'];
+
+        // if ($_POST['submit-ins']) { $lois = $_SESSION['id'] ;};
+
+        $activi = $id;
+        //$lois = "2";
+        //$activi = "64";
+
+        $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
+        // Return the number of rows in result set
+        $rowcount = mysqli_num_rows($sql0);
+
+        // if ($rowcount == '0') {
+        if (1) {
+            $ordre = "0";
+            $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
+            $ordre = mysqli_num_rows($sql1);
+            $intordre = (int)$ordre;
+            $intordre = $intordre + 1;
+            $ordre = (string)$intordre;
+ 
+            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '$lois', '$activi','$ordre' )");
+
+            // recherche email
+            $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  $lois ");
+            while ($result = mysqli_fetch_array($sql3)) {
+                $email = $result['email'];
+                $num_membre = $result['id-membre'];
+                $num_activite = $activi;
+                $reset = $result['CodeV'];
+
+            };
+            if (strlen($email == 0))  { $email="admin@poker31.org"; $num_membre="265";$reset="";}
+
+            ;
+            // debut mail
+            // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+            $mail = new PHPMailer(true);
+            try {
+                //Server settings
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0; //Enable verbose debug output
+                $mail->isSMTP(); //Send using SMTP
+                $mail->Host = 'smtp.ionos.fr'; //Set the SMTP server to send through
+                $mail->SMTPAuth = true; //Enable SMTP authentication
+                $mail->Username = 'admin@poker31.org'; //SMTP username
+                $mail->Password = 'Kookies7*p'; //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+                $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom('admin@poker31.org', 'Admin@Poker31.Org');
+                //   $mail->addAddress('wenger.franck@gmail.com', 'Franck.W');     //Add a recipient
+                $mail->addAddress($email, 'Utilisateur-Poker31'); //Add a recipient
+                //   $mail->addAddress('ellen@example.com');               //Name is optional
+                $mail->addReplyTo('admin@poker31.org', 'Administrateur');
+                //   $mail->addCC('cc@example.com');
+                //   $mail->addBCC('bcc@example.com');
+
+                //Attachments
+                //   $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                //   $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                //Content
+                $mail->isHTML(true); //Set email format to HTML
+                $mail->Subject = 'AR Inscription www.poker31.org';
+                $mail->Body = '<p>Votre inscription est prise en compte</p><p>Votre ordre d inscription est : ' . $ordre . '</p><p> Reset mot de passe : <a href="http://poker31.org/reg/change-Password.php?Reset=' . $reset . '">"http://poker31.org/reg/change-Password.php?Reset=' . $reset . '"</a></p>' . '<p> Lien activité : <b><a href="http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '">"http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '"</a></p>';
+                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                $mail->send();
+                // echo 'Message has been sent';
+            } catch (Exception $e) 
+            {
+                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+        ;};
+        // echo "hello insmanu1";
+        ?> <script type="text/javascript">window.location.replace("/panel/voir-activite.php?uid=<?php echo $num_activite ?>");</script> ; <?php
+        //  header('location:/panel/liste-activites.php');
+        //  exit;
+
+        // $_SESSION['msg'] = "bingo !!";
+    };
+    // echo "hello insmanu2";
+    if  (isset($_POST['submit-ins']) ) {
+        // echo "hello insmanu3";
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '2', '64','1' )");
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+        // header('location:/index.php');
+        //  exit;
+
+        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ('67', '64' )");
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+        // if ( ($_POST['submit-ins']) OR ($_POST['submit3']) ) {
+
+        // $lois = $_POST['lois'];
+
+        $lois = $_SESSION['id'] ;
+
+        $activi = $id;
+        //$lois = "2";
+        //$activi = "64";
+
+        $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
+        // Return the number of rows in result set
+        $rowcount = mysqli_num_rows($sql0);
+
+        // if ($rowcount == '0') {
+        if (1) {
+            // echo "hello insmanu4";
+            $ordre = "0";
+            $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
+            $ordre = mysqli_num_rows($sql1);
+            $intordre = (int)$ordre;
+            $intordre = $intordre + 1;
+            $ordre = (string)$intordre;
+ 
+            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '$lois', '$activi','$ordre' )");
+
+            // recherche email
+            $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  $lois ");
+            while ($result = mysqli_fetch_array($sql3)) {
+                $email = $result['email'];
+                $num_membre = $result['id-membre'];
+                $num_activite = $activi;
+                $reset = $result['CodeV'];
+
+            };
+            if (strlen($email == 0))  { $email="admin@poker31.org"; $num_membre="265";$reset="";}
+
+            ;
+            // debut mail
+            // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
+            $mail = new PHPMailer(true);
+            try {
+                //Server settings
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                // $mail->SMTPDebug = 0; //Enable verbose debug output
+                $mail->isSMTP(); //Send using SMTP
+                $mail->Host = 'smtp.ionos.fr'; //Set the SMTP server to send through
+                $mail->SMTPAuth = true; //Enable SMTP authentication
+                $mail->Username = 'admin@poker31.org'; //SMTP username
+                $mail->Password = 'Kookies7*p'; //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+                $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom('admin@poker31.org', 'Admin@Poker31.Org');
+                //   $mail->addAddress('wenger.franck@gmail.com', 'Franck.W');     //Add a recipient
+                $mail->addAddress($email, 'Utilisateur-Poker31'); //Add a recipient
+                //   $mail->addAddress('ellen@example.com');               //Name is optional
+                $mail->addReplyTo('admin@poker31.org', 'Administrateur');
+                //   $mail->addCC('cc@example.com');
+                //   $mail->addBCC('bcc@example.com');
+
+                //Attachments
+                //   $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                //   $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                //Content
+                $mail->isHTML(true); //Set email format to HTML
+                $mail->Subject = 'AR Inscription www.poker31.org';
+                $mail->Body = '<p>Votre inscription est prise en compte</p><p>Votre ordre d inscription est : ' . $ordre . '</p><p> Reset mot de passe : <a href="http://poker31.org/reg/change-Password.php?Reset=' . $reset . '">"http://poker31.org/reg/change-Password.php?Reset=' . $reset . '"</a></p>' . '<p> Lien activité : <b><a href="http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '">"http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '"</a></p>';
+                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                $mail->send();
+                // echo 'Message has been sent';
+            } catch (Exception $e) 
+            {
+                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+        ;};
+            echo "hello ins";
+        //  echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activites.php"); </script>';
+        ?> <script type="text/javascript">window.location.replace("/panel/voir-activite.php?uid=<?php echo $num_activite ?>");</script> ; <?php
+
+
+        $_SESSION['msg'] = "bingo !!";
+    };
+
+    // echo "hello insmanu5";
+
     if (($_POST['submitpl'])) {
         $particip=$_POST['submitpl'];
         // echo $particip;
@@ -90,9 +283,13 @@ if (strlen($_SESSION['id'] == 0)) {
     if ($_POST['pause']) {
         $pau = $_POST['pause'];
         $_SESSION['pause'.$id] = $pau;
-        ?><div class='place3-content'> <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop controls></audio></div><?php
+        // ?>
+        // <div class='place3-content'> <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop controls></audio></div>
+        // <?php
         
-        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
+        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/blindes.php?uid=64.php"); </script>';
+        ?> <script type="text/javascript">window.location.replace("/panel/voir-blindes.php?uid=<?php echo $id ?>");</script> ; <?php
+
         // $sql = mysqli_query($con, "UPDATE `participation` SET `id-membre`='$id_membre',`id-membre-vainqueur`='$id_membre_vainqueur',`id-activite`='$id_activite',`id-siege`='$id_siege',`id-table`='$id_table',`id-challenge`='$id_challenge',`option`='$option',`ordre`='$ordre',`valide`='$valide',`commentaire`='$commentaire',`classement`='$classement',`points`='$points',`gain`='$gain',`ds`= CURRENT_TIMESTAMP,`ip-ins`='1',`ip-mod`='2',`ip-sup`='3' WHERE `participation`.`id-participation` = '$id'");
     }    
     if (($_POST['submit2'])) {
@@ -107,91 +304,8 @@ if (strlen($_SESSION['id'] == 0)) {
         //$sql2 = mysqli_query($con, "INSERT INTO `loisirs-individu` (`id-indiv`, `id-lois`) VALUES ('$id', '$lois')");
         // $_SESSION['msg'] = "Doctor Specialization added successfully !!";
     //}
-    if (isset($_POST['submitins-manu'])) {
-        // $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`) VALUES ('67', '64' )");
-        // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
-        // if ( ($_POST['submit-ins']) OR ($_POST['submit3']) ) {
-
-        $lois = $_POST['lois'];
-
-        // // $lois = $_SESSION['id'];
-
-        $activi = $id;
-        // $lois = "67";
-        // $activi = "64";
-        $sql0 = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-membre` = '$lois' AND `id-activite` = '$activi' ");
-        // Return the number of rows in result set
-        $rowcount = mysqli_num_rows($sql0);
-
-        // if ($rowcount == '0') {
-        if (1) {
-            $ordre = "0";
-            $sql1 = mysqli_query($con, "SELECT * FROM `participation` WHERE (`id-activite` = '$activi' AND `option` LIKE 'Reservation') OR (`id-activite` = '$activi' AND `option` LIKE 'Option') OR (`id-activite` = '$activi' AND `option` LIKE 'Inscrit') ");
-            $ordre = mysqli_num_rows($sql1);
-            $intordre = (int)$ordre;
-            $intordre = $intordre + 1;
-            $ordre = (string)$intordre;
- 
-            $sql2 = mysqli_query($con, "INSERT INTO `participation` (`id-membre`, `id-activite`, `ordre`) VALUES ( '$lois', '$activi','$ordre' )");
-
-            // recherche email
-            $sql3 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` =  $lois ");
-            while ($result = mysqli_fetch_array($sql3)) {
-                $email = $result['email'];
-                $num_membre = $result['id-membre'];
-                $num_activite = $activi;
-                $reset = $result['CodeV'];
-            }
-            ;
-            // debut mail
-            echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
-            $mail = new PHPMailer(true);
-            try {
-                //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                // $mail->SMTPDebug = 0; //Enable verbose debug output
-                $mail->isSMTP(); //Send using SMTP
-                $mail->Host = 'smtp.ionos.fr'; //Set the SMTP server to send through
-                $mail->SMTPAuth = true; //Enable SMTP authentication
-                $mail->Username = 'admin@poker31.org'; //SMTP username
-                $mail->Password = 'Kookies7*p'; //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
-                $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                //Recipients
-                $mail->setFrom('admin@poker31.org', 'Admin@Poker31.Org');
-                //   $mail->addAddress('wenger.franck@gmail.com', 'Franck.W');     //Add a recipient
-                $mail->addAddress($email, 'Privé'); //Add a recipient
-                //   $mail->addAddress('ellen@example.com');               //Name is optional
-                $mail->addReplyTo('admin@poker31.org', 'Administrateur');
-                //   $mail->addCC('cc@example.com');
-                //   $mail->addBCC('bcc@example.com');
-
-                //Attachments
-                //   $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                //   $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-                //Content
-                $mail->isHTML(true); //Set email format to HTML
-                $mail->Subject = 'AR Inscription www.poker31.org';
-                $mail->Body = '<p>Votre inscription est prise en compte</p><p>Votre ordre d inscription est : ' . $ordre . '</p><p> Reset mot de passe : <a href="http://poker31.org/reg/change-Password.php?Reset=' . $reset . '">"http://poker31.org/reg/change-Password.php?Reset=' . $reset . '"</a></p>' . '<p> Lien activité : <b><a href="http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '">"http://poker31.org/panel/voir-activite.php?uid=' . $num_activite . '"</a></p>';
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-                $mail->send();
-                // echo 'Message has been sent';
-            } catch (Exception $e) 
-            {
-                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
-        ;};
-        unset ($_POST['submitins-manu']);
-
-         echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/index.php"); </script>';
-
-         header('location:/panel/liste-activites.php');
-         exit;
-
-        // $_SESSION['msg'] = "bingo !!";
-    };
-    if (($_POST['submit-desins'])) {
+  
+    if (isset($_POST['submit-desins'])) {
         $lois = $_SESSION['id'];
         $activi = $id;
 
@@ -224,12 +338,13 @@ if (strlen($_SESSION['id'] == 0)) {
             }
             ;
             // debut mail
+            if (strlen($email == 0))  { $email="admin@poker31.org"; $num_membre="265";$reset="";}
 
             $mail = new PHPMailer(true);
             try {
                 //Server settings
-                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                $mail->SMTPDebug = 0; //Enable verbose debug output
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                // $mail->SMTPDebug = 0; //Enable verbose debug output
                 $mail->isSMTP(); //Send using SMTP
                 $mail->Host = 'smtp.ionos.fr'; //Set the SMTP server to send through
                 $mail->SMTPAuth = true; //Enable SMTP authentication
@@ -262,11 +377,10 @@ if (strlen($_SESSION['id'] == 0)) {
                 // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
         ;};
-
+            // echo "coucou";
         // echo '<script language="JavaScript" type="text/javascript"> window.location.replace("/panel/liste-activite.php"); </script>';
+        ?> <script type="text/javascript">window.location.replace("/panel/voir-activite.php?uid=<?php echo $num_activite ?>");</script> ; <?php
 
-        // header('location:/panel/liste-activites.php');
-        // exit;
 
         // $_SESSION['msg'] = "bingo !!";
     };
@@ -977,6 +1091,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                 </td>
                                                                                                                                 <td style="text-align:center ;">
                                                                                                                                                                     <button type="submit"
+                                                                                                                                                                        id="submit-ins" 
                                                                                                                                                                         class="btn btn-primaryg btn-block"
                                                                                                                                                                         name="submit-ins">S'inscrire </button>
                                                                                                                                 </td>
@@ -1302,7 +1417,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                     </div>
                                                                                                 </div>
 
-                                                                                                <div class="pplayer player-1p pplaying" id="pplayer1p" >
+                                                                                                <!-- <div class="pplayer player-1p pplaying" id="pplayer1p" >
                                                                                                     <div class='player player-1p playing' opacity:0.66>
                                                                                                         <div class='place-content' style='color:white' > 
                                                                                                             <a href="modif-horloge.php?act=<?php echo $id;?>&min=-2&sou=http://poker31.org/panel/voir-activite.php?uid=">-2M</a>
@@ -1316,7 +1431,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                             <a href="modif-horloge.php?act=<?php echo $id;?>&min=2&sou=http://poker31.org/panel/voir-activite.php?uid=">+2M</a>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                </div>     
+                                                                                                </div>      -->
                                                                                                 
                                                                                                 <div class="player player-1p playing" id="player1p" >
                                                                                                     <div class='player player-1p playing' opacity:0.33>
@@ -2773,7 +2888,9 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                                     </tr>
                                                                                                                                                 </thead>
                                                                                                                                                 <tbody>
+                                                                                                                                                    <?php $id = intval($_GET['uid']) ; ?>
                                                                                                                                                     <?php $ret = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = '$id' ");
+                                                                                                                                                    // echo $id;
                                                                                                                                                     $cnt = 1;
                                                                                                                                                     while ($row = mysqli_fetch_array($ret)) { ?>
                                                                                                                                                         <?php
@@ -2862,18 +2979,18 @@ if (strlen($_SESSION['id'] == 0)) {
                                                                                                                                 </td>                                                                                    
                                                                                                                                                             
                                                                                                                                 <td style="display:yes" ; colspan="2" >
-                                                                                                                                                                    <select name="activi" value = "activi" class="form-control" required="false">
-                                                                                                                                                                        <option value="<?php echo htmlentities($id); ?>"> <?php echo htmlentities($id); ?></option>
-                                                                                                                                                                    </select>
+                                                                                                                                    <select name="activi" value = "activi" class="form-control" required="false">
+                                                                                                                                        <option value="<?php echo htmlentities($id); ?>"> <?php echo htmlentities($id); ?></option>
+                                                                                                                                    </select>
                                                                                                                                 </td>
                                                                                                                                 <td>
-                                                                                                                                                                <button
-                                                                                                                                                                    type="submit"
-                                                                                                                                                                    name="submitins-manu"
-                                                                                                                                                                    id="submitins-manu"
-                                                                                                                                                                    class="btn btn-o btn-primary">
-                                                                                                                                                                    Ajout
-                                                                                                                                                                </button>
+                                                                                                                                    <button
+                                                                                                                                        type="submit"
+                                                                                                                                        name="submitinsmanu"
+                                                                                                                                        id="submitinsmanu"
+                                                                                                                                        class="btn btn-o btn-primary">
+                                                                                                                                        Ajout
+                                                                                                                                    </button>
                                                                                                                                 </td>
                                                                                                                             </tr>
                                                                                                                         </table>
@@ -2911,7 +3028,7 @@ if (strlen($_SESSION['id'] == 0)) {
                                                 <script src="vendor/jquery-cookie/jquery.cookie.js"></script>
                                                 <script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
                                                 <script src="vendor/switchery/switchery.min.js"></script>
-                                                <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                                                <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
                                                 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
                                                                                 <!-- end: MAIN JAVASCRIPTS -->
                                                                                 <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->

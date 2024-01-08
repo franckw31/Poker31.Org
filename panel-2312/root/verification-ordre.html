@@ -1,0 +1,104 @@
+<?php
+session_start();
+error_reporting(0);
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+include('include/config.php');
+require 'vendor/autoload.php';
+<div id="jsE">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12">
+                                                                                            <div class="container-fluid container-fullw bg-white">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-12">
+                                                                                                        <div class="row margin-top-30">
+                                                                                                            <div class="col-lg-8 col-md-12">
+                                                                                                                <div class="panel panel-white">
+                                                                                                                    <div class="panel-body">
+                                                                                                                        <div id="layoutSidenav_content">
+                                                                                                                            <main>
+                                                                                                                                <div class="container-fluid px-4">
+                                                                                                                                    <ol class="breadcrumb mb-4">
+                                                                                                                                        <li class="breadcrumb-item">
+                                                                                                                                            <a href="liste-membres.php">Membres</a>
+                                                                                                                                        </li>
+                                                                                                                                        <li class="breadcrumb-item active">
+                                                                                                                                            Competences
+                                                                                                                                        </li>
+                                                                                                                                    </ol>
+                                                                                                                                    <div class="card mb-4">
+                                                                                                                                        <div class="card-body">
+                                                                                                                                            <table
+                                                                                                                                                id="example"
+                                                                                                                                                class="display"
+                                                                                                                                                style="width:100%">
+                                                                                                                                                <thead>
+                                                                                                                                                    <tr>
+                                                                                                                                                        <th>Ordre
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Pseudo
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Statut
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Date
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Membre
+                                                                                                                                                        </th>
+                                                                                                                                                        <th>Participation
+                                                                                                                                                        </th>
+                                                                                                                                                        
+                                                                                                                                                    </tr>
+                                                                                                                                                </thead>
+                                                                                                                                                <tbody>
+                                                                                                                                                    <?php $ret = mysqli_query($con, "SELECT * FROM `participation` WHERE `id-activite` = '$id' ");
+                                                                                                                                                    $cnt = 1;
+                                                                                                                                                    while ($row = mysqli_fetch_array($ret)) { ?>
+                                                                                                                                                                            <?php
+                                                                                                                                                                            $id2 = $row['id-membre'];
+                                                                                                                                                                            $sql2 = mysqli_query($con, "SELECT * FROM `membres` WHERE `id-membre` = '$id2' ORDER BY 'ordre' DESC");
+                                                                                                                                                                            while ($row2 = mysqli_fetch_array($sql2)) { ?>
+                                                                                                                                                                                                    <tr>
+                                                                                                                                                                                                        <td>
+                                                                                                                                                                                                            <?php echo $row['ordre']; ?>
+                                                                                                                                                                                                        </td>
+                                                                                                                                                                                                        <td>
+                                                                                                                                                                                                            <?php echo $row2['pseudo']; ?>
+                                                                                                                                                                                                        </td>
+                                                                                                                                                                                                        <td>
+                                                                                                                                                                                                            <?php echo $row['option']; ?>
+                                                                                                                                                                                                        </td> 
+                                                                                                                                                                                                        <td>
+                                                                                                                                                                                                            <?php echo $row['ds']; ?>
+                                                                                                                                                                                                        </td>                        
+                                                                                                                                                                            <?php } ?>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                    <a href="voir-membre.php?id=<?php echo $row['id-membre']; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
+                                                                                                                                                                                    <i class="fas fa-edit"></i></a>
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                    <a href="voir-participation.php?id=<?php echo $row['id-participation']; ?>"  tooltip="Edition"><i class="fa fa-pencil"></i></a>
+                                                                                                                                                                                    <i class="fas fa-edit"></i></a>
+                                                                                                                                                                                </td>
+                                                                                                                                                                                
+                                                                                                                                                                                </tr>
+                                                                                                                                                                            <?php $cnt = $cnt + 1;
+                                                                                                                                                    } ?>
+                                                                                                                                                </tbody>
+                                                                                                                                            </table>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </main>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
